@@ -1,9 +1,9 @@
 <?PHP
-include_once '1_models/config/database.php';
+include_once 'config/database.php';
 include '1_models/users.php';
 
 	session_start();
-	if (isset($_POST[login]) && isset($_POST[passwd]))
+	if (isset($_POST['login']) && isset($_POST['passwd'] && $_POST['submit'] === "OK"))
 	{
 		$user = get_user($_POST[login]);
 		if (auth_user($user, $_POST[passwd]))

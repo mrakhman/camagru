@@ -1,5 +1,3 @@
-<!-- <!DOCTYPE html>
-<html><body> -->
 	<h3>Register</h3>
 <form method="post" action="register.php?redirect_to=success.php">
 	<h>Email</h><br>
@@ -15,4 +13,10 @@
 	<br><br>
 	<input type="submit" name="submit" value="OK"/>
 </form>
-<!-- </body></html> -->
+
+<?php
+	// include 'register.php';
+
+	// else
+	// {
+?>
