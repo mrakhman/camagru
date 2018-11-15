@@ -1,39 +1,74 @@
 <?PHP
 
-// Вообще ничего не меняла, это чисто функция из day04
-
-
-if (isset($_POST[login]) && isset($_POST[oldpw]) && isset($_POST[newpw]) && $_POST[submit] === "OK")
+if ($_POST['submit'] === "OK")
 {
-	if(!file_exists("../private"))
-		mkdir("../private");
-	if (!file_exists("../private/passwd"))
-		$array = array();
+	include "../config/database.php";
+	include "../1_models/users.model.php";
+
+	$login = $_POST['login'];
+	$old_passwd = $_POST['old_passwd'];
+	$new_passwd = $_POST['new_passwd'];
+	$conf_passwd = $_POST['conf_passwd'];
+
+	// Error handlers
+
+	if (empty($old_passwd) || empty($new_passwd) || empty($conf_passwd))
+	{
+		echo "Empty input field(s)\n";
+		header('Location: ooops.php?error=empty_input');
+		echo "Empty input field(s)\n";
+		exit();
+	}
+
+	session_start();
+	$session_user = get_user_by_login($login);
+	if (!($session_user))
+	{
+		echo "User doesn't exist\n";
+		header('Location: ooops.php?error=user_not_found');
+		exit();
+	}
+
+	if (!(auth_user($session_user, $old_passwd)))
+	{
+		//$_SESSION['user'] = "";
+		echo "Wrong password\n";
+		header('Location: ooops.php?error=wrong_passwd');
+		exit();
+	}
+
+	if (!($new_passwd === $conf_passwd))
+	{
+		echo "Confirm password error\n";
+		header('Location: ooops.php?error=confirm_password_error');
+		exit();
+	}
+
+	if ($new_passwd == $old_passwd)
+	{
+		echo "Old and new passwords can't be the same\n";
+		header('Location: ooops.php?error=same_passwords');
+		exit();
+	}
+
+	if (!(change_passwd($login, $new_passwd)))
+	{
+		echo "sql error\n";
+		header('Location: ooops.php?error=sql_error');
+		exit();
+	}
+
 	else
-		$array = unserialize(file_get_contents("../private/passwd"));
-	$marker = -1;
-	foreach ($array as $key => $value)
 	{
-		if ($_POST[login] === $value[login])
-			$marker = $key;
+		echo "Password successfully changed!\n";
+		header('Location: success.php?change_pass=ok');
 	}
-	if ($marker === -1)
-	{
-		echo "ERROR\n";
-	}
-	else
-	{
-		if (hash('whirlpool', $_POST[oldpw]) === $array[$key][passwd])
-		{
-			$array[$key] = array('login' => $_POST[login], 'passwd' => hash('whirlpool', $_POST[newpw]));
-			file_put_contents("../private/passwd", serialize($array));
-			echo "OK\n";
-			header('Location: index.html');
-		}
-		else
-			echo "ERROR\n";
-	}
+
 }
+
 else
-	echo "ERROR\n";
+{
+	header('Location: ../index.php');
+}
+
 ?>

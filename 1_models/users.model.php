@@ -71,4 +71,18 @@ function auth_user($user, $passwd)
 	return FALSE;
 }
 
+function change_passwd($login, $new_passwd)
+{
+	global $pdo;
+
+	if (empty($login) || empty($new_passwd))
+		return FALSE;
+
+	$new_passwd = hash('whirlpool', $new_passwd);
+	$sql = 'UPDATE users SET passwd = :new_passwd WHERE login = :login';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['login' => $login, 'new_passwd' => $new_passwd]);
+	return TRUE;
+}
+
 ?>

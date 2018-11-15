@@ -4,6 +4,7 @@
 	// include "2_view/layout/sidebar.php";
 	//include "2_view/register.view.php";
 	include "2_view/login.view.php";
-	// include "2_view/html/change_passwd.php";
+	include "2_view/logout.view.php";
+	// include "2_view/change_passwd.view.php";
 	include_once "2_view/layout/footer.php";
 ?>

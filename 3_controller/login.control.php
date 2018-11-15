@@ -16,15 +16,18 @@ if ($_POST['submit'] === "OK")
 	}
 
 	session_start();
-	$session_user = get_user_by_login($login);
-	if (!($session_user))
+	$user_login = get_user_by_login($login);
+	//$user_login = $user_login['login'];
+
+	// Check if $_SESSION != ""
+	if (!($user_login))
 	{
 		echo "User doesn't exist\n";
 		header('Location: ooops.php?error=user_not_found');
 		exit();
 	}
 
-	if (!(auth_user($session_user, $passwd)))
+	if (!(auth_user($user_login, $passwd)))
 	{
 		$_SESSION['user'] = "";
 		echo "Wrong password\n";
@@ -32,9 +35,20 @@ if ($_POST['submit'] === "OK")
 		exit();
 	}
 
-	$_SESSION['user'] = $session_user;
-	echo "User successfully logged in!\n";
-	header('Location: success.php?login=' . $session_user['login']);
+	/* Final case for the correct login, passd.
+	** I put 'else if' instead of just 'else' because I want to check if it aslo equals to 'true'
+	** even though password check (auth_user) is a boolean and just equals to 'true' or 'false'.
+	** Just in case auth_user could be a srting or a number that is not 'true' or 'false' I want
+	** to make sure that I don't login user with just 'else' statement.
+	** [https://www.youtube.com/watch?v=LC9GaXkdxF8]
+	*/
+
+	else if (auth_user($user_login, $passwd))
+	{
+		$_SESSION['user'] = $login;
+		echo "User successfully logged in!\n";
+		header('Location: success.php?login=' . $login);
+	}
 }
 
 // Send user back to index.php page in case he wants to get to login.php page from URL

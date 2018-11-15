@@ -38,7 +38,7 @@ if ($_POST['submit'] === "OK")
 	else
 	{
 		echo "User created!\n";
-		header('Location: success.php');
+		header('Location: success.php?created_user=' . $login);
 	}
 
 	// // Check if input characters are valid
