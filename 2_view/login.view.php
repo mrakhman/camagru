@@ -1,7 +1,5 @@
-<!-- <!DOCTYPE html>
-<html><body> -->
 	<h3>Login to account</h3>
-<form method="post" action="login.php">
+<form method="post" action="3_controller/login.control.php">
 	<h>Login</h><br>
 	<input type="text" placeholder="Enter login" name="login"/>
 	<br><br>
@@ -10,4 +8,3 @@
 	<br><br>
 	<input type="submit" name="submit" value="OK"/>
 </form>
-<!-- </body></html> -->

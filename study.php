@@ -1,17 +1,19 @@
 <?php
-	$host = 'localhost';
-	$user = 'root';
-	$passwd = '123456';
-	$dbname = 'camagru_mrakhman';
+// 	$host = '127.0.0.1';
+// 	//$host = 'localhost';
+// 	$user = 'root';
+// 	$passwd = '123456';
+// 	$dbname = 'camagru_mrakhman';
 
-# set DSN - data source name
-	$dsn = 'mysql:host=' . $host . ';dbname=' . $dbname;
+// # set DSN - data source name
+// 	$dsn = 'mysql:host=' . $host . ';dbname=' . $dbname;
 
-# Create a PDO instance
-	$pdo = new PDO($dsn, $user, $passwd);
-	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-#	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Disable the emulation mode (change the default)
+// # Create a PDO instance
+// 	$pdo = new PDO($dsn, $user, $passwd);
+// 	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+// 	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Disable the emulation mode (change the default)
 
+include 'config/database.php';
 
 # PDO QUERY - start:
 
@@ -43,12 +45,12 @@
 	
 	//$sql = "SELECT * FROM posts WHERE author = '$author'"; // In this way instruction to sql can be put from usen input. It is bad!
 
-# FETCH MULTIPLE POSTS
+# FETCH (получить) MULTIPLE POSTS
 
 # User Input
-	$author = 'Kaka1';
-	$is_published = true;
-	$id = 2;
+	// $author = 'Kaka1';
+	// $is_published = true;
+	// $id = 2;
 
 # Positional Params:
 	// $sql = 'SELECT * FROM posts WHERE author = ?'; // Parameter by position
@@ -69,7 +71,7 @@
 	// 	echo $post->title . '<br>';
 	// }
 
-# FETCH SINGLE POST
+# FETCH (получить) SINGLE POST
 
 	// $sql = 'SELECT * FROM posts WHERE id = :id';
 	// $stmt = $pdo->prepare($sql);
@@ -88,15 +90,15 @@
 	// echo $postCount;
 
 # INSERT DATA
-	$title = 'post 6';
-	$body = 'This is post 5';
-	$author = 'Kevin';
+	// $title = 'post 6';
+	// $body = 'This is post 5';
+	// $author = 'Kevin';
 
-	$sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['title' => $title, 'body' => $body, 'author' => $author]);
+	// $sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['title' => $title, 'body' => $body, 'author' => $author]);
 
-	echo 'Post Added';
+	// echo 'Post Added';
 
 
 # UPDATE DATA
@@ -135,22 +137,85 @@
 
 # LIMIT OUTPUT
 
-	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Disable the emulation mode (change the default)
-	$limit = 1;
+	// $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Disable the emulation mode (change the default)
+	// $limit = 1;
 
-	$sql = 'SELECT * FROM posts WHERE author = ? && is_published = ? LIMIT ?';
+	// $sql = 'SELECT * FROM posts WHERE author = ? && is_published = ? LIMIT ?';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute([$author, $is_published, $limit]);
+	// $posts = $stmt->fetchAll();
+
+	// foreach ($posts as $post) {
+	// 	echo $post->title . '<br>';
+	// }
+
+
+
+##############
+
+
+	
+
+function hello($login)
+{
+	global $pdo;
+
+	$sql = 'SELECT * FROM users WHERE login = :login';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute([$author, $is_published, $limit]);
-	$posts = $stmt->fetchAll();
+	$stmt->execute(['login' => $login]);
 
-	foreach ($posts as $post) {
-		echo $post->title . '<br>';
+	if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
+	{
+		echo "No such user\n"; // Delete
+		$stmt->close();
+		return NULL;
+	}
+	return ($current_user);
+	//$stmt->close();
+
+
+}
+// echo 'hi';
+
+// $l = 'mrakhman';
+$return = hello('mrakhman');
+	foreach ($return as $key => $value) {
+		echo "$key = $value" . "<br>";
 	}
 
 
+// $u = hello($l)
+// echo 'ih';
+	// $log = 'mrakhman';
+	// $cUser = hello($log);
+	// foreach ($cUser as $key => $value) {
+	// 	echo "$key = $value" . "<br>";
+	// }
+
+//	$stmt->close();
 
 
 
+	// $login = 'mrakhman';
+
+	// $sql = 'SELECT * FROM users WHERE login=?';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute([$login]);
+
+	// if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
+	// {
+	// 	echo "No such user\n"; // Delete
+	// 	$stmt->close();
+	// 	return NULL;
+	// }
+
+	// //return ($current_user);
+	// // var_dump($current_user);
+	// echo "$current_user[login]" . "<br>";
+	// foreach ($current_user as $key => $value) {
+	// 	echo "$key = $value" . "<br>";
+	// }
 
 
+?>
 
