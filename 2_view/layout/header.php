@@ -2,10 +2,12 @@
 <html>
 	<head>
 		<title>Camagru HOME</title>
+		<link rel="stylesheet" type="text/css" href="2_view/css/header.css">
 	</head>
-	<body><div align="center">
-		<p align="center"> Hello, idiot :) </p>
-		<form method="post" action="3_controller/logout.control.php">
-			<input type="submit" name="submit" value="Logout"/>
-		</form>
-		
+	<body><div id="header" align="right">
+
+<?php
+	include "2_view/logout.view.php";
+	include "2_view/login.view.php";
+?>
+		</div>

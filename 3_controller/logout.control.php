@@ -7,11 +7,10 @@ if ($_POST['submit'] === "Yes" || $_POST['submit'] === "Logout")
 		echo "You are not logged in";
 		exit();
 	}
+	session_unset();
+	session_destroy();
+	header('Location: ../index.php');
 
-
-	$user = $_SESSION['user'];
-	$_SESSION['user'] = "";
-	echo "<h3 align='center'> \"" . $user . "\" logged out </h3>\n";
 }
 
 else

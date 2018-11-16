@@ -11,27 +11,24 @@ if ($_POST['submit'] === "OK")
 	if (empty($login) || empty($passwd))
 	{
 		echo "Empty input field(s)\n";
-		header('Location: ooops.php?error=empty_input');
+		header('Location: ../index.php?error=empty_input');
 		exit();
 	}
 
 	session_start();
 	$user_login = get_user_by_login($login);
-	//$user_login = $user_login['login'];
 
-	// Check if $_SESSION != ""
 	if (!($user_login))
 	{
 		echo "User doesn't exist\n";
-		header('Location: ooops.php?error=user_not_found');
+		header('Location: ../index.php?error=user_not_found');
 		exit();
 	}
 
 	if (!(auth_user($user_login, $passwd)))
 	{
-		$_SESSION['user'] = "";
 		echo "Wrong password\n";
-		header('Location: ooops.php?error=wrong_passwd');
+		header('Location: ../index.php?error=wrong_passwd');
 		exit();
 	}
 
@@ -47,7 +44,7 @@ if ($_POST['submit'] === "OK")
 	{
 		$_SESSION['user'] = $login;
 		echo "User successfully logged in!\n";
-		header('Location: success.php?login=' . $login);
+		header('Location: ../index.php?login=' . $login);
 	}
 }
 
