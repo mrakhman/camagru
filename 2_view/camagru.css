@@ -18,12 +18,6 @@ body {
 	margin: 0px 10px;
 }
 
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .column_20 {
     width: 10%;
 }
@@ -60,3 +54,21 @@ body {
 .success {
 	color: green;
 }
+
+.menu {
+	width: 50%;
+	height: auto;
+	background-color: #fff;
+	font-size: 16px;
+	padding: 10px 10px;
+/*}
+
+nav
+{*/
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	border: 1px solid black;
+	float: center;
+}
+
