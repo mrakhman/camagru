@@ -3,19 +3,15 @@
 	{
 		if ($_GET['error'] == 'empty_input')
 		{
-			echo '<p class="login_error"> Empty input field </p>';
+			echo '<p class="error"> Empty input field </p>';
 		}
 		else if ($_GET['error'] == 'user_not_found')
 		{
-			echo '<p class="login_error"> User does not exist </p>';
+			echo '<p class="error"> User does not exist </p>';
 		}
 		else if ($_GET['error'] == 'wrong_passwd')
 		{
-			echo '<p class="login_error"> Wrong password </p>';
-		}
-		else if ($_GET['login'])
-		{
-			echo '<p class="login_success"> Success! </p>';
+			echo '<p class="error"> Wrong password </p>';
 		}
 ?>
 

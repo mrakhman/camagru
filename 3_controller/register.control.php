@@ -15,30 +15,29 @@ if ($_POST['submit'] === "OK")
 
 	if (empty($login) || empty($email) || empty($passwd) || empty($conf_passwd))
 	{
-		echo "Empty input field(s)\n";
-		header('Location: ooops.php?error=empty_input');
-		echo "Empty input field(s)\n";
+		// echo "Empty input field(s)\n";
+		header('Location: ../index.php?error=empty_input_field');
 		exit();
 	}
 
 	if (!($passwd === $conf_passwd))
 	{
-		echo "Confirm password error\n";
-		header('Location: ooops.php?error=confirm_password_error');
+		// echo "Confirm password error\n";
+		header('Location: ../index.php?error=confirm_password_error');
 		exit();
 	}
 
 	if (!(create_user($login, $email, $passwd)))
 	{
-		echo "User already exists\n";
-		header('Location: ooops.php?error=user_already_exists');
+		// echo "User already exists\n";
+		header('Location: ../index.php?error=user_already_exists');
 		exit();
 	}
 
 	else
 	{
-		echo "User created!\n";
-		header('Location: success.php?created_user=' . $login);
+		// echo "User created!\n";
+		header('Location: ../index.php?created_user=' . $login);
 	}
 
 	// // Check if input characters are valid
