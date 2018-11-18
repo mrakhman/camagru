@@ -1,11 +1,12 @@
-<?php
-	include_once "2_view/layout/header.php";
-	// include "2_view/layout/main.php";
-	// include "2_view/layout/sidebar.php";
-	include "2_view/register.view.php";
-	include "2_view/layout/menu.php";
-	//include "2_view/login.view.php";
-	// include "2_view/logout.view.php";
-	// include "2_view/change_passwd.view.php";
-	include_once "2_view/layout/footer.php";
-?>
+<!DOCTYPE html>
+<html>
+	<?php include_once "2_view/layout/head.php"; ?>
+	<body>
+		<?php include_once "2_view/layout/header.php"; ?>
+		<?php include "2_view/layout/menu.php"; ?>
+		<?php include "2_view/register.view.php"; ?>
+		
+
+		<?php include_once "2_view/layout/footer.php"; ?>
+	</body>
+</html>

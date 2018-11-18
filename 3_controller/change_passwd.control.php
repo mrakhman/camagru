@@ -17,8 +17,7 @@ if ($_POST['submit'] === "OK")
 	if (empty($old_passwd) || empty($new_passwd) || empty($conf_passwd))
 	{
 		// echo "Empty input field(s)\n";
-		header('Location: ../my_account.php?error=empty_input');
-		echo "Empty input field(s)\n";
+		header('Location: ../my_account.php?error=passw_empty_input');
 		exit();
 	}
 
@@ -26,14 +25,14 @@ if ($_POST['submit'] === "OK")
 	if (!($session_user))
 	{
 		// echo "User doesn't exist\n";
-		header('Location: ../my_account.php?error=user_not_found');
+		header('Location: ../my_account.php?error=passw_user_not_found');
 		exit();
 	}
 
 	if (!(auth_user($session_user, $old_passwd)))
 	{
 		// echo "Wrong password\n";
-		header('Location: ../my_account.php?error=wrong_passwd');
+		header('Location: ../my_account.php?error=passw_wrong_passwd');
 		exit();
 	}
 
@@ -54,7 +53,7 @@ if ($_POST['submit'] === "OK")
 	if (!(change_passwd($login, $new_passwd)))
 	{
 		// echo "sql error\n";
-		header('Location: ../my_account.php?error=sql_error');
+		header('Location: ../my_account.php?error=passw_sql_error');
 		exit();
 	}
 

@@ -85,4 +85,30 @@ function change_passwd($login, $new_passwd)
 	return TRUE;
 }
 
+function change_login($old_login, $new_login)
+{
+	global $pdo;
+
+	if (empty($old_login) || empty($new_login))
+		return FALSE;
+
+	$sql = 'UPDATE users SET login = :new_login WHERE login = :old_login';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['new_login' => $new_login, 'old_login' => $old_login]);
+	return TRUE;
+}
+
+function change_email($old_email, $new_email)
+{
+	global $pdo;
+
+	if (empty($old_email) || empty($new_email))
+		return FALSE;
+
+	$sql = 'UPDATE users SET email = :new_email WHERE email = :old_email';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['new_email' => $new_email, 'old_email' => $old_email]);
+	return TRUE;
+}
+
 ?>
