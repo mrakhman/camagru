@@ -19,12 +19,59 @@ function create_user($login, $email, $passwd)
 	if ($check_user)
 		return FALSE;
 
+	if ($check_user)
+		return FALSE;
+	
+	// Create token
+	$token = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
+	$token = substr($token, 0, 10);
+
+	// send email
+	if (!(send_email($email, $token)))
+		return FALSE;
+
 	// Create user
 	$passwd = hash('whirlpool', $passwd);
-	$sql = 'INSERT INTO users(login, email, passwd) VALUES(:login, :email, :passwd)';
+	$sql = 'INSERT INTO users(login, email, token, passwd) VALUES(:login, :email, :token, :passwd)';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['login' => $login, 'email' => $email, 'passwd' => $passwd]);
+	$stmt->execute(['login' => $login, 'email' => $email, 'token' => $token, 'passwd' => $passwd]);
 	return TRUE;
+}
+
+function send_email($email, $token)
+{
+	if (empty($email) || empty($token))
+		return FALSE;
+
+	$to = $email;
+	$subject = "Camagru - confirm your email";
+	$message = "Welcome to Camagru! Click the link to verify your email: http://localhost:8080/42_mrakhman_mamp/camagru/activation.php?email=" . $email . "&token=" . $token;
+	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+	if (mail($to, $subject, $message, $headers))
+		return TRUE;
+	else
+		return FALSE;
+}
+
+function activate_user($email, $token)
+{
+	global $pdo;
+
+	if (empty($email) || empty($token))
+		return FALSE;
+
+	$sql = 'SELECT * FROM users WHERE email = :email AND token = :token AND is_confirmed = 0';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['email' => $email, 'token' => $token]);
+	if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
+	{
+		// echo "No such user\n";
+		return NULL;
+	}
+	else
+	{
+		$sql = 'UPDATE users WHERE email = :email SET token = "", is_confirmed = 1';
+	}
 }
 
 function get_user_by_login($login)
