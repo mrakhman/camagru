@@ -15,10 +15,19 @@
 		{
 			echo '<p class="error"> User already exists </p>';
 		}
+		else if ($_GET['error'] == 'script')
+		{
+			echo '<p class="error"> Scripts are forbidden </p>';
+		}
+		else if ($_GET['error'] == 'login_format')
+		{
+			echo '<p class="error"> Login must only include a-z and 0-9 </p>';
+		}
 		else if ($_GET['created_user'])
 		{
-			echo '<p class="success"> User' . $login . ' created! </p>';
+			echo '<p class="success"> User created! Check your email to activate account </p>';
 		}
+
 ?>
 
 <h3>Register</h3>

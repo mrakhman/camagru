@@ -1,5 +1,7 @@
 <?PHP
 
+// dont forget to firbid login for not activated user
+
 if ($_POST['submit'] === "OK")
 {
 	include "../config/database.php";
@@ -28,7 +30,7 @@ if ($_POST['submit'] === "OK")
 	if (!(auth_user($user_login, $passwd)))
 	{
 		// echo "Wrong password\n";
-		header('Location: ../index.php?error=wrong_passwd');
+		header('Location: ../index.php?error=auth_fail');
 		exit();
 	}
 

@@ -34,25 +34,25 @@ if ($_POST['submit'] === "OK")
 		exit();
 	}
 
+	// Script checkup
+	if ((preg_match("/(<script>)/", $login)) || (preg_match("/(<script>)/", $email)))
+	{
+		header('Location: ../index.php?error=script');
+		exit();
+	}
+
+	// Check if input characters are valid
+	if (preg_match("/[^a-z0-9]/", $login))
+	{
+		header('Location: ../index.php?error=login_format');
+		exit();
+	}
+
 	else
 	{
 		// echo "User created!\n";
-		header('Location: ../index.php?created_user=' . $login);
+		header('Location: ../index.php?created_user=yes');
 	}
-
-	// // Check if input characters are valid
-	// if (!preg_match("/[a-z]{1-10}/", $login))
-	// {
-	// 	header('Location: index.php?error=invalid_login_format(strlen < 10 && a-z)');
-	// 	exit();
-	// }
-
-	// // Check if email is valid
-	// if (filter_var($email, FILTER_VALIDATE_EMAIL))
-	// {
-	// 	header('Location: index.php?error=invalid_email_format(strlen < 10 && a-z)');
-	// 	exit();
-	// }
 
 }
 

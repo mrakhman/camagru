@@ -1,20 +1,25 @@
 <?php
 
+include "2_view/activation.view.php";
+
 $email = $_GET['email'];
 $token = $_GET['token'];
 
+
 if (empty($email) || empty($token))
 {
-	header('Location: ../index.php');
+	activation_empty();
 	exit();
 }
+
+include "1_models/users.model.php";
 
 if (!(activate_user($email, $token)))
 {
-	header('Location: ../index.php');
+	activation_damage();
 	exit();
 }
 
-echo "Email verified";
+activation_success();
 
 ?>

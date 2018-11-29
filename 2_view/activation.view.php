@@ -1,26 +1,20 @@
 <?php
 
-
-$email = $_GET['email'];
-$token = $_GET['token'];
-
-if (empty($email) || empty($token))
+function activation_empty()
 {
-	header('Location: ../index.php');
+	echo '<p class="error" align="center"> Email or token is missing </p>';
+	echo '<p align="center"> Click <a href="index.php">here</a> to register new account </p>';
 }
 
-if (isset($email) && isset($token))
+function activation_damage()
 {
-	header('Location: ../index.php');
-	exit();
+	echo '<p class="error" align="center"> Activation link has been damaged </p>';
+	echo '<p align="center"> Click <a href="index.php">here</a> to register new account </p>';
 }
 
-if (!(activate_user($email, $token)))
+function activation_success()
 {
-	header('Location: ../index.php');
-	exit();
+	echo '<p class="success" align="center"> Thank you for confirming your email. Your account is active! </p>';
 }
-
-echo "Email verified";
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 include "config/database.php";
 
 function create_user($login, $email, $passwd)
@@ -46,7 +45,7 @@ function send_email($email, $token)
 	$to = $email;
 	$subject = "Camagru - confirm your email";
 	$message = "Welcome to Camagru! Click the link to verify your email: http://localhost:8080/42_mrakhman_mamp/camagru/activation.php?email=" . $email . "&token=" . $token;
-	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
 	else
@@ -60,18 +59,17 @@ function activate_user($email, $token)
 	if (empty($email) || empty($token))
 		return FALSE;
 
-	$sql = 'SELECT * FROM users WHERE email = :email AND token = :token AND is_confirmed = 0';
+	$check_user = get_user_by_email($email);
+	if (!($check_user))
+		return FALSE;
+
+	if ($check_user['token'] !== $token)
+		return FALSE;
+
+	$sql = 'UPDATE users SET is_confirmed = 1 WHERE token = :token';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['email' => $email, 'token' => $token]);
-	if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
-	{
-		// echo "No such user\n";
-		return NULL;
-	}
-	else
-	{
-		$sql = 'UPDATE users WHERE email = :email SET token = "", is_confirmed = 1';
-	}
+	$stmt->execute(['token' => $token]);
+	return TRUE;
 }
 
 function get_user_by_login($login)
@@ -113,7 +111,7 @@ function auth_user($user, $passwd)
 	if (empty($user) || empty($passwd))
 		return FALSE;
 
-	if ($user['passwd'] === hash('whirlpool', $passwd))
+	if (($user['passwd'] === hash('whirlpool', $passwd)) && $user['is_confirmed'] === 1)
 		return TRUE;
 	return FALSE;
 }
@@ -158,4 +156,18 @@ function change_email($old_email, $new_email)
 	return TRUE;
 }
 
+function reset_passwd_email($email)
+{
+	if (empty($email))
+		return FALSE;
+
+	$to = $email;
+	$subject = "Camagru - forgot password";
+	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/passwd_reset.php?email=" . $email . "&token=" . $token; // from here
+	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
+	if (mail($to, $subject, $message, $headers))
+		return TRUE;
+	else
+		return FALSE;
+}
 ?>
