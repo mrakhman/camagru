@@ -1,6 +1,6 @@
 <h3>Reset your password</h3>
 <p>Enter email and we will send a link to reset your password</p>
-<form method="post" action="3_controller/register.control.php">
+<form method="post" action="3_controller/reset_pass_email.control.php">
 	<h>Email</h><br>
 	<input type="email" class="input" placeholder="Enter email" name="email"/>
 	<br>

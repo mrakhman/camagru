@@ -27,13 +27,6 @@ if ($_POST['submit'] === "OK")
 		exit();
 	}
 
-	if (!(create_user($login, $email, $passwd)))
-	{
-		// echo "User already exists\n";
-		header('Location: ../index.php?error=user_already_exists');
-		exit();
-	}
-
 	// Script checkup
 	if ((preg_match("/(<script>)/", $login)) || (preg_match("/(<script>)/", $email)))
 	{
@@ -45,6 +38,13 @@ if ($_POST['submit'] === "OK")
 	if (preg_match("/[^a-z0-9]/", $login))
 	{
 		header('Location: ../index.php?error=login_format');
+		exit();
+	}
+
+	if (!(create_user($login, $email, $passwd)))
+	{
+		// echo "User already exists\n";
+		header('Location: ../index.php?error=user_already_exists');
 		exit();
 	}
 

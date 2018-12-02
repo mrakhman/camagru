@@ -11,10 +11,6 @@
 		{
 			echo '<p class="error"> Confirm password error </p>';
 		}
-		else if ($_GET['error'] == 'user_already_exists')
-		{
-			echo '<p class="error"> User already exists </p>';
-		}
 		else if ($_GET['error'] == 'script')
 		{
 			echo '<p class="error"> Scripts are forbidden </p>';
@@ -22,6 +18,10 @@
 		else if ($_GET['error'] == 'login_format')
 		{
 			echo '<p class="error"> Login must only include a-z and 0-9 </p>';
+		}
+		else if ($_GET['error'] == 'user_already_exists')
+		{
+			echo '<p class="error"> User already exists </p>';
 		}
 		else if ($_GET['created_user'])
 		{
@@ -32,13 +32,13 @@
 
 <h3>Register</h3>
 <form method="post" action="3_controller/register.control.php">
-	<h>Email</h><br>
+	<h>Email</h><br> 
 	<input type="email" class="input" placeholder="Enter email" name="email"/>
 	<br><br>
-	<h>Login</h><br>
+	<p> Login <br> [a-z and 1-9 only] </p>
 	<input type="text" class="input" placeholder="Enter login" name="login"/>
 	<br><br>
-	<h>Password</h><br>
+	<p> Password <br> [minimum complexity = ?] </p>
 	<input type="password" class="input" placeholder="Enter password" name="passwd"/>
 	<br>
 	<input type="password" class="input" placeholder="Repeat password" name="conf_passwd"/>

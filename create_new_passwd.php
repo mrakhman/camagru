@@ -5,7 +5,8 @@
 		<?php include_once "2_view/layout/header.php"; ?>
 		<?php include "2_view/layout/menu.php"; ?>
 		<div class="main">
-			<?php include "2_view/reset_pass_email.view.php"; ?>
+			<p> Hello, nerd </p>
+			<?php // include "2_view/register.view.php"; ?>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>

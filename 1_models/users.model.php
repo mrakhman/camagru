@@ -1,5 +1,5 @@
 <?php
-include "config/database.php";
+include "../config/database.php";
 
 function create_user($login, $email, $passwd)
 {
@@ -156,18 +156,78 @@ function change_email($old_email, $new_email)
 	return TRUE;
 }
 
+function reset_passwd_db($email)
+{
+	global $pdo;
+
+	if (empty($email))
+		return FALSE;
+
+	if (!(get_user_by_email($email)))
+		return FALSE;
+
+	// Clean table before inserting data in case user changes password 2 times in a row
+	$sql = 'DELETE FROM passreset WHERE email = :email';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['email' => $email]);
+
+	// Create token && selector (instead of email)
+	$selector = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
+	$token = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
+	$selector = substr($selector, 0, 8);
+	$token = substr($token, 0, 32);
+	
+	$expires = date("U") + 1800;
+	$token = hash('whirlpool', $token);
+
+	$sql = 'INSERT INTO passreset(email, selector, token, expires) VALUES(:email, :selector, :token, :expires)';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['email' => $email, 'selector' => $selector, 'token' => $token, 'expires' => $expires]);
+	return TRUE;
+}
+
+function get_reset_passw_token($email)
+{
+	global $pdo;
+
+	if (empty($email))
+		return FALSE;
+
+	$sql = 'SELECT * FROM passreset WHERE email = :email';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['email' => $email]);
+	if (!($reset_token = $stmt->fetch(PDO::FETCH_ASSOC)))
+	{
+		return NULL;
+	}
+	return ($reset_token);
+}
+
 function reset_passwd_email($email)
 {
 	if (empty($email))
 		return FALSE;
 
+	$reset_array = get_reset_passw_token($email);
+	$selector = $reset_array['selector'];
+	$token = $reset_array['token'];
+
 	$to = $email;
 	$subject = "Camagru - forgot password";
-	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/passwd_reset.php?email=" . $email . "&token=" . $token; // from here
+	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?selector=" . $selector . "&token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
 	else
 		return FALSE;
 }
+
+// function reset_passwd($email, $passwd)
+// {
+// 	if (empty($email) || empty($passwd))
+// 		return FALSE;
+
+// 	$expires = date(format)
+// }
+
 ?>
