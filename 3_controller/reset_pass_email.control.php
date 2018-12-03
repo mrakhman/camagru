@@ -9,17 +9,17 @@ if ($_POST['submit'] === "OK")
 
 	if (empty($email))
 	{
-		header('Location: ../passwd_reset.php?error=empty_input');
+		header('Location: ../passwd_reset.php?error=empty_email');
 		exit();
 	}
 
-	if (!(reset_passwd_db($email)))
+	if (!(create_passreset_token($email)))
 	{
 		header('Location: ../passwd_reset.php?error=wrong_email');
 		exit();
 	}
 
-	if (!(reset_passwd_email($email)))
+	if (!(send_passreset_email($email)))
 	{
 		header('Location: ../passwd_reset.php?error=send_email_fail');
 		exit();

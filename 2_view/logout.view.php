@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if (isset($_SESSION['user']))
+	if (isset($_SESSION['user']) && isset($_SESSION['id']))
 	{
 		echo '<p class="login_status"> Hello, ' . $_SESSION['user'] . '! </p>';
 ?>

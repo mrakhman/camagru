@@ -2,7 +2,7 @@
 session_start();
 if ($_POST['submit'] === "Yes" || $_POST['submit'] === "Logout")
 {
-	if (empty($_SESSION['user']))
+	if (empty($_SESSION['user']) && empty($_SESSION['id']))
 	{
 		echo "You are not logged in";
 		exit();

@@ -28,7 +28,7 @@ if ($_POST['submit'] === "OK")
 	}
 
 	// Script checkup
-	if ((preg_match("/(<script>)/", $login)) || (preg_match("/(<script>)/", $email)))
+	if ((is_script_input($login)) || is_script_input($email))
 	{
 		header('Location: ../index.php?error=script');
 		exit();
@@ -40,6 +40,13 @@ if ($_POST['submit'] === "OK")
 		header('Location: ../index.php?error=login_format');
 		exit();
 	}
+
+	// Check for password min complexity
+	// if (!(secure_passwd($passwd)))
+	// {
+	// 	header('Location: ../index.php?error=unsafe_passwd');
+	// 	exit();
+	// }
 
 	if (!(create_user($login, $email, $passwd)))
 	{

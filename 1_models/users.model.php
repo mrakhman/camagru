@@ -156,7 +156,22 @@ function change_email($old_email, $new_email)
 	return TRUE;
 }
 
-function reset_passwd_db($email)
+function is_script_input($str)
+{
+		if (preg_match("/(<script>)/", $str))
+			return TRUE;
+		else
+			return FALSE;
+}
+
+// function secure_passwd($passwd)
+// {
+		// if (strlen($passwd) < 8)
+		// 	return FALSE;
+		// if (preg_match(pattern, subject))
+// }
+
+function create_passreset_token($email)
 {
 	global $pdo;
 
@@ -186,7 +201,7 @@ function reset_passwd_db($email)
 	return TRUE;
 }
 
-function get_reset_passw_token($email)
+function get_passreset_array_email($email)
 {
 	global $pdo;
 
@@ -196,25 +211,25 @@ function get_reset_passw_token($email)
 	$sql = 'SELECT * FROM passreset WHERE email = :email';
 	$stmt = $pdo->prepare($sql);
 	$stmt->execute(['email' => $email]);
-	if (!($reset_token = $stmt->fetch(PDO::FETCH_ASSOC)))
+	if (!($reset_array = $stmt->fetch(PDO::FETCH_ASSOC)))
 	{
 		return NULL;
 	}
-	return ($reset_token);
+	return ($reset_array);
 }
 
-function reset_passwd_email($email)
+function send_passreset_email($email)
 {
 	if (empty($email))
 		return FALSE;
 
-	$reset_array = get_reset_passw_token($email);
+	$reset_array = get_passreset_array_email($email);
 	$selector = $reset_array['selector'];
 	$token = $reset_array['token'];
 
 	$to = $email;
 	$subject = "Camagru - forgot password";
-	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?selector=" . $selector . "&token=" . $token;
+	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?selector=" . $selector . "&validator=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
@@ -222,12 +237,57 @@ function reset_passwd_email($email)
 		return FALSE;
 }
 
-// function reset_passwd($email, $passwd)
-// {
-// 	if (empty($email) || empty($passwd))
-// 		return FALSE;
+function get_passreset_array_selector($selector)
+{
+	global $pdo;
 
-// 	$expires = date(format)
-// }
+	if (empty($selector))
+		return FALSE;
+
+	$expires = date("U");
+
+	$sql = 'SELECT * FROM passreset WHERE selector = :selector AND expires >= :expires';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['selector' => $selector, 'expires' => $expires]);
+	if (!($reset_array = $stmt->fetch(PDO::FETCH_ASSOC)))
+	{
+		return NULL;
+	}
+	return ($reset_array);
+}
+
+function is_passreset_token_valid($selector, $validator)
+{
+	if (empty($selector) || empty($validator))
+		return FALSE;
+
+	$reset_array = get_passreset_array_selector($selector);
+
+	if (($reset_array['validator'] === hash('whirlpool', $validator)))
+		return TRUE;
+	return FALSE;
+}
+
+function reset_user_passwd($selector, $passwd)
+{
+	global $pdo;
+
+	if (empty($selector))
+		return FALSE;
+
+	$reset_array = get_passreset_array_selector($selector);
+	$reset_email = $reset_array['email'];
+	$passwd = hash('whirlpool', $passwd);
+
+	$sql = 'SELECT * FROM users WHERE email = :reset_email';
+	$stmt = $pdo->prepare($sql);
+	if ($stmt->execute(['reset_email' => $reset_email]))
+	{
+		$sql = 'UPDATE users SET passwd = :passwd WHERE email = :email';
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute(['email' => $email, 'passwd' => $passwd]);
+		return TRUE;
+	}
+}
 
 ?>

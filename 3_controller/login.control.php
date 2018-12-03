@@ -18,16 +18,16 @@ if ($_POST['submit'] === "OK")
 	}
 
 	session_start();
-	$user_login = get_user_by_login($login);
+	$user = get_user_by_login($login);
 
-	if (!($user_login))
+	if (!($user))
 	{
 		// echo "User doesn't exist\n";
 		header('Location: ../index.php?error=user_not_found');
 		exit();
 	}
 
-	if (!(auth_user($user_login, $passwd)))
+	if (!(auth_user($user, $passwd)))
 	{
 		// echo "Wrong password\n";
 		header('Location: ../index.php?error=auth_fail');
@@ -42,11 +42,12 @@ if ($_POST['submit'] === "OK")
 	** [https://www.youtube.com/watch?v=LC9GaXkdxF8]
 	*/
 
-	else if (auth_user($user_login, $passwd))
+	else if (auth_user($user, $passwd))
 	{
-		$_SESSION['user'] = $login;
+		$_SESSION['user'] = $user['login'];
+		$_SESSION['id'] = $user['id'];
 		// echo "User successfully logged in!\n";
-		header('Location: ../index.php?login=' . $login);
+		header('Location: ../index.php');
 	}
 }
 
