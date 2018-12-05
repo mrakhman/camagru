@@ -1,5 +1,5 @@
 <?php
-include "../config/database.php";
+include "config/database.php";
 
 function create_user($login, $email, $passwd)
 {
@@ -178,58 +178,36 @@ function create_passreset_token($email)
 	if (empty($email))
 		return FALSE;
 
-	if (!(get_user_by_email($email)))
+	if (!($user = get_user_by_email($email)))
 		return FALSE;
 
-	// Clean table before inserting data in case user changes password 2 times in a row
-	$sql = 'DELETE FROM passreset WHERE email = :email';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['email' => $email]);
+	$user_id = $user['id'];
 
-	// Create token && selector (instead of email)
-	$selector = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
 	$token = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
-	$selector = substr($selector, 0, 8);
 	$token = substr($token, 0, 32);
-	
-	$expires = date("U") + 1800;
-	$token = hash('whirlpool', $token);
+	$expires = time() + (2 * 60 * 60);
 
-	$sql = 'INSERT INTO passreset(email, selector, token, expires) VALUES(:email, :selector, :token, :expires)';
+	$sql = 'REPLACE INTO passreset(user_id, token, expires) VALUES(:user_id, :token, :expires)';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['email' => $email, 'selector' => $selector, 'token' => $token, 'expires' => $expires]);
-	return TRUE;
-}
-
-function get_passreset_array_email($email)
-{
-	global $pdo;
-
-	if (empty($email))
-		return FALSE;
-
-	$sql = 'SELECT * FROM passreset WHERE email = :email';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['email' => $email]);
-	if (!($reset_array = $stmt->fetch(PDO::FETCH_ASSOC)))
+	$passreset = array('user_id' => $user_id, 'token' => $token, 'expires' => $expires);
+	if ($stmt->execute($passreset))
 	{
-		return NULL;
+		return $passreset;
 	}
-	return ($reset_array);
+	return FALSE;
 }
 
-function send_passreset_email($email)
+function send_passreset_email($email, $reset_array)
 {
 	if (empty($email))
 		return FALSE;
 
-	$reset_array = get_passreset_array_email($email);
-	$selector = $reset_array['selector'];
 	$token = $reset_array['token'];
 
 	$to = $email;
 	$subject = "Camagru - forgot password";
-	$message = "Click the link to reset your password: http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?selector=" . $selector . "&validator=" . $token;
+	$message = "Click the link to reset your password: ";
+	$message .= "http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
@@ -237,57 +215,44 @@ function send_passreset_email($email)
 		return FALSE;
 }
 
-function get_passreset_array_selector($selector)
+function get_passreset_array($token)
 {
 	global $pdo;
 
-	if (empty($selector))
+	if (empty($token))
 		return FALSE;
 
-	$expires = date("U");
+	$expires = time();
 
-	$sql = 'SELECT * FROM passreset WHERE selector = :selector AND expires >= :expires';
+	$sql = 'SELECT * FROM passreset WHERE token = :token AND expires >= :expires';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['selector' => $selector, 'expires' => $expires]);
-	if (!($reset_array = $stmt->fetch(PDO::FETCH_ASSOC)))
+	$stmt->execute(['token' => $token, 'expires' => $expires]);
+	$reset_array = $stmt->fetch(PDO::FETCH_ASSOC);
+	if (!$reset_array)
 	{
 		return NULL;
 	}
-	return ($reset_array);
+	return $reset_array;
 }
 
-function is_passreset_token_valid($selector, $validator)
-{
-	if (empty($selector) || empty($validator))
-		return FALSE;
-
-	$reset_array = get_passreset_array_selector($selector);
-
-	if (($reset_array['validator'] === hash('whirlpool', $validator)))
-		return TRUE;
-	return FALSE;
-}
-
-function reset_user_passwd($selector, $passwd)
+function reset_user_passwd($user_id, $passwd)
 {
 	global $pdo;
 
-	if (empty($selector))
+	if (empty($user_id) || empty($passwd))
 		return FALSE;
 
-	$reset_array = get_passreset_array_selector($selector);
-	$reset_email = $reset_array['email'];
 	$passwd = hash('whirlpool', $passwd);
 
-	$sql = 'SELECT * FROM users WHERE email = :reset_email';
+	$sql = 'UPDATE users SET passwd = :passwd WHERE id = :user_id';
 	$stmt = $pdo->prepare($sql);
-	if ($stmt->execute(['reset_email' => $reset_email]))
-	{
-		$sql = 'UPDATE users SET passwd = :passwd WHERE email = :email';
-		$stmt = $pdo->prepare($sql);
-		$stmt->execute(['email' => $email, 'passwd' => $passwd]);
-		return TRUE;
-	}
+
+	// $stmt returns TRUE or FALSE and I store it in $result to return later
+	$result = $stmt->execute(['user_id' => $user_id, 'passwd' => $passwd]);
+	$sql = 'DELETE FROM passreset WHERE user_id = :user_id';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['user_id' => $user_id]);
+	return $result;
 }
 
 ?>

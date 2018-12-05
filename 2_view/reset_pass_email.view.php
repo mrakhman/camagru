@@ -20,7 +20,10 @@
 	function reset_passwd_success()
 	{
 		if ($_GET['reset_passwd'] == 'success')
+		{
 			echo '<p class="success"> Check your email :) </p>';
+			echo '<p class="success"> link is valid for 2 hours </p>';
+		}
 	}
 
 ?>

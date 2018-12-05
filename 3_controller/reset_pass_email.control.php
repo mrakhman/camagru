@@ -12,14 +12,14 @@ if ($_POST['submit'] === "OK")
 		header('Location: ../passwd_reset.php?error=empty_email');
 		exit();
 	}
-
-	if (!(create_passreset_token($email)))
+	$passwd_reset = create_passreset_token($email);
+	if (!$passwd_reset)
 	{
 		header('Location: ../passwd_reset.php?error=wrong_email');
 		exit();
 	}
 
-	if (!(send_passreset_email($email)))
+	if (!(send_passreset_email($email, $passwd_reset)))
 	{
 		header('Location: ../passwd_reset.php?error=send_email_fail');
 		exit();

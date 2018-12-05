@@ -1,50 +1,52 @@
-<?PHP
+<?php
 
-if ($_POST['submit'] === "OK")
+include "2_view/create_new_passwd.view.php";
+include "1_models/users.model.php";
+
+$token = $_GET['token'];
+
+if (empty($token))
 {
-	include "../config/database.php";
-	include "../1_models/users.model.php";
+	activation_empty();
+	exit();
+}
 
-	$selector = $_POST['selector'];
-	$validator = $_POST['validator'];
+function create_new_passwd($token)
+{
 	$passwd = $_POST['passwd'];
 	$conf_passwd = $_POST['conf_passwd'];
 
 	if (empty($passwd) || empty($conf_passwd))
 	{
-		header('Location: ../create_new_passwd.php?error=empty_passwd');
-		exit();
+		empty_passwd();
+		return FALSE;
 	}
 
-	if (!($passwd === $conf_passwd))
+	if ($passwd !== $conf_passwd)
 	{
-		header('Location: ../create_new_passwd.php?error=confirm_password_error');
-		exit();
+		confirm_password_error();
+		return FALSE;
 	}
 
-	if (!(get_passreset_array_selector($selector)))
+	$reset_array = get_passreset_array($token);
+
+	if (!$reset_array)
 	{
-		header('Location: ../create_new_passwd.php?error=no_matches');
-		exit();
+		no_matches();
+		return FALSE;
 	}
-
-	if (!(is_passreset_token_valid($selector, $validator)))
+	if (!reset_user_passwd($reset_array['user_id'], $passwd))
 	{
-		header('Location: ../create_new_passwd.php?error=invalid_link');
-		exit();
+		return FALSE;
 	}
-
-	else if (is_passreset_token_valid($selector, $validator))
-	{
-		if (reset_user_passwd($selector, $passwd))
-		{
-			header('Location: ../create_new_passwd.php?passwd_reset=success');
-		}
-	}
-
+	passwd_reset_success();
+	return TRUE;
 }
 
-else
+if ($_POST['submit'] === "OK")
 {
-	header('Location: ../index.php');
+	//include "config/database.php";
+	create_new_passwd($token);
 }
+
+reset_success();
