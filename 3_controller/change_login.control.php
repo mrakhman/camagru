@@ -1,66 +1,65 @@
-<?PHP
+<?php
 
-if ($_POST['submit'] === "OK")
+include_once "1_models/users.model.php";
+include_once "2_view/change_login.view.php";
+
+function login($old_login, $new_login, $passwd)
 {
-	include "../config/database.php";
-	include "../1_models/users.model.php";
-
-	session_start();
-
-	$old_login = $_SESSION['user'];
-	$new_login = $_POST['new_login'];
-	$passwd = $_POST['passwd'];
-
-	// Error handlers
 
 	if (empty($new_login) || empty($passwd))
 	{
-		// echo "Empty input field(s)\n";
-		header('Location: ../my_account.php?error=login_empty_input');
-		exit();
+		login_input();
+		return FALSE;
 	}
 
 	$user = get_user_by_login($old_login);
 	if (!($user))
 	{
-		// echo "User doesn't exist\n";
-		header('Location: ../my_account.php?error=login_user_not_found');
-		exit();
+		login_user_not_found();
+		return FALSE;
+	}
+
+	if (get_user_by_login($new_login))
+	{
+		login_already_exists();
+		return FALSE;
 	}
 
 	if (!(auth_user($user, $passwd)))
 	{
-		// echo "Wrong password\n";
-		header('Location: ../my_account.php?error=login_wrong_passwd');
-		exit();
+		login_wrong_passwd();
+		return FALSE;
 	}
 
 	if ($new_login == $old_login)
 	{
-		// echo "Old and new login can't be the same\n";
-		header('Location: ../my_account.php?error=same_login');
-		exit();
+		same_login();
+		return FALSE;
 	}
 
 	if (!(change_login($old_login, $new_login)))
 	{
-		// echo "sql error\n";
-		header('Location: ../my_account.php?error=login_sql_error');
-		exit();
+		login_sql_error();
+		return FALSE;
 	}
 
-	else
-	{
-		// echo "Login successfully changed!\n";
-		header('Location: ../my_account.php?change_login=ok');
-		$_SESSION['user'] = $new_login;
-	}
-
+	change_login_ok();
+	$_SESSION['user'] = $new_login;
+	return TRUE;
 }
 
-else
+if ($_POST['login_submit'] === "OK")
 {
-	header('Location: ../index.php');
+	$old_login = $_SESSION['user'];
+	$new_login = $_POST['new_login'];
+	$passwd = $_POST['passwd'];
+	
+	login($old_login, $new_login, $passwd);
+}
+
+if (isset($_SESSION['user']))
+{
+	show_login_form();
 }
 
 ?>

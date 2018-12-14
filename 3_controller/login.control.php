@@ -1,60 +1,64 @@
 <?PHP
 
-// dont forget to firbid login for not activated user
+include_once "1_models/users.model.php";
+include_once "2_view/login.view.php";
 
-if ($_POST['submit'] === "OK")
+
+function login_user($login, $passwd)
 {
-	include "../config/database.php";
-	include "../1_models/users.model.php";
-
-	$login = $_POST['login'];
-	$passwd = $_POST['passwd'];
-
 	if (empty($login) || empty($passwd))
 	{
-		// echo "Empty input field(s)\n";
-		header('Location: ../index.php?error=empty_input');
-		exit();
+		empty_input_login();
+		return FALSE;
 	}
 
-	session_start();
 	$user = get_user_by_login($login);
 
 	if (!($user))
 	{
-		// echo "User doesn't exist\n";
-		header('Location: ../index.php?error=user_not_found');
-		exit();
+		user_not_found_login();
+		return FALSE;
+	}
+
+	if ($user['is_confirmed'] !== 1)
+	{
+		not_confirmed();
+		return FALSE;
 	}
 
 	if (!(auth_user($user, $passwd)))
 	{
-		// echo "Wrong password\n";
-		header('Location: ../index.php?error=auth_fail');
-		exit();
+		auth_fail();
+		return FALSE;
 	}
-
-	/* Final case for the correct login, passd.
-	** I put 'else if' instead of just 'else' because I want to check if it aslo equals to 'true'
-	** even though password check (auth_user) is a boolean and just equals to 'true' or 'false'.
-	** Just in case auth_user could be a srting or a number that is not 'true' or 'false' I want
-	** to make sure that I don't login user with just 'else' statement.
-	** [https://www.youtube.com/watch?v=LC9GaXkdxF8]
-	*/
 
 	else if (auth_user($user, $passwd))
 	{
 		$_SESSION['user'] = $user['login'];
 		$_SESSION['id'] = $user['id'];
-		// echo "User successfully logged in!\n";
-		header('Location: ../index.php');
+		return TRUE;
 	}
 }
 
-// Send user back to index.php page in case he wants to get to login.php page from URL
-else
+session_start();
+
+if ($_POST['log_in'] === "OK")
 {
-	header('Location: ../index.php');
+	$login = $_POST['username'];
+	$passwd = $_POST['passwd'];
+
+	login_user($login, $passwd);
+}
+
+if ((empty($_SESSION['user']) || $_SESSION['user'] == "") && empty($_SESSION['id']))
+{
+	echo '<p class="login_status"> You are logged out </p>';
+	show_form_login();
+}
+
+else if (isset($_SESSION['user']) && isset($_SESSION['id']))
+{
+	echo '<p class="login_status"> Hello, ' . $_SESSION['user'] . '! </p>';
 }
 
 ?>

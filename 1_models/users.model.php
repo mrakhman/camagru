@@ -1,5 +1,5 @@
 <?php
-include "config/database.php";
+include_once "config/database.php";
 
 function create_user($login, $email, $passwd)
 {
@@ -36,6 +36,8 @@ function create_user($login, $email, $passwd)
 	$stmt->execute(['login' => $login, 'email' => $email, 'token' => $token, 'passwd' => $passwd]);
 	return TRUE;
 }
+
+
 
 function send_email($email, $token)
 {

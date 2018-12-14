@@ -4,8 +4,10 @@
 			<a href="index.php">HOME</a>
 		</div>
 		<div class="column_80" align="right">
-			<?php include "2_view/logout.view.php"; ?>
-			<?php include "2_view/login.view.php"; ?>
+			
+			
+			<?php include "3_controller/login.control.php"; ?>
+			<?php include "3_controller/logout.control.php"; ?>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,7 @@
 <?php
 
-include "2_view/create_new_passwd.view.php";
-include "1_models/users.model.php";
+include_once "2_view/create_new_passwd.view.php";
+include_once "1_models/users.model.php";
 
 $token = $_GET['token'];
 
@@ -11,7 +11,15 @@ if (empty($token))
 	exit();
 }
 
-function create_new_passwd($token)
+$reset_array = get_passreset_array($token);
+
+if (!$reset_array)
+{
+	no_matches();
+	exit();
+}
+
+function create_new_passwd($token, $user_id)
 {
 	$passwd = $_POST['passwd'];
 	$conf_passwd = $_POST['conf_passwd'];
@@ -28,25 +36,18 @@ function create_new_passwd($token)
 		return FALSE;
 	}
 
-	$reset_array = get_passreset_array($token);
-
-	if (!$reset_array)
+	if (!reset_user_passwd($user_id, $passwd))
 	{
-		no_matches();
+		reset_user_passwd_error();
 		return FALSE;
 	}
-	if (!reset_user_passwd($reset_array['user_id'], $passwd))
-	{
-		return FALSE;
-	}
-	passwd_reset_success();
+	passreset_success();
 	return TRUE;
 }
 
-if ($_POST['submit'] === "OK")
+if ($_POST['reset'] === "OK")
 {
-	//include "config/database.php";
-	create_new_passwd($token);
+	create_new_passwd($token, $reset_array['user_id']);
 }
 
-reset_success();
+show_form_new_passwd();

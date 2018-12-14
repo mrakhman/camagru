@@ -1,68 +1,68 @@
-<?PHP
+<?php
 
-if ($_POST['submit'] === "OK")
+include_once "1_models/users.model.php";
+include_once "2_view/change_email.view.php";
+
+function email($login, $new_email, $passwd)
 {
-	include "../config/database.php";
-	include "../1_models/users.model.php";
+	if (empty($new_email) || empty($passwd))
+	{
+		email_empty_input();
+		return FALSE;
+	}
 
-	session_start();
-
-	$login = $_SESSION['user'];
-	$new_email = $_POST['new_email'];
-	$passwd = $_POST['passwd'];
-	
 	$user = get_user_by_login($login);
 	$old_email = $user['email'];
 
-	// Error handlers
-
-	if (empty($new_email) || empty($passwd))
-	{
-		// echo "Empty input field(s)\n";
-		header('Location: ../my_account.php?error=email_empty_input');
-		exit();
-	}
-
-	
 	if (!($user))
 	{
-		// echo "User doesn't exist\n";
-		header('Location: ../my_account.php?error=email_user_not_found');
-		exit();
+		email_user_not_found();
+		return FALSE;
+	}
+
+	if (get_user_by_email($new_email))
+	{
+		email_already_exists();
+		return FALSE;
 	}
 
 	if (!(auth_user($user, $passwd)))
 	{
-		// echo "Wrong password\n";
-		header('Location: ../my_account.php?error=email_wrong_passwd');
-		exit();
+		email_wrong_passwd();
+		return FALSE;
 	}
 
 	if ($new_email == $old_email)
 	{
-		// echo "Old and new email can't be the same\n";
-		header('Location: ../my_account.php?error=same_email');
-		exit();
+		same_email();
+		return FALSE;
 	}
 
 	if (!(change_email($old_email, $new_email)))
 	{
-		// echo "sql error\n";
-		header('Location: ../my_account.php?error=email_sql_error');
-		exit();
+		email_sql_error();
+		return FALSE;
 	}
 
-	else
-	{
-		// echo "Login successfully changed!\n";
-		header('Location: ../my_account.php?change_email=ok');
-	}
-
+	change_email_ok();
+	return TRUE;
 }
 
-else
+// session_start();
+
+if ($_POST['email_submit'] === "OK")
 {
-	header('Location: ../index.php');
+	$login = $_SESSION['user'];
+	$new_email = $_POST['new_email'];
+	$passwd = $_POST['passwd'];
+	
+	email($login, $new_email, $passwd);
 }
+
+if (isset($_SESSION['user']))
+{
+	show_email_form();
+}
+
 
 ?>

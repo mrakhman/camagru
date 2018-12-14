@@ -1,20 +1,21 @@
-<?PHP
-session_start();
-if ($_POST['submit'] === "Yes" || $_POST['submit'] === "Logout")
+<?php
+
+include_once "2_view/logout.view.php";
+
+function logout()
 {
-	if (empty($_SESSION['user']) && empty($_SESSION['id']))
-	{
-		echo "You are not logged in";
-		exit();
-	}
 	session_unset();
 	session_destroy();
-	header('Location: ../index.php');
-
+	header('Location: index.php');
 }
 
-else
+// session_start();
+
+if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-	header('Location: ../index.php');
+	show_form_logout();
+	if ($_POST['submit'] === "Yes" || $_POST['logout'] === "Logout")
+		logout();
 }
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['user'])) 
+if (isset($_SESSION['user']) && isset($_SESSION['id'])) 
 {
 ?>
 		<!DOCTYPE html>
@@ -8,11 +8,11 @@ if (isset($_SESSION['user']))
 			<?php include_once "2_view/layout/head.php"; ?>
 			<body>
 				<?php include_once "2_view/layout/header.php"; ?>
-				<?php	include "2_view/layout/menu.php"; ?>
+				<?php include_once "2_view/layout/menu.php"; ?>
 				<div class="main">
-					<?php include "2_view/change_passwd.view.php"; ?>
-					<?php include "2_view/change_login.view.php"; ?>
-					<?php include "2_view/change_email.view.php"; ?>
+					<?php include_once "3_controller/change_passwd.control.php"; ?>
+					<?php include_once "3_controller/change_login.control.php"; ?>
+					<?php include_once "3_controller/change_email.control.php"; ?>
 				</div>
 				<?php include_once "2_view/layout/footer.php"; ?>
 			</body>

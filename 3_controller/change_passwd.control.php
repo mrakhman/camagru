@@ -1,73 +1,65 @@
-<?PHP
+<?php
 
-if ($_POST['submit'] === "OK")
+include_once "1_models/users.model.php";
+include_once "2_view/change_passwd.view.php";
+
+function passwd($login, $old_passwd, $new_passwd, $conf_passwd)
 {
-	include "../config/database.php";
-	include "../1_models/users.model.php";
+	if (empty($old_passwd) || empty($new_passwd) || empty($conf_passwd))
+	{
+		passw_empty_input();
+		return FALSE;
+	}
 
-	session_start();
+	$session_user = get_user_by_login($login);
 
+	if (!($session_user))
+	{
+		passw_user_not_found();
+		return FALSE;
+	}
+
+	if (!(auth_user($session_user, $old_passwd)))
+	{
+		passw_wrong_passwd();
+		return FALSE;
+	}
+
+	if (!($new_passwd === $conf_passwd))
+	{
+		confirm_password_error();
+		return FALSE;
+	}
+
+	if ($new_passwd == $old_passwd)
+	{
+		same_passwords();
+		return FALSE;
+	}
+
+	if (!(change_passwd($login, $new_passwd)))
+	{
+		passw_sql_error();
+		return FALSE;
+	}
+
+	change_passwd_ok();
+	return TRUE;
+}
+
+if ($_POST['passwd_submit'] === "OK")
+{
 	$login = $_SESSION['user'];
 	$old_passwd = $_POST['old_passwd'];
 	$new_passwd = $_POST['new_passwd'];
 	$conf_passwd = $_POST['conf_passwd'];
 
-	// Error handlers
-
-	if (empty($old_passwd) || empty($new_passwd) || empty($conf_passwd))
-	{
-		// echo "Empty input field(s)\n";
-		header('Location: ../my_account.php?error=passw_empty_input');
-		exit();
-	}
-
-	$session_user = get_user_by_login($login);
-	if (!($session_user))
-	{
-		// echo "User doesn't exist\n";
-		header('Location: ../my_account.php?error=passw_user_not_found');
-		exit();
-	}
-
-	if (!(auth_user($session_user, $old_passwd)))
-	{
-		// echo "Wrong password\n";
-		header('Location: ../my_account.php?error=passw_wrong_passwd');
-		exit();
-	}
-
-	if (!($new_passwd === $conf_passwd))
-	{
-		// echo "Confirm password error\n";
-		header('Location: ../my_account.php?error=confirm_password_error');
-		exit();
-	}
-
-	if ($new_passwd == $old_passwd)
-	{
-		// echo "Old and new passwords can't be the same\n";
-		header('Location: ../my_account.php?error=same_passwords');
-		exit();
-	}
-
-	if (!(change_passwd($login, $new_passwd)))
-	{
-		// echo "sql error\n";
-		header('Location: ../my_account.php?error=passw_sql_error');
-		exit();
-	}
-
-	else
-	{
-		// echo "Password successfully changed!\n";
-		header('Location: ../my_account.php?change_pass=ok');
-	}
-
+	passwd($login, $old_passwd, $new_passwd, $conf_passwd);
 }
 
-else
+if (isset($_SESSION['user']))
 {
-	header('Location: ../index.php');
+	show_passwd_form();
 }
 
 ?>
