@@ -28,13 +28,25 @@ body {
 	margin: 0px 10px;
 }
 
-.column_20 {
+/* Columns */
+
+.column_10 {
     width: 10%;
 }
 
-.column_80 {
+.column_90 {
     width: 90%;
 }
+
+.column_30 {
+    width: 30%;
+}
+
+.sidebar {
+
+}
+
+/* Input fields and button */
 
 .button {
 	display: inline-block;
@@ -57,6 +69,8 @@ body {
     margin: 2px 0;
 }
 
+/* Color alert */
+
 .error {
 	color: red;
 }
@@ -65,24 +79,52 @@ body {
 	color: green;
 }
 
+/* Menu features */
+
 .menu {
 	width: 50%;
 	height: auto;
-	background-color: #fff;
-	font-size: 16px;
 	padding: 10px 10px;
-/*}
-
-nav
-{*/
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	border: 1px solid black;
+	border: 1px solid;
 	float: center;
 }
 
-/*.small_text {
-	font-size: 9px;
-}*/
+.dropbtn {
+    /*background-color: #396;*/
+    color: grey;
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+}
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 120px;
+    z-index: 1;
+    font-size: 14px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 12px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #fafafa; color: #396;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {color: #396; /*font-weight: bold;*/}
+
+/* End */

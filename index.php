@@ -5,6 +5,7 @@
 		<?php include_once "2_view/layout/header.php"; ?>
 		<?php include_once "2_view/layout/menu.php"; ?>
 		<div class="main">
+			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
