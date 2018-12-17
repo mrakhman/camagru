@@ -158,20 +158,7 @@ function change_email($old_email, $new_email)
 	return TRUE;
 }
 
-function is_script_input($str)
-{
-		if (preg_match("/(<script>)/", $str))
-			return TRUE;
-		else
-			return FALSE;
-}
 
-// function secure_passwd($passwd)
-// {
-		// if (strlen($passwd) < 8)
-		// 	return FALSE;
-		// if (preg_match(pattern, subject))
-// }
 
 function create_passreset_token($email)
 {

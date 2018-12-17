@@ -9,10 +9,13 @@ if (isset($_SESSION['user']) && isset($_SESSION['id']))
 			<body>
 				<?php include_once "2_view/layout/header.php"; ?>
 				<?php include_once "2_view/layout/menu.php"; ?>
-				<div class="main">
+				<div class="sidenav">
+					<a href="change_passwd.php" class="active">Change password</a>
+					<a href="change_login.php">Change username</a>
+					<a href="change_email.php">Change email</a>
+				</div>
+				<div class="main" align="center">
 					<?php include_once "3_controller/change_passwd.control.php"; ?>
-					<?php include_once "3_controller/change_login.control.php"; ?>
-					<?php include_once "3_controller/change_email.control.php"; ?>
 				</div>
 				<?php include_once "2_view/layout/footer.php"; ?>
 			</body>

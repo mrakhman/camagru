@@ -8,9 +8,8 @@
 	<div class="dropdown">
 		<button class="dropbtn"> My account </button>
 		<div class="dropdown-content">
-			<a href="my_account.php"> Change email </a>
-			<a href="my_account.php"> Change username </a>
-			<a href="my_account.php"> Change password </a>
+			<a href="change_passwd.php"> Settings </a>
+			<a href=""> Nothing </a>
 		</div>
 	</div>
 </nav>

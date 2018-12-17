@@ -1,6 +1,7 @@
 <?php
 
 include_once "1_models/users.model.php";
+include_once "1_models/security.model.php";
 include_once "2_view/register.view.php";
 
 function register($login, $email, $passwd, $conf_passwd)
@@ -38,6 +39,12 @@ function register($login, $email, $passwd, $conf_passwd)
 		header('Location: ../index.php?error=unsafe_passwd');
 		exit();
 	}*/
+
+	if ((has_space($login)) || has_space($email) || has_space($passwd))
+	{
+		echo "Huyase! SPACE !!!";
+		return FALSE;
+	}
 
 	if (!(create_user($login, $email, $passwd)))
 	{
