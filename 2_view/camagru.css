@@ -171,13 +171,13 @@ body {
 .gallery_container {
     margin: 0 0 10px;
     border: 1px solid #ccc;
-    padding: 0 6px;
+    padding: 6px 6px;
     float: left;
     height: auto;
 }
 
 .desc {
-    font-size: 14px;
+    font-size: 18px;
     padding: 15px;
     text-align: left;
 }
@@ -196,7 +196,7 @@ body {
 @media only screen and (max-width: 700px) {
   .responsive {
     width: 50%;
-    margin: 6px 0;
+    margin: 10px 6px;
   }
 }
 

@@ -24,8 +24,8 @@ function show_my_posts($user_id)
 	$sql = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
 	$stmt = $pdo->prepare($sql);
 	$stmt->execute(['user_id' => $user_id]);
-	if (!($stmt->fetch(PDO::FETCH_ASSOC)))
-		return NULL;
+	// if (!($stmt->fetch(PDO::FETCH_ASSOC)))
+	// 	return NULL;
 
 	$i = 0;
 	$my_posts[$i] = array();

@@ -12,18 +12,21 @@ function gallery($user_id)
 		echo "Huyushki";
 		return FALSE;
 	}
-	var_dump($posts);
+	// var_dump($posts);
+	
 	$i = 0;
-	// while ($posts[])
-	// {
-		echo ('<div class="gallery_container">
+	while ($posts[$i])
+	{
+		echo '<div class="responsive">
+			<div class="gallery_container">
 			<a href="#">
 				<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
 			</a>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>
-		</div>');
-	// }
+		</div></div>';
+		$i++;
+	}
 	return TRUE;
 }
 

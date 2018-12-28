@@ -1,4 +1,7 @@
 <?php
+
+// Nothing to display !!!
+
 	function show_gallery()
 	{
 ?>
