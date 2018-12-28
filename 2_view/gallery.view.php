@@ -7,9 +7,10 @@
 	<h3>All users photos</h3>
 	<div class="gallery_container">
 		<a href="#">
-			<div></div>
+			<div style="background-image: url(Uploads/);"></div>
 		</a>
 		<p class="desc">Description</p>
+		<p class="date">Date</p>
 	</div>
 	
 	<div class="gallery_container">
@@ -19,12 +20,6 @@
 		<p class="desc">Description</p>
 	</div>
 
-	<div class="gallery_container">
-		<a href="#">
-			<div></div>
-		</a>
-		<p class="desc">Description</p>
-	</div>
 
 </section>
 

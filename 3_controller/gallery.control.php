@@ -12,8 +12,16 @@ function gallery($user_id)
 		echo "Huyushki";
 		return FALSE;
 	}
-
-	echo ''
+	while ($posts)
+	{
+		echo '<div class="gallery_container">
+			<a href="#">
+				<div style="background-image: url(Uploads/' . $posts["file_name"] . ');"></div>
+			</a>
+			<p class="desc">' . $posts["description"] . '</p>
+			<p class="date">' . $posts["created_at"] . '</p>
+		</div>'
+	}
 	return TRUE;
 }
 
