@@ -12,6 +12,9 @@
 			<a href=""> Nothing </a>
 		</div>
 	</div>
+	<div class="dropdown">
+		<a class="dropbtn" href="upload.php"> New image </a>
+	</div>
 </nav>
 
 

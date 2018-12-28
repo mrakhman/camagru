@@ -15,6 +15,11 @@
 		echo '<p class="error"> Scripts are forbidden </p>';
 	}
 
+	function space()
+	{
+		echo '<p class="error"> Don\'t use spaces </p>';
+	}
+
 	// function login_format() // remove it
 	// {
 	// 	echo '<p class="error"> Username must only include a-z and 0-9 </p>';
@@ -35,14 +40,16 @@
 ?>
 
 		<h3>Register</h3>
+		<p class="success"> Don't use spaces </p>
 		<form method="post">
 			<h> Email </h><br>
 			<input type="email" class="input" placeholder="Enter email" name="email"/>
 			<br><br>
 			<h> Username </h><br>
 			<input type="text" class="input" placeholder="Enter username" name="username"/>
-			<br><br>
-			<h> Password <br> [minimum complexity = ?] </h><br>
+			<br>
+			<p><font size="-1"> Password must have at least 8 symbols and contain: <br> uppercase and lowercase [AaBb] + number [123] + special character [!@#$%^]</font></p>
+			<h> Password</h><br>
 			<input type="password" class="input" placeholder="Enter password" name="passwd"/>
 			<br>
 			<input type="password" class="input" placeholder="Repeat password" name="conf_passwd"/>

@@ -64,5 +64,9 @@ if (isset($_SESSION['user']))
 	show_email_form();
 }
 
+else if (empty($_SESSION['user']))
+{
+	header('Location: index.php');
+}
 
 ?>

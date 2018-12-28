@@ -42,7 +42,7 @@ function register($login, $email, $passwd, $conf_passwd)
 
 	if ((has_space($login)) || has_space($email) || has_space($passwd))
 	{
-		echo "Huyase! SPACE !!!";
+		space();
 		return FALSE;
 	}
 

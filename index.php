@@ -7,6 +7,7 @@
 		<div class="main" align="center">
 			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?>
+			<?php include_once "3_controller/gallery.control.php"; ?>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>
