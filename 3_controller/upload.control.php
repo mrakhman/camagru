@@ -67,6 +67,7 @@ function upload_photo($description)
 			return FALSE;
 		}
 		upload_success();
+		return TRUE;
 	}
 }
 
