@@ -12,23 +12,25 @@ function gallery($user_id)
 		echo "Huyushki";
 		return FALSE;
 	}
-	while ($posts)
-	{
-		echo '<div class="gallery_container">
+	var_dump($posts);
+	$i = 0;
+	// while ($posts[])
+	// {
+		echo ('<div class="gallery_container">
 			<a href="#">
-				<div style="background-image: url(Uploads/' . $posts["file_name"] . ');"></div>
+				<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
 			</a>
-			<p class="desc">' . $posts["description"] . '</p>
-			<p class="date">' . $posts["created_at"] . '</p>
-		</div>'
-	}
+			<p class="desc">' . $posts[$i]['description'] . '</p>
+			<p class="date">' . $posts[$i]['created_at'] . '</p>
+		</div>');
+	// }
 	return TRUE;
 }
 
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-	//show_gallery();
+	// show_gallery();
 	gallery($_SESSION['id']);
 }
 

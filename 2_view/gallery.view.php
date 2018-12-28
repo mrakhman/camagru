@@ -5,19 +5,22 @@
 
 <section class="home_gallery">
 	<h3>All users photos</h3>
+
 	<div class="gallery_container">
 		<a href="#">
-			<div style="background-image: url(Uploads/);"></div>
+			<img src="Uploads/computer.png" width="300">
+			<div style="background-image: url(Uploads/computer.png);"></div>
 		</a>
-		<p class="desc">Description</p>
-		<p class="date">Date</p>
+		<p class="desc">Description1</p>
+		<p class="date">Date1</p>
 	</div>
 	
 	<div class="gallery_container">
 		<a href="#">
 			<div></div>
 		</a>
-		<p class="desc">Description</p>
+		<p class="desc">Description2</p>
+		<p class="date">Date2</p>
 	</div>
 
 
