@@ -21,16 +21,23 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 	var	canvas = document.getElementById('canvas');
 	var	context = canvas.getContext('2d');
 	var photo = document.getElementById('photo');
-	var	vendorUrl = window.URL || window.webkitURL;
+	// var	vendorUrl = window.URL || window.webkitURL; // Old versions of browsers
 
 	navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 	navigator.getMedia({
 		video: true, audio: false
 	}, function(stream) {
-		video.src = vendorUrl.createObjectURL(stream);
+		// video.src = vendorUrl.createObjectURL(stream); // Old versions of browsers
+		try {
+			video.srcObject = stream;
+		} catch (error) {
+			video.src = vendorUrl.createObjectURL(stream);
+		}
+
 		video.play();
 	}, function(error) {
+		alert("An error occured, pray!");
 		// An error occured
 		// error.code
 	});
