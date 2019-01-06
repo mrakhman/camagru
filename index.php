@@ -7,7 +7,7 @@
 		<div class="main" align="center">
 			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?>
-			<?php echo "Next step - store image from webcam + fix webcam + delete images";//include_once "3_controller/gallery.control.php"; ?>
+			<?php echo "Next step - sidebar with previews and image select + delete images";//include_once "3_controller/gallery.control.php"; ?>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>

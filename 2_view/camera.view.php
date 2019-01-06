@@ -12,3 +12,16 @@ function show_camera()
 
 <?php
 }
+
+function show_continue()
+{
+
+?>
+	<form method="post">
+<!-- 		Not empty!<br>
+		<input type="text" class="input" name="upload_desc" placeholder="Add description..."><br> -->
+		<input type="submit" class="button" name="continue" value="Continue">
+	</form>
+	<!-- <a href="#" id="continue" class="button"> Continue </a> -->
+<?php
+}
