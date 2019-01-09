@@ -54,7 +54,7 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 
 // Take photo from video stream
 	document.getElementById('capture').addEventListener('click', function() {
-		//context.save(); // ???????????
+		context.save();
     	context.scale(-1,1);
 		context.drawImage(video, 0, 0, 400 * -1, 300);
 		context.restore();
@@ -62,13 +62,16 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 // Manipulate the canvas
 		photo.setAttribute('src', canvas.toDataURL('image/png'));
 
+	});
+
+	document.getElementById('continue').addEventListener('click', function() {
 
 // Sending file to server
 		var formData = new FormData();
 		formData.append('file', canvas.toDataURL('image/png'));
 		formData.append('file_type', 'base64');
 
-// TODO!!!!!
+// Uploading a file
 		fetch('/42_mrakhman_mamp/camagru/api/image.php', {
 			method: 'POST',
 			body: formData,
@@ -80,4 +83,4 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 </script>
 
 <?php
-	show_continue();
+	
