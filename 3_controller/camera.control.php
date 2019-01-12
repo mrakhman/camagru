@@ -1,7 +1,6 @@
 <?php
 
 include_once "2_view/camera.view.php";
-include_once "1_models/users.model.php";
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
@@ -15,72 +14,38 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 
 ?>
 
-<script type="text/javascript">
-
-(function() {
-	var video = document.getElementById('video');
-	var	canvas = document.getElementById('canvas');
-	var	context = canvas.getContext('2d');
-	var photo = document.getElementById('photo');
-
-	navigator.getMedia = (
-		navigator.getUserMedia || 
-		navigator.webkitGetUserMedia || 
-		navigator.mozGetUserMedia || 
-		navigator.msGetUserMedia
-		);
-
-// Turn on the video stream
-	navigator.getMedia(
-	{
-		video: true,
-		audio: false
-	},
-	
-	function(stream) {
-		try {
-			video.srcObject = stream;
-		}
-		catch (error) {
-			video.src = vendorUrl.createObjectURL(stream);
-		}
-		video.play();
-	},
-
-	function(error) {
-		alert("An error occured, pray!");
-		// error.code
-	});
-
-// Take photo from video stream
-	document.getElementById('capture').addEventListener('click', function() {
-		context.save();
-    	context.scale(-1,1);
-		context.drawImage(video, 0, 0, 400 * -1, 300);
-		context.restore();
-
-// Manipulate the canvas
-		photo.setAttribute('src', canvas.toDataURL('image/png'));
-
-	});
-
-	document.getElementById('continue').addEventListener('click', function() {
-
-// Sending file to server
-		var formData = new FormData();
-		formData.append('file', canvas.toDataURL('image/png'));
-		formData.append('file_type', 'base64');
-
-// Uploading a file
-		fetch('/42_mrakhman_mamp/camagru/api/image.php', {
-			method: 'POST',
-			body: formData,
-		}).then(response => console.log(response));
-
-	});
-})();
-
-</script>
+<script src="3_controller/camera_api.js"></script>
 
 <?php
-	
+
+// function save_img_api()
+// {
+// 	$user_id = $_SESSION['id'];
+// 	$body = $_POST['file'];
+
+// 	if (empty($body) || empty($user_id))
+// 	{
+// 		echo "oooops";
+// 		return FALSE;
+// 	}
+
+// // Trim off encoding string
+// 	$prefix = strpos($body, ',') + strlen(',');
+// 	$data = substr($body, $prefix);
+
+// // Decode into binary image
+// 	$image = base64_decode($data);
+
+// // Write image to file
+// 	$file_name = uniqid('0' . $_SESSION['id'] . '_', true) . '.png';
+// 	file_put_contents('../Uploads/' . $file_name , $image);
+
+// 	if (!save_image($user_id, $file_name))
+// 	{
+// 		echo '<p class="error"> Could not upload :( </p>';
+// 		return FALSE;
+// 	}
+// 		return TRUE;
+// }
+
+// save_img_api();

@@ -1,7 +1,7 @@
 <?php
 include_once "config/database.php";
 
-function add_image($user_id, $file_name, $description, $login)
+function add_post($user_id, $file_name, $description, $login)
 {
 	global $pdo;
 

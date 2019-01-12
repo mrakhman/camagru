@@ -4,7 +4,7 @@ include_once "2_view/upload.view.php";
 include_once "1_models/images.model.php";
 
 
-function upload_photo($description)
+function upload_post($description)
 {
 	if (isset($_FILES['file']))
 	{
@@ -61,7 +61,7 @@ function upload_photo($description)
 			return FALSE;
 		}
 
-		if (!add_image($user_id, $file_name_new, $description, $login))
+		if (!add_post($user_id, $file_name_new, $description, $login))
 		{
 			upload_error();
 			return FALSE;
@@ -73,7 +73,7 @@ function upload_photo($description)
 
 if ($_POST['upload'] === "Upload")
 {
-	upload_photo($_POST['upload_desc']);
+	upload_post($_POST['upload_desc']);
 }
 
 
