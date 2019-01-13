@@ -1,8 +1,6 @@
 <?PHP
-
 include_once "1_models/users.model.php";
 include_once "2_view/login.view.php";
-
 
 function login_user($login, $passwd)
 {
@@ -40,19 +38,17 @@ function login_user($login, $passwd)
 	}
 }
 
-session_start();
-
 if ($_POST['log_in'] === "OK")
 {
 	$login = $_POST['username'];
 	$passwd = $_POST['passwd'];
-
 	login_user($login, $passwd);
+	header('Location: index.php');
 }
 
 if ((empty($_SESSION['user']) || $_SESSION['user'] == "") && empty($_SESSION['id']))
 {
-	echo '<p class="login_status"> You are logged out </p>';
+	// echo '<p class="login_status"> You are logged out </p>';
 	show_form_login();
 }
 

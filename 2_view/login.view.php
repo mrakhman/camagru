@@ -23,12 +23,15 @@
 	function show_form_login()
 	{
 ?>
-		<form method="post">
-			<input type="text" class="input" placeholder="Enter username" name="username"/>
-			<input type="password" class="input" placeholder="Enter password" name="passwd"/>
-			<input type="submit" class="button" name="log_in" value="OK"/>
-			<br>
-			<a href="passreset.php"> Forgot password? </a>
+		<form class="" method="post">
+			<div class="flex_container_column">
+				<input type="text" class="input" placeholder="Enter username" name="username"/>
+				<input type="password" class="input" placeholder="Enter password" name="passwd"/>
+				<input align="right" type="submit" class="button" name="log_in" value="OK"/>
+			</div>
+			<li class="dropdown">
+				<a class="dropbtn" href="passreset.php"><font size="-1"> Forgot password? </font></a>
+			</li>
 		</form>
 
 <?php

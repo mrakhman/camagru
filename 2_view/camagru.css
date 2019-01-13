@@ -16,7 +16,7 @@ body {
 .header {
     width: 100%;
 	padding: 10px 10px;
-	height: auto; /* Same as auto */
+	height: auto;
 	background-color: #f1f1f1;
 	font-size: 14px;
 }
@@ -62,26 +62,43 @@ footer {
 .sidenav a.active {color: #396; background: #fdfdfd;}
 
 
-/* Columns */
-
-/*.column_10 {
-    column-width: 10%;
+.flex_container_first_last {
+    display: flex;
+    flex-direction: row; /* | row-reverse | column | column-reverse;*/
+    justify-content: space-between; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
 }
 
-.column_20 {
-    column-width: 20%;
+.flex_container_column {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
-.column_30 {
-    column-width: 30%;
+.menu {
+    list-style: none;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: flex-start;
 }
 
-.column_90 {
-    column-width: 90%;
-}*/
-
-
-
+@media all and (max-width: 600px) {
+  .flex_container_first_last {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .flex_container_column {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .menu {
+    justify-content: space-between;
+  }
+}
 
 /* Input fields and button */
 
@@ -95,7 +112,7 @@ footer {
 	margin: 1%;
     min-width: 55px;
     width: auto;
-    height: 5%;
+    height: auto;
     border: 1px;
     border-radius: 2px;
     padding: 8px 8px;
@@ -122,18 +139,7 @@ footer {
 	color: green;
 }
 
-/* Menu features */
-
-.menu {
-	width: 50%;
-	height: 50px; /* Same as auto; */
-	padding: 10px 10px;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	border: 1px solid #ccc;
-	float: center;
-}
+/* Link features */
 
 .dropbtn {
     text-decoration: none;
@@ -153,7 +159,7 @@ footer {
     position: absolute;
     background-color: #f1f1f1;
     text-decoration: none;
-    min-width: 120px;
+    min-width: 100px;
     z-index: 1;
     font-size: 14px;
 }

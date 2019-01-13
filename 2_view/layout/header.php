@@ -1,13 +1,7 @@
 <div class="header">
-	<div class="row">
-		<div class="column_10">
-			<div class="dropdown">
-				<a href="index.php" class="dropbtn"> Home </a>
-			</div>
-		</div>
-		<div class="column_90" align="right">
-			
-			
+	<div class="flex_container_first_last">
+		<?php include "menu.php"; ?>
+		<div class="ex_container_column">
 			<?php include "3_controller/login.control.php"; ?>
 			<?php include "3_controller/logout.control.php"; ?>
 		</div>

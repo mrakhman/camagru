@@ -12,8 +12,7 @@ function gallery($user_id)
 		echo "Huyushki";
 		return FALSE;
 	}
-	// var_dump($posts);
-	
+
 	$i = 0;
 	while ($posts[$i])
 	{
@@ -33,7 +32,6 @@ function gallery($user_id)
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-	// show_gallery();
 	gallery($_SESSION['id']);
 }
 

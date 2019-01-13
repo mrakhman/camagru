@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	<?php include_once "2_view/layout/head.php"; ?>
