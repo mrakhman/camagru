@@ -71,7 +71,7 @@ function upload_post($description)
 	}
 }
 
-if ($_POST['upload'] === "Upload")
+if (array_key_exists('upload', $_POST) && $_POST['upload'] === "Upload")
 {
 	upload_post($_POST['upload_desc']);
 }

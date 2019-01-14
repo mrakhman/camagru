@@ -45,7 +45,7 @@ function create_new_passwd($token, $user_id)
 	return TRUE;
 }
 
-if ($_POST['reset'] === "OK")
+if (array_key_exists('reset', $_POST) && $_POST['reset'] === "OK")
 {
 	create_new_passwd($token, $reset_array['user_id']);
 }

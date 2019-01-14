@@ -14,7 +14,8 @@ function logout()
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
 	show_form_logout();
-	if ($_POST['submit'] === "Yes" || $_POST['logout'] === "Logout")
+	if ((array_key_exists('submit', $_POST) && $_POST['submit'] === "Yes")
+		|| (array_key_exists('logout', $_POST) && $_POST['logout'] === "Logout"))
 		logout();
 }
 

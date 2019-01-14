@@ -17,6 +17,7 @@ function show_camera()
 	            document.getElementById('continue').style.visibility = 'visible';
 	        }
 	</script>
+    <script src="3_controller/camera_api.js"></script>
 
 <?php
 }

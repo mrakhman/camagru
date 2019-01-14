@@ -38,7 +38,7 @@ function login_user($login, $passwd)
 	}
 }
 
-if ($_POST['log_in'] === "OK")
+if (array_key_exists('log_in', $_POST) && $_POST['log_in'] === "OK")
 {
 	$login = $_POST['username'];
 	$passwd = $_POST['passwd'];

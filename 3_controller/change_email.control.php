@@ -50,7 +50,7 @@ function email($login, $new_email, $passwd)
 
 // session_start();
 
-if ($_POST['email_submit'] === "OK")
+if (array_key_exists('email_submit', $_POST) && $_POST['email_submit'] === "OK")
 {
 	$login = $_SESSION['user'];
 	$new_email = $_POST['new_email'];

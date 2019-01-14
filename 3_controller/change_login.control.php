@@ -48,7 +48,7 @@ function login($old_login, $new_login, $passwd)
 	return TRUE;
 }
 
-if ($_POST['login_submit'] === "OK")
+if (array_key_exists('login_submit', $_POST) && $_POST['login_submit'] === "OK")
 {
 	$old_login = $_SESSION['user'];
 	$new_login = $_POST['new_login'];

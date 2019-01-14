@@ -47,7 +47,7 @@ function passwd($login, $old_passwd, $new_passwd, $conf_passwd)
 	return TRUE;
 }
 
-if ($_POST['passwd_submit'] === "OK")
+if (array_key_exists('passwd_submit', $_POST) && $_POST['passwd_submit'] === "OK")
 {
 	$login = $_SESSION['user'];
 	$old_passwd = $_POST['old_passwd'];

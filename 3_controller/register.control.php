@@ -56,7 +56,7 @@ function register($login, $email, $passwd, $conf_passwd)
 	return TRUE;
 }
 
-if ($_POST['register'] === "OK")
+if (array_key_exists('register', $_POST) && $_POST['register'] === "OK")
 {
 	$login = $_POST['username'];
 	$email = $_POST['email'];

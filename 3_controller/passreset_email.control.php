@@ -29,7 +29,7 @@ function passreset_email($email)
 	return TRUE;
 }
 
-if ($_POST['reset'] === "OK")
+if (array_key_exists('reset', $_POST) && $_POST['reset'] === "OK")
 {
 	$email = $_POST['email'];
 

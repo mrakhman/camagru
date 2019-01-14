@@ -3,26 +3,24 @@
 include_once "2_view/gallery.view.php";
 include_once "1_models/images.model.php";
 
-function gallery($user_id)
+function previews($user_id)
 {
-	$posts = show_my_posts($user_id);
+	$photos = show_previews($user_id);
 
-	if (!($posts))
+	if (!$photos)
 	{
 		echo "Huyushki";
 		return FALSE;
 	}
 
 	$i = 0;
-	while (array_key_exists($i, $posts) && $posts[$i])
+	while (array_key_exists($i, $photos) && $photos[$i])
 	{
 		echo '<div class="responsive">
 			<div class="gallery_container">
 			<a href="#">
-				<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
+				<img src="Uploads/' . $photos[$i]['image_name'] . '" width="200">
 			</a>
-			<p class="desc">' . $posts[$i]['description'] . '</p>
-			<p class="date">' . $posts[$i]['created_at'] . '</p>
 		</div></div>';
 		$i++;
 	}
@@ -32,7 +30,7 @@ function gallery($user_id)
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-	gallery($_SESSION['id']);
+//	previews($_SESSION['id']);
 }
 
 else if (empty($_SESSION['user']) || empty($_SESSION['id']))

@@ -37,6 +37,27 @@ function show_my_posts($user_id)
 	return ($my_posts);
 }
 
+function show_previews($user_id)
+{
+	global $pdo;
+
+	if (empty($user_id))
+		return array();
+
+	$sql = 'SELECT * FROM images WHERE user_id = :user_id';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['user_id' => $user_id]);
+
+	$i = 0;
+	$previews[$i] = array();
+	while ($preview = $stmt->fetch(PDO::FETCH_ASSOC))
+	{
+		$previews[$i] = $preview;
+		$i++;
+	}
+	return ($previews);
+}
+
 // function show_other($user_id)
 // {
 

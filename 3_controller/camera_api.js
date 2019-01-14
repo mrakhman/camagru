@@ -1,10 +1,10 @@
 (function() {
-	var video = document.getElementById('video');
-	var	canvas = document.getElementById('canvas');
-	var	context = canvas.getContext('2d');
-	var photo = document.getElementById('photo');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const photo = document.getElementById('photo');
 
-	navigator.getMedia = (
+    navigator.getMedia = (
 		navigator.getUserMedia || 
 		navigator.webkitGetUserMedia || 
 		navigator.mozGetUserMedia || 
@@ -12,23 +12,18 @@
 		);
 
 // Turn on the video stream
-	navigator.getMedia(
-	{
+	navigator.getMedia({
 		video: true,
 		audio: false
-	},
-	
-	function(stream) {
-		try {
+	},	function(stream) {
+		// try {
 			video.srcObject = stream;
-		}
-		catch (error) {
-			video.src = vendorUrl.createObjectURL(stream);
-		}
+		// }
+		// catch (error) {
+		// 	// video.src = vendorUrl.createObjectURL(stream);
+		// }
 		video.play();
-	},
-
-	function(error) {
+	},	function(error) {
 		alert("An error occured, pray!");
 		// error.code
 	});
@@ -41,22 +36,53 @@
 		context.restore();
 
 // Manipulate the canvas
-		photo.setAttribute('src', canvas.toDataURL('image/png'));
+		photo.src = canvas.toDataURL('image/png');
+		add_preview();
 
 	});
 
-	document.getElementById('continue').addEventListener('click', function() {
+    const send_file = function() {
 
 // Sending file to server
-		var formData = new FormData();
-		formData.append('file', canvas.toDataURL('image/png'));
-		formData.append('file_type', 'base64');
+        const formData = new FormData();
+        formData.append('file', photo.src);
+        formData.append('file_type', 'base64');
 
 // Uploading a file
-		fetch('/42_mrakhman_mamp/camagru/3_controller/save_image_api.control.php', {
-			method: 'POST',
-			body: formData,
-		}).then(response => console.log(response));
+        fetch('/api.php?action=post_img', {
+            method: 'POST',
+            body: formData,
+        }).then(response => {
+            response.text().then((text) => console.log(text));
+            console.log(response)
+        });
 
-	});
+    };
+
+    const select_from_preview = function () {
+        photo.src = this.src;
+    };
+
+    const add_preview = function() {
+        const main_div = document.createElement('div');
+        main_div.className = 'responsive';
+
+        const gallery_container = document.createElement('div');
+        gallery_container.className = 'gallery_container';
+
+        const a = document.createElement('a');
+        a.href = '#';
+
+        const img = document.createElement('img');
+        img.width = 200;
+        img.src = canvas.toDataURL('image/png');
+        img.onclick = select_from_preview;
+
+        a.appendChild(img);
+        gallery_container.appendChild(a);
+        main_div.appendChild(gallery_container);
+        document.getElementById('preview').appendChild(main_div);
+};
+
+	document.getElementById('continue').addEventListener('click', send_file);
 })();

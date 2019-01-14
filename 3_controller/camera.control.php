@@ -12,11 +12,6 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 	header('Location: index.php');
 }
 
-?>
-
-<script src="3_controller/camera_api.js"></script>
-
-<?php
 
 // function save_img_api()
 // {
