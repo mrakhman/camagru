@@ -70,7 +70,7 @@ footer {
 
 .flex_container_column {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-end;
 }
 
@@ -238,10 +238,25 @@ video {
     filter: FlipH;
 }
 
+
+.flex_container_preview_row {
+    display: flex;
+    flex-direction: row; /* | row-reverse | column | column-reverse;*/
+    justify-content: center; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
+}
+
+.flex_container_preview_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 .preview_container {
+    /*position: relative;*/
+    /*left: 300px;*/
     margin: 0 0 10px;
     border: 1px solid #ccc;
-    /*padding: 6px 6px;*/
-    float: right;
+    padding: 6px 6px;
+    float: left;
     height: auto;
 }

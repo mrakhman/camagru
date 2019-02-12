@@ -21,9 +21,3 @@ function show_camera()
 
 <?php
 }
-
-function upload_error()
-{
-	echo '<p class="error"> Could not upload :( </p>';
-}
-

@@ -68,7 +68,7 @@
         main_div.className = 'responsive';
 
         const gallery_container = document.createElement('div');
-        gallery_container.className = 'gallery_container';
+        gallery_container.className = 'preview_container';
 
         const a = document.createElement('a');
         a.href = '#';
@@ -83,6 +83,9 @@
         main_div.appendChild(gallery_container);
         document.getElementById('preview').appendChild(main_div);
 };
+
+    // Add function to have no more than 4 previews at a time and change first with last
+
 
 	document.getElementById('continue').addEventListener('click', send_file);
 })();

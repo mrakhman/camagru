@@ -10,10 +10,13 @@
 			<a href="camera.php" class="active">Use camera</a>
 		</div>
 		<div class="main" align="center">
-			<?php include_once "3_controller/camera.control.php"; ?>
+            <div class="flex_container_preview_row">
+                <div class="flex_container_preview_column">
+			        <?php include_once "3_controller/camera.control.php"; ?>
+                </div>
             <div id="preview">
 			    <?php include_once "3_controller/preview_photo.control.php"; ?>
-            </div>
+            </div></div>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>
