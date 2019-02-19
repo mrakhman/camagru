@@ -15,7 +15,7 @@
 			        <?php include_once "3_controller/camera.control.php"; ?>
                 </div>
             <div id="preview">
-			    <?php include_once "3_controller/preview_photo.control.php"; ?>
+			    <?php //include_once "3_controller/preview_photo.control.php"; ?>
             </div></div>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>

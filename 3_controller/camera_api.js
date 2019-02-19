@@ -1,8 +1,8 @@
 (function() {
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    const photo = document.getElementById('photo');
+    var video = document.getElementById('video');
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var photo = document.getElementById('photo');
 
     navigator.getMedia = (
 		navigator.getUserMedia || 
@@ -37,14 +37,13 @@
 
 // Manipulate the canvas
 		photo.src = canvas.toDataURL('image/png');
-		add_preview();
-
+        add_preview();
 	});
 
-    const send_file = function() {
+    function send_file() {
 
 // Sending file to server
-        const formData = new FormData();
+        var formData = new FormData();
         formData.append('file', photo.src);
         formData.append('file_type', 'base64');
 
@@ -57,23 +56,28 @@
             console.log(response)
         });
 
-    };
+    }
 
-    const select_from_preview = function () {
+    function select_from_preview() {
         photo.src = this.src;
-    };
+    }
 
-    const add_preview = function() {
-        const main_div = document.createElement('div');
+    function count_pre() {
+        var count = document.getElementById('preview').childElementCount;
+        return(count);
+    }
+
+    function add_preview() {
+        var main_div = document.createElement('div');
         main_div.className = 'responsive';
 
-        const gallery_container = document.createElement('div');
+        var gallery_container = document.createElement('div');
         gallery_container.className = 'preview_container';
 
-        const a = document.createElement('a');
+        var a = document.createElement('a');
         a.href = '#';
 
-        const img = document.createElement('img');
+        var img = document.createElement('img');
         img.width = 200;
         img.src = canvas.toDataURL('image/png');
         img.onclick = select_from_preview;
@@ -82,7 +86,12 @@
         gallery_container.appendChild(a);
         main_div.appendChild(gallery_container);
         document.getElementById('preview').appendChild(main_div);
-};
+
+        var count = count_pre();
+        if (count > 4) {
+            document.getElementById('preview').children[0].remove();
+        }
+}
 
     // Add function to have no more than 4 previews at a time and change first with last
 
