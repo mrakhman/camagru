@@ -1,12 +1,26 @@
 <?php
-
 include_once "2_view/camera.view.php";
-include_once "1_models/images.model.php";
 
+function show_stickers()
+{
+    echo '<div class="flex_sticker">';
+    $directory = "img/stickers/";
+    $stickers = glob($directory . "*.png");
+    $id_text = 'sticker_';
+    $id_n = 1;
+    foreach ($stickers as $sticker) {
+        echo '<div class="sticker" id="' . $id_text.$id_n . '">
+                <img src="' . $sticker. '" height="100"/>
+              </div>';
+        $id_n++;
+    }
+    echo '</div>';
+    return TRUE;
+}
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-	show_camera();
+    show_stickers();
 }
 
 else if (empty($_SESSION['user']) || empty($_SESSION['id']))

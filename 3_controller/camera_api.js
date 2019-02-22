@@ -23,7 +23,7 @@
 		// 	// video.src = vendorUrl.createObjectURL(stream);
 		// }
 		video.play();
-	},	function(error) {
+	},	function error() {
 		alert("An error occured, pray!");
 		// error.code
 	});
@@ -48,7 +48,8 @@
         formData.append('file_type', 'base64');
 
 // Uploading a file
-        fetch('/api.php?action=post_img', {
+        // This part is supported by api.php and save_image_api.control.php
+        fetch('/api.php?action=save_img', {
             method: 'POST',
             body: formData,
         }).then(response => {
@@ -82,19 +83,21 @@
         img.src = canvas.toDataURL('image/png');
         img.onclick = select_from_preview;
 
-        a.appendChild(img);
-        gallery_container.appendChild(a);
-        main_div.appendChild(gallery_container);
         document.getElementById('preview').appendChild(main_div);
+        main_div.appendChild(gallery_container);
+        gallery_container.appendChild(a);
+        a.appendChild(img);
 
         var count = count_pre();
         if (count > 4) {
             document.getElementById('preview').children[0].remove();
         }
-}
+    }
 
-    // Add function to have no more than 4 previews at a time and change first with last
-
+    function add_sticker() {
+        document.getElementById('sticker_1');
+        // Here you are
+    }
 
 	document.getElementById('continue').addEventListener('click', send_file);
 })();

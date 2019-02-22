@@ -5,8 +5,8 @@ include_once "3_controller/save_image_api.control.php";
 
 session_start();
 
-if ($_GET['action']=='post_img') {
+if ($_GET['action']=='save_img') {
     save_img_api();
 }
 else
-    echo "hui";
+    echo "fail";

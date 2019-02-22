@@ -1,6 +1,6 @@
 <?php
 
-include_once "2_view/gallery.view.php";
+include_once "2_view/gallery.view.php"; // The file is empty
 include_once "1_models/images.model.php";
 
 function gallery($user_id)

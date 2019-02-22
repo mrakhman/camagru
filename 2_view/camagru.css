@@ -260,3 +260,17 @@ video {
     float: left;
     height: auto;
 }
+
+.flex_sticker {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sticker {
+    /*width: 50px;*/
+    /*height: 50px;*/
+    margin: 10px 0 10px;
+    border: 1px solid #ccc;
+    padding: 6px 6px;
+}

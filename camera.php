@@ -14,9 +14,16 @@
                 <div class="flex_container_preview_column">
 			        <?php include_once "3_controller/camera.control.php"; ?>
                 </div>
-            <div id="preview">
-			    <?php //include_once "3_controller/preview_photo.control.php"; ?>
-            </div></div>
+                <div id="preview">
+                    <!-- camera_api.js code works here -->
+                </div>
+            </div>
+            </br>
+            <div class="flex_sticker">
+                <?php include_once "3_controller/stickers.control.php"; ?>
+                <!-- camera_api.js code works here -->
+                <?php //echo <img src="http://localhost:8080/img/stickers/pi.png"></img>?>
+            </div>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>

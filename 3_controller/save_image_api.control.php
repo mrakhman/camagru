@@ -2,7 +2,7 @@
 
 include_once "1_models/camera.model.php";
 
-//session_start();
+// This function is executed in ../api.php
 function save_img_api()
 {
     $user_id = $_SESSION['id'];
@@ -34,4 +34,4 @@ function save_img_api()
     return TRUE;
 }
 
-//save_img_api();
+//save_img_api(); // Cant be executed here because of include relative path
