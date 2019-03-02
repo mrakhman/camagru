@@ -24,12 +24,14 @@
 		// }
 		video.play();
 	},	function error() {
-		alert("An error occured, pray!");
+		alert("Couldn't connect to your camera, check device settings!");
 		// error.code
 	});
 
 // Take photo from video stream
 	document.getElementById('capture').addEventListener('click', function() {
+        document.getElementById('continue').style.visibility = 'visible';
+
 		context.save();
     	context.scale(-1,1);
 		context.drawImage(video, 0, 0, 400 * -1, 300);
@@ -94,10 +96,43 @@
         }
     }
 
-    function add_sticker() {
-        document.getElementById('sticker_1');
-        // Here you are
+    var sticker_overlay = document.getElementById('sticker_overlay');
+    var sticker_parent = document.getElementById('flex_sticker');
+    var current_sticker = null;
+
+    function select_sticker() {
+        sticker_overlay.src = this.children[0].src;
+        current_sticker = this.id;
     }
+
+    function unselect_sticker() {
+        sticker_overlay.src = "";
+        current_sticker = null;
+    }
+
+    sticker_parent.children[0].onclick = unselect_sticker;
+    for (let sticker_index = 1; sticker_index < sticker_parent.children.length; sticker_index++) {
+        sticker_parent.children[sticker_index].onclick = select_sticker;
+    }
+
+
+
+    function add_sticker() {
+
+
+
+        // Here you are
+
+        fetch('/sticker_overlay.control.php?action=save_img', {
+            method: 'POST',
+            body: formData,
+        }).then(response => {
+            response.text().then((text) => console.log(text));
+            console.log(response)
+        });
+    }
+    document.getElementById('continue').style.visibility = 'hidden';
+
 
 	document.getElementById('continue').addEventListener('click', send_file);
 })();

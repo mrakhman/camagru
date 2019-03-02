@@ -3,24 +3,43 @@ include_once "2_view/camera.view.php";
 
 function show_stickers()
 {
-    echo '<div class="flex_sticker">';
     $directory = "img/stickers/";
     $stickers = glob($directory . "*.png");
-    $id_text = 'sticker_';
-    $id_n = 1;
     foreach ($stickers as $sticker) {
-        echo '<div class="sticker" id="' . $id_text.$id_n . '">
-                <img src="' . $sticker. '" height="100"/>
-              </div>';
-        $id_n++;
+        echo '<div class="sticker" id="' . basename($sticker, ".png") . '">
+                <img src="' . $sticker. '" height="100" />
+              </div>' . "\n";
     }
-    echo '</div>';
     return TRUE;
 }
+
+
+
+
+
+function add_sticker() // ($sticker_id, $user_id)
+{
+    $png1 = imagecreatefrompng('/img/stickers/corgi.png');
+    imagealphablending($png1, true);
+    imagesavealpha($png1, true);
+
+    $png2 = imagecreatefrompng('/Uploads/4_5c23e70a47d794.11054613.png');
+    imagealphablending($png2, true);
+    imagesavealpha($png2, true);
+
+    imagecopy($png1, $png2, 43, 95, 0, 0, imagesx($png2), imagesy($png2));
+    $result = imagepng($png1);
+
+    header('Content-Type: image/png');
+    echo $result;
+
+}
+
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
     show_stickers();
+    //add_sticker();
 }
 
 else if (empty($_SESSION['user']) || empty($_SESSION['id']))

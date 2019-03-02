@@ -18,13 +18,17 @@
                     <!-- camera_api.js code works here -->
                 </div>
             </div>
-            </br>
-            <div class="flex_sticker">
+            <br>
+            <div id="flex_sticker">
+                <div class="sticker" id="none_sticker">
+                    <img src="img/stickers/none.svg" height="90"/>
+                </div>
                 <?php include_once "3_controller/stickers.control.php"; ?>
                 <!-- camera_api.js code works here -->
                 <?php //echo <img src="http://localhost:8080/img/stickers/pi.png"></img>?>
             </div>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
+        <script src="3_controller/camera_api.js"></script>
 	</body>
 </html>

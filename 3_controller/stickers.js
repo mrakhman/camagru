@@ -1,14 +1,15 @@
+    // var main_div = document.createElement('div');
+    // main_div.className = 'responsive';
+    //
+    // var main_div = document.createElement('div');
+    // main_div.className = 'sticker';
+    //
+    // var a = document.createElement('a');
+    // a.href = '#';
+    //
+    // var img = document.createElement('img');
 
-        // var main_div = document.createElement('div');
-        // main_div.className = 'responsive';
-        //
-        // var main_div = document.createElement('div');
-        // main_div.className = 'sticker';
-        //
-        // var a = document.createElement('a');
-        // a.href = '#';
-        //
-        // var img = document.createElement('img');
+
         var dir = "img/stickers";
         $.ajax({
             // This will retrieve the contents of the folder if the folder is configured as 'browsable'
@@ -22,3 +23,5 @@
                 });
             }
         });
+
+
