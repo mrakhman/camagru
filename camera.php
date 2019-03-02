@@ -20,7 +20,7 @@
             </div>
             <br>
             <div id="flex_sticker">
-                <div class="sticker" id="none_sticker">
+                <div class="sticker selected" id="none_sticker">
                     <img src="img/stickers/none.svg" height="90"/>
                 </div>
                 <?php include_once "3_controller/stickers.control.php"; ?>
@@ -29,6 +29,13 @@
             </div>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
+<!--        <form id="sticker_form" style="visibility: hidden;">-->
+        <form id="sticker_form">
+            <input type="text" name="sticker_id" id="sticker_id">
+            <input type="text" name="coord_x"  id="sticker_coord_x" value="0">
+            <input type="text" name="coord_y" id="sticker_coord_y" value="0">
+            <input type="text" name="photo" id="selected_photo">
+        </form>
         <script src="3_controller/camera_api.js"></script>
 	</body>
 </html>
