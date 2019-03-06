@@ -5,10 +5,10 @@ function fatal_error()
 	echo '<p class="error"> Choose file </p>';
 }
 
-function add_description()
-{
-	echo '<p class="error"> Choose file again and add description </p>';
-}
+//function add_description()
+//{
+//	echo '<p class="error"> Choose file again and add description </p>';
+//}
 
 function file_type()
 {
@@ -44,11 +44,12 @@ function show_upload()
 {
 ?>
 
+<!--    <a href="#" id="upload_photo" class="button"> Upload my photo </a>-->
+
 	<form method="post" enctype="multipart/form-data">
-		<input type="file" name="file"><br><br>
-		Not empty!<br>
-		<input type="text" class="input" name="upload_desc" placeholder="Add description..."><br> 
-		<input type="submit" class="button" name="upload" value="Upload">
+        <input type="submit" class="button" name="upload" value="Upload">
+        <br>
+		<input type="file" name="file">
 	</form>
 
 <?php

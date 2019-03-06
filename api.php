@@ -7,8 +7,8 @@ include_once "3_controller/stickers.control.php";
 session_start();
 
 if ($_GET['action']=='save_img') {
-    //save_img_api();
-    add_sticker();
+    save_img_api();
+//    add_sticker();
 }
 else
     echo "fail";

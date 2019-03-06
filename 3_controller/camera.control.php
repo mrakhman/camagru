@@ -35,3 +35,4 @@ else if (empty($_SESSION['user']) || empty($_SESSION['id']))
 13. trim json
 14. INSERT image path to database
 15. load your view with your model
+*/

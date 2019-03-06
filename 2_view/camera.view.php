@@ -13,6 +13,6 @@ function show_camera()
             <img id="sticker_overlay" src="">
         </div>
 	</div>
-	<a href="../create_post.php" id="continue" class="button" style="visibility: hidden;"> Continue </a>
+	<a href="#" id="continue" class="button" style="visibility: hidden;"> Continue </a>
 <?php
 }

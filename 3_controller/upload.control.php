@@ -4,12 +4,12 @@ include_once "2_view/upload.view.php";
 include_once "1_models/images.model.php";
 
 
-function upload_post($description)
+function upload_photo()
 {
 	if (isset($_FILES['file']))
 	{
 		$user_id = $_SESSION['id'];
-		$login = $_SESSION['user'];
+//		$login = $_SESSION['user'];
 
 		// File properties
 		$file = $_FILES['file'];
@@ -29,11 +29,11 @@ function upload_post($description)
 			return FALSE;
 		}
 
-		if (empty($description))
-		{
-			add_description();
-			return FALSE;
-		}
+//		if (empty($description))
+//		{
+//			add_description();
+//			return FALSE;
+//		}
 
 		if (!in_array($file_ext, $allowed))
 		{
@@ -53,15 +53,15 @@ function upload_post($description)
 			return FALSE;
 		}
 
-		$file_name_new = uniqid($_SESSION['id'] . '_', true) . '.' . $file_ext;
-		$file_destination = 'Uploads/' . $file_name_new;
+		$file_name_new = uniqid($_SESSION['id'] . '_U', true) . '.' . $file_ext;
+		$file_destination = 'Uploads/upl' . $file_name_new;
 		if (!move_uploaded_file($file_tmp, $file_destination))
 		{
 			move_error();
 			return FALSE;
 		}
 
-		if (!add_post($user_id, $file_name_new, $description, $login))
+		if (!add_photo($user_id, $file_name_new))
 		{
 			upload_error();
 			return FALSE;
@@ -73,7 +73,8 @@ function upload_post($description)
 
 if (array_key_exists('upload', $_POST) && $_POST['upload'] === "Upload")
 {
-	upload_post($_POST['upload_desc']);
+//	upload_post($_POST['upload_desc']);
+	upload_photo();
 }
 
 

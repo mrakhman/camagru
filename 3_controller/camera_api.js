@@ -1,4 +1,7 @@
-// (function() {
+(function() {
+    // Turning the whole file into a function prevents it from being edited by user
+    // This function is not accessible from html page. Comment function initialization for debugging
+
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
@@ -12,7 +15,7 @@
 		navigator.msGetUserMedia
 		);
 
-// Turn on the video stream
+    // Turn on the video stream
 	navigator.getMedia({
 		video: true,
 		audio: false
@@ -25,34 +28,36 @@
 		// }
 		video.play();
 	},	function error() {
-		alert("Couldn't connect to your camera, check device settings!");
+		alert("Couldn't connect to your camera, check device settings. \n If you can't use your camera, upload photo below");
 		// error.code
 	});
 
-// Take photo from video stream
+	// Take photo from video stream
 	document.getElementById('capture').addEventListener('click', function() {
-
+	    // Next line makes 'Continue' visible
 	    document.getElementById('continue').style.visibility = 'visible';
-
 		context.save();
     	context.scale(-1,1);
 		context.drawImage(video, 0, 0, 400 * -1, 300);
 		context.restore();
 
-// Manipulate the canvas
+        // Manipulate the canvas
 		photo.src = canvas.toDataURL('image/png');
 		photo_field.value = photo.src;
         add_preview();
 	});
 
-    function send_file() {
+	function show_upload() {
+	    document.getElementById()
+    }
 
-// Sending file to server
+    function send_file() {
+        // Sending file to server
         var formData = new FormData();
         formData.append('file', photo.src);
         formData.append('file_type', 'base64');
 
-// Uploading a file
+        // Uploading a file
         // This part is supported by api.php and save_image_api.control.php
         fetch('/api.php?action=save_img', {
             method: 'POST',
@@ -61,7 +66,11 @@
             response.text().then((text) => console.log(text));
             console.log(response)
         });
+    }
 
+    function display_from_upload() {
+    // I need to stop upload.control.php from uploading same img twice when page is refreshed
+        // I need to make upload draw on canvas to merge uploaded photo with sticker
     }
 
     function select_from_preview() {
@@ -130,6 +139,7 @@
     }
 
     sticker_parent.children[0].onclick = unselect_sticker;
+
     for (let sticker_index = 1; sticker_index < sticker_parent.children.length; sticker_index++) {
         sticker_parent.children[sticker_index].onclick = select_sticker;
     }
@@ -138,13 +148,16 @@
         // console.log(e.clientX - e.target.x);
         // console.log(e.clientY - e.target.y);
 
-        if (!form_fields['id'].value) {
-            console.log("Sticker not selected");
+        if (!photo_field.value) {
+            alert("Take a photo");
+            console.log("Image not selected");
             return;
         }
 
-        if (!photo_field.value) {
-            console.log("Image not selected");
+        if (!form_fields['id'].value) {
+            alert("Select sticker to apply");
+            console.log("Sticker not selected");
+            photo.src = photo_field.value;
             return;
         }
 
@@ -163,8 +176,8 @@
             img,
             e.clientX - e.target.x - WIDTH / 2, // x
             e.clientY - e.target.y - HEIGHT / 2, // y
-            WIDTH, //width
-            HEIGHT, //height
+            WIDTH, // width
+            HEIGHT, // height
         );
         context.restore();
 
@@ -176,12 +189,13 @@
 
     photo.addEventListener('click', put_sticker);
 
-    function get_form_values() {
-        console.log(form_fields['id'].value);
-        console.log(form_fields['x'].value);
-        console.log(form_fields['y'].value);
-        console.log(photo_field.value);
-    }
+    //  // Function for debugging
+    // function get_form_values() {
+    //     console.log(form_fields['id'].value);
+    //     console.log(form_fields['x'].value);
+    //     console.log(form_fields['y'].value);
+    //     console.log(photo_field.value);
+    // }
 
     // function add_sticker() {
     //
@@ -199,4 +213,4 @@
     // }
 
 	document.getElementById('continue').addEventListener('click', send_file);
-// })();
+})();

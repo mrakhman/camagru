@@ -1,16 +1,16 @@
 <?php
 include_once "config/database.php";
 
-function add_post($user_id, $file_name, $description, $login)
+function add_photo($user_id, $image_name)
 {
 	global $pdo;
 
-	if (empty($user_id) || empty($login) || empty($file_name) || empty($description))
+	if (empty($user_id) || empty($image_name))
 		return FALSE;
 
-	$sql = 'INSERT INTO posts(user_id, file_name, description, author) VALUES(:user_id, :file_name, :description, :login)';
+	$sql = 'INSERT INTO images(user_id, image_name) VALUES(:user_id, :image_name)';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['user_id' => $user_id, 'file_name' => $file_name, 'description' => $description, 'login' => $login]);
+	$stmt->execute(['user_id' => $user_id, 'image_name' => $image_name]);
 	return TRUE;
 }
 
