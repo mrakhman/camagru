@@ -18,13 +18,14 @@
                     <!-- camera_api.js code works here -->
                 </div>
             </div>
-
             <br>
 
-<!--            Hereeeeee!!!!!  -->
-            <?php include_once "3_controller/upload.control.php"; ?>
-            <br>
+            <div class="choose_file_div">
+                Choose my photo
+                <input type="file" id="choose_file"/>
+            </div>
 
+            <br>
             <div id="flex_sticker">
                 <div class="sticker selected" id="none_sticker">
                     <img src="img/stickers/none.svg" height="90"/>
@@ -33,6 +34,14 @@
                 <!-- camera_api.js code works here -->
                 <?php //echo <img src="http://localhost:8080/img/stickers/pi.png"></img>?>
             </div>
+
+            <div>
+                <textarea id="txtArea" placeholder="Add comment to your post" rows="5" cols="40" maxlength="200"></textarea>
+                <div id="textarea_count"></div>
+            </div>
+
+            <a href="#" id="continue" class="button"> Continue </a>
+
 		</div>
 
         <form id="sticker_form">

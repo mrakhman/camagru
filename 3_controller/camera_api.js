@@ -7,6 +7,7 @@
     var context = canvas.getContext('2d');
     var photo = document.getElementById('photo');
     var photo_field = document.getElementById('selected_photo');
+    // var choose_file = document.getElementById('choose_file');
 
     navigator.getMedia = (
 		navigator.getUserMedia || 
@@ -27,15 +28,17 @@
 		// 	// video.src = vendorUrl.createObjectURL(stream);
 		// }
 		video.play();
-	},	function error() {
+	},	function camera_error() {
+	    video.remove();
+        document.getElementById('capture').style.visibility = 'hidden';
 		alert("Couldn't connect to your camera, check device settings. \n If you can't use your camera, upload photo below");
 		// error.code
 	});
 
 	// Take photo from video stream
 	document.getElementById('capture').addEventListener('click', function() {
-	    // Next line makes 'Continue' visible
-	    document.getElementById('continue').style.visibility = 'visible';
+	    /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
+	    // document.getElementById('continue').style.visibility = 'visible';
 		context.save();
     	context.scale(-1,1);
 		context.drawImage(video, 0, 0, 400 * -1, 300);
@@ -47,11 +50,12 @@
         add_preview();
 	});
 
-	function show_upload() {
-	    document.getElementById()
-    }
 
     function send_file() {
+        /* Do not let save img with 'disabled' attribute.
+        ** Implemented here 'document.getElementById('continue').addEventListener('click', send_file)'
+        */
+
         // Sending file to server
         var formData = new FormData();
         formData.append('file', photo.src);
@@ -68,10 +72,22 @@
         });
     }
 
-    function display_from_upload() {
-    // I need to stop upload.control.php from uploading same img twice when page is refreshed
-        // I need to make upload draw on canvas to merge uploaded photo with sticker
+
+
+    document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
+
+    function drawUploadedPhoto(e) {
+        photo.src = URL.createObjectURL(e.target.files[0]);
+        photo.onload = function() {
+            context.drawImage(photo, 0, 0, 400, 0);
+        };
+        photo_field.value = photo.src;
+
+        /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
+        // document.getElementById('continue').style.visibility = 'visible';
     }
+
+
 
     function select_from_preview() {
         photo.src = this.src;
@@ -138,6 +154,8 @@
         this.className += " selected";
     }
 
+    // for CSS selected sticker
+
     sticker_parent.children[0].onclick = unselect_sticker;
 
     for (let sticker_index = 1; sticker_index < sticker_parent.children.length; sticker_index++) {
@@ -149,13 +167,16 @@
         // console.log(e.clientY - e.target.y);
 
         if (!photo_field.value) {
-            alert("Take a photo");
+            alert("Take a photo or upload from your files");
             console.log("Image not selected");
             return;
         }
 
         if (!form_fields['id'].value) {
-            alert("Select sticker to apply");
+            // alert("Select sticker to apply");
+            document.getElementById('continue').style.backgroundColor = '#939393';
+            // document.getElementById('continue').setAttribute('disabled', 'disabled');
+            document.getElementById('continue').disabled = false;
             console.log("Sticker not selected");
             photo.src = photo_field.value;
             return;
@@ -182,6 +203,9 @@
         context.restore();
 
         photo.src = canvas.toDataURL('image/png');
+        document.getElementById('continue').style.backgroundColor = '#396';
+        // document.getElementById('continue').removeAttribute('disabled');
+        document.getElementById('continue').disabled = true;
 
         form_fields['x'].value = e.clientX - e.target.x - WIDTH / 2;
         form_fields['y'].value = e.clientY - e.target.y - HEIGHT / 2;
@@ -212,5 +236,17 @@
     //     });
     // }
 
-	document.getElementById('continue').addEventListener('click', send_file);
+
+    /* Text area symbol counter */
+    function count_symbols() {
+        var txt_len = document.getElementById('txtArea').value.length;
+        document.getElementById('textarea_count').innerHTML = 200 - txt_len ;
+    }
+    document.getElementById('txtArea').addEventListener('keyup', count_symbols);
+
+
+    if (document.getElementById('continue').disabled === false) {
+        document.getElementById('continue').addEventListener('click', send_file);
+    }
+
 })();

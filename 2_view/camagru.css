@@ -154,6 +154,37 @@ footer {
     border: 1px;
     border-radius: 2px;
     padding: 8px 8px;
+    cursor: pointer;
+}
+
+#continue {
+    width: 150px;
+    background-color: #939393;
+    margin: 10px;
+}
+
+.choose_file_div {
+    padding: 8px 8px;
+    background: #396;
+    position:relative;
+    color: #fff;
+    border-radius: 2px;
+    text-align: center;
+    cursor: pointer;
+    width: 150px;
+    font-size: 13px;
+}
+
+#choose_file {
+    position: absolute;
+    z-index: 1000;
+    opacity: 0;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+    height: 100%;
+    font-size: 13px;
+    width: 100%;
 }
 
 .input {
@@ -308,4 +339,9 @@ video {
 
 #sticker_form {
     visibility: hidden;
+}
+
+textarea {
+    font-size: 16px;
+    outline: none;
 }
