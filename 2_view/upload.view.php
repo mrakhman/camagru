@@ -44,14 +44,12 @@ function show_upload()
 {
 ?>
 
-<!--    <a href="#" id="upload_photo" class="button"> Upload my photo </a>-->
-
-<!--	<form method="post" enctype="multipart/form-data">-->
+<!--    <form method="post" enctype="multipart/form-data">-->
+<!--        <input type="file" name="file"><br><br>-->
+<!--        Not empty!<br>-->
+<!--        <input type="text" class="input" name="upload_desc" placeholder="Add description..."><br>-->
 <!--        <input type="submit" class="button" name="upload" value="Upload">-->
-<!--        <br>-->
-<!--		<input type="file" name="file">-->
-<!--        <input type="file" id="input">-->
-<!--	</form>-->
+<!--    </form>-->
 
 <!--    <input type="file" id="choose_file"/> It moved to camera.php -->
 

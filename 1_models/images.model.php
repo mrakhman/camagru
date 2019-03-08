@@ -1,18 +1,31 @@
 <?php
 include_once "config/database.php";
 
-function add_photo($user_id, $image_name)
+//function add_photo($user_id, $image_name)
+//{
+//	global $pdo;
+//
+//	if (empty($user_id) || empty($image_name))
+//		return FALSE;
+//
+//	$sql = 'INSERT INTO images(user_id, image_name) VALUES(:user_id, :image_name)';
+//	$stmt = $pdo->prepare($sql);
+//	$stmt->execute(['user_id' => $user_id, 'image_name' => $image_name]);
+//	return TRUE;
+//}
+
+
+function add_post($user_id, $file_name, $description)
 {
-	global $pdo;
-
-	if (empty($user_id) || empty($image_name))
-		return FALSE;
-
-	$sql = 'INSERT INTO images(user_id, image_name) VALUES(:user_id, :image_name)';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['user_id' => $user_id, 'image_name' => $image_name]);
-	return TRUE;
+    global $pdo;
+    if (empty($user_id) || empty($file_name) || empty($description))
+        return FALSE;
+    $sql = 'INSERT INTO posts(user_id, file_name, description) VALUES(:user_id, :file_name, :description)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id, 'file_name' => $file_name, 'description' => $description]);
+    return TRUE;
 }
+
 
 function show_my_posts($user_id)
 {
@@ -62,4 +75,5 @@ function show_previews($user_id)
 // {
 
 // }
+
 

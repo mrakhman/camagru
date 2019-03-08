@@ -21,7 +21,7 @@
             <br>
 
             <div class="choose_file_div">
-                Choose my photo
+                Upload my photo
                 <input type="file" id="choose_file"/>
             </div>
 
@@ -40,6 +40,7 @@
                 <div id="textarea_count"></div>
             </div>
 
+<!--            Continue button-->
             <a href="#" id="continue" class="button"> Continue </a>
 
 		</div>
