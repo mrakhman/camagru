@@ -50,30 +50,46 @@ function show_my_posts($user_id)
 	return ($my_posts);
 }
 
-function show_previews($user_id)
+//function show_previews($user_id)
+//{
+//	global $pdo;
+//
+//	if (empty($user_id))
+//		return array();
+//
+//	$sql = 'SELECT * FROM images WHERE user_id = :user_id';
+//	$stmt = $pdo->prepare($sql);
+//	$stmt->execute(['user_id' => $user_id]);
+//
+//	$i = 0;
+//	$previews[$i] = array();
+//	while ($preview = $stmt->fetch(PDO::FETCH_ASSOC))
+//	{
+//		$previews[$i] = $preview;
+//		$i++;
+//	}
+//	return ($previews);
+//}
+
+function show_other_posts($user_id)
 {
-	global $pdo;
+    global $pdo;
 
-	if (empty($user_id))
-		return array();
+    if (empty($user_id))
+        return FALSE;
 
-	$sql = 'SELECT * FROM images WHERE user_id = :user_id';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['user_id' => $user_id]);
+    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
 
-	$i = 0;
-	$previews[$i] = array();
-	while ($preview = $stmt->fetch(PDO::FETCH_ASSOC))
-	{
-		$previews[$i] = $preview;
-		$i++;
-	}
-	return ($previews);
+    $i = 0;
+    $all_posts[$i] = array();
+    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $all_posts[$i] = $all_post;
+        $i++;
+    }
+    return ($all_posts);
 }
-
-// function show_other($user_id)
-// {
-
-// }
 
 

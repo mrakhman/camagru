@@ -14,6 +14,7 @@
             <?php echo "Render image"?><br/>
 			 <?php echo "Save new image as post"?><br/>
             <?php echo "Delete posted image";//include_once "3_controller/gallery.control.php"; ?>
+            <?php include_once "3_controller/all_posts.control.php"; ?>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>

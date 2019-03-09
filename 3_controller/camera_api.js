@@ -82,24 +82,23 @@
 
     document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
 
-    // function drawUploadedPhoto(e) {
-    //     photo.src = URL.createObjectURL(e.target.files[0]);
-    //     photo.onload = function() {
-    //         context.drawImage(photo, 0, 0, 400, 0);
-    //     };
-    //     photo_field.value = photo.src;
-    //
-    //     /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
-    //     // document.getElementById('continue').style.visibility = 'visible';
-    // }
 
+
+
+    /* Masha !!!!!!!!!!! */
     function drawUploadedPhoto(e) {
         photo.src = URL.createObjectURL(e.target.files[0]);
-        // photo_field.value = photo.src;
+        // photo.onload = function() {
+        //     context.drawImage(photo, 0, 0, 400, 0);
+        // };
 
-        // 1. Get file content
-        // 2. Draw it on canvas
-        // 3. Make canvas.toDataURL(png) -> photo_field.value
+        // var photo_64 = new FileReader();
+        // photo_64.readAsDataURL(photo.src);
+
+        // photo.onload = function() {
+        //     URL.revokeObjectURL(this.src);
+        // }
+
         function getBase64(file) {
             var reader = new FileReader();
             reader.readAsDataURL(file);
@@ -113,10 +112,38 @@
         }
 
         getBase64(e.target.files[0]);
-        /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
-        // document.getElementById('continue').style.visibility = 'visible';
+        context.drawImage(base_64, 0, 0, 400, 0);
+        photo.src = canvas.toDataURL('image/png');
     }
+    /* Masha !!!!!!!!!!! */
 
+
+
+    /* APTEMKA !!!!!!!! */
+    // function drawUploadedPhoto(e) {
+    //     photo.src = URL.createObjectURL(e.target.files[0]);
+    //     // photo_field.value = photo.src;
+    //
+    //     // 1. Get file content
+    //     // 2. Draw it on canvas
+    //     // 3. Make canvas.toDataURL(png) -> photo_field.value
+    //     function getBase64(file) {
+    //         var reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = function () {
+    //             console.log(reader.result);
+    //             photo_field.value = reader.result;
+    //         };
+    //         reader.onerror = function (error) {
+    //             console.log('Error: ', error);
+    //         };
+    //     }
+    //
+    //     getBase64(e.target.files[0]);
+    //     /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
+    //     // document.getElementById('continue').style.visibility = 'visible';
+    // }
+    /* APTEMKA !!!!!!!! */
 
 
     function select_from_preview() {
