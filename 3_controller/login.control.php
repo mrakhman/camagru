@@ -43,7 +43,7 @@ if (array_key_exists('log_in', $_POST) && $_POST['log_in'] === "OK")
 	$login = $_POST['username'];
 	$passwd = $_POST['passwd'];
 	login_user($login, $passwd);
-	header('Location: index.php');
+//	header('Location: index.php');
 }
 
 if ((empty($_SESSION['user']) || $_SESSION['user'] == "") && empty($_SESSION['id']))
