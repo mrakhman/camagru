@@ -18,7 +18,7 @@ include_once "config/database.php";
 function add_post($user_id, $file_name, $description)
 {
     global $pdo;
-    if (empty($user_id) || empty($file_name) || empty($description))
+    if (empty($user_id) || empty($file_name))// || empty($description))
         return FALSE;
     $sql = 'INSERT INTO posts(user_id, file_name, description) VALUES(:user_id, :file_name, :description)';
     $stmt = $pdo->prepare($sql);
@@ -71,6 +71,25 @@ function show_my_posts($user_id)
 //	return ($previews);
 //}
 
+
+function show_all_posts()
+{
+    global $pdo;
+
+    $sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    $i = 0;
+    $all_posts[$i] = array();
+    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $all_posts[$i] = $all_post;
+        $i++;
+    }
+    return ($all_posts);
+}
+
 function show_other_posts($user_id)
 {
     global $pdo;
@@ -90,6 +109,19 @@ function show_other_posts($user_id)
         $i++;
     }
     return ($all_posts);
+}
+
+function del_post($user_id, $post_id)
+{
+    global $pdo;
+
+    if (empty($user_id) || empty($post_id))
+        return FALSE;
+
+    $sql = 'DELETE FROM posts WHERE user_id == :user_id AND post_id == :id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id, '$post_id' => $post_id]);
+    return TRUE;
 }
 
 

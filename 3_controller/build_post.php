@@ -38,14 +38,18 @@ function generate_filename($user_id)
     return $file_name;
 }
 
-
 function render_image($sticker_id, $sticker_coord_x, $sticker_coord_y, $selected_photo, $filename)
 {
+    if (empty($sticker_id) || empty($sticker_coord_x) || empty($sticker_coord_y) || empty($selected_photo)|| empty($filename))
+    {
+        echo "build_post parameters missing";
+        return FALSE;
+    }
+
     $sticker_path = 'img/stickers/' . $sticker_id . '.png';
 
     $STICKER_DIMENSIONS = 100;
     $sticker = @imagecreatefrompng($sticker_path);
-//    echo $sticker;
     if (!$sticker) {
         echo "Sticker ";
         return FALSE;
@@ -53,7 +57,6 @@ function render_image($sticker_id, $sticker_coord_x, $sticker_coord_y, $selected
     imagealphablending($sticker, true);
     imagesavealpha($sticker, true);
 
-//    $photo = imagecreatefrompng('Uploads/4_5c23e70a47d794.11054613.png');
     $photo = imagecreatefromstring($selected_photo);
     if (!$photo) {
         echo "Photo ";
@@ -78,6 +81,7 @@ function render_image($sticker_id, $sticker_coord_x, $sticker_coord_y, $selected
     return TRUE;
 }
 
+// Right now if description is missing - post is uploaded anyway, OK
 
 function build_post()
 {
@@ -110,7 +114,6 @@ function build_post()
         echo 'error';
         return FALSE;
     }
-
 
     if (!add_post($user_id, $filename, $description))
     {

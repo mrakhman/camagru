@@ -2,7 +2,7 @@
 
 	function empty_input_login()
 	{
-		echo '<p class="error"> Empty input field </p>';
+		print '<p class="error"> Empty input field </p>';
 	}
 
 	function user_not_found_login()

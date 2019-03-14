@@ -21,8 +21,11 @@
             <br>
 
             <div class="choose_file_div">
-                Upload my photo
+                 Upload photo
+                <br>
+                <img id="attach_photo" src="img/icons/attach.png" width="30">
                 <input type="file" id="choose_file"/>
+
             </div>
 
             <br>
@@ -32,25 +35,25 @@
                 </div>
                 <?php include_once "3_controller/stickers.control.php"; ?>
                 <!-- camera_api.js code works here -->
-                <?php //echo <img src="http://localhost:8080/img/stickers/pi.png"></img>?>
             </div>
 
+<!-- Hidden input form -->
+            <form id="sticker_form">
+                <input type="text" name="sticker_id" id="sticker_id">
+                <input type="text" name="coord_x"  id="sticker_coord_x" value="0">
+                <input type="text" name="coord_y" id="sticker_coord_y" value="0">
+                <input type="text" name="photo" id="selected_photo">
+            </form>
+<!-- Description -->
             <div>
-                <textarea id="txtArea" placeholder="Add comment to your post" rows="5" cols="40" maxlength="200"></textarea>
+                <textarea id="description" placeholder="Add comment to your post" rows="5" cols="40" maxlength="200"></textarea>
                 <div id="textarea_count"></div>
             </div>
-
-<!--            Continue button-->
+<!-- Continue button -->
             <a href="#" id="continue" class="button"> Continue </a>
-
 		</div>
 
-        <form id="sticker_form">
-            <input type="text" name="sticker_id" id="sticker_id">
-            <input type="text" name="coord_x"  id="sticker_coord_x" value="0">
-            <input type="text" name="coord_y" id="sticker_coord_y" value="0">
-            <input type="text" name="photo" id="selected_photo">
-        </form>
+
 
         <?php include_once "2_view/layout/footer.php"; ?>
         <script src="3_controller/camera_api.js"></script>

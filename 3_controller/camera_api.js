@@ -7,6 +7,12 @@
     var context = canvas.getContext('2d');
     var photo = document.getElementById('photo');
     var photo_field = document.getElementById('selected_photo');
+
+    const MAX_HEIGHT = 400;
+    const MAX_WIDTH = 400;
+
+    const STICKER_HEIGHT = 100;
+    const STICKER_WIDTH = 100;
     // var choose_file = document.getElementById('choose_file');
 
     navigator.getMedia = (
@@ -31,7 +37,7 @@
 	},	function camera_error() {
 	    video.remove();
         document.getElementById('capture').style.visibility = 'hidden';
-		alert("Couldn't connect to your camera, check device settings. \n If you can't use your camera, use 'Upload my photo' button");
+		// alert("Couldn't connect to your camera, check device settings. \n If you can't use your camera, use 'Upload my photo' button");
 		// error.code
 	});
 
@@ -39,6 +45,10 @@
 	document.getElementById('capture').addEventListener('click', function() {
 	    /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
 	    // document.getElementById('continue').style.visibility = 'visible';
+
+        canvas.height = video.height;
+        canvas.width = video.width;
+
 		context.save();
     	context.scale(-1,1);
 		context.drawImage(video, 0, 0, 400 * -1, 300);
@@ -46,8 +56,11 @@
 
         // Manipulate the canvas
 		photo.src = canvas.toDataURL('image/png');
+		photo.width = canvas.width;
+		photo.height = canvas.height;
 		photo_field.value = photo.src;
         add_preview();
+        put_sticker_at(form_fields['x'].value, form_fields['y'].value, form_fields['id'].value);
 	});
 
 
@@ -65,7 +78,7 @@
         formData.append('sticker_coord_x', form_fields['x'].value);
         formData.append('sticker_coord_y', form_fields['y'].value);
         formData.append('sticker_coord_y', form_fields['y'].value);
-        formData.append('description', document.getElementById('txtArea').value);
+        formData.append('description', document.getElementById('description').value);
 
         // Uploading a file
         // This part is supported by api.php and save_image_api.control.php
@@ -82,51 +95,20 @@
 
     document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
 
-
-
-
     /* Masha !!!!!!!!!!! */
-    function drawUploadedPhoto(e) {
-        photo.src = URL.createObjectURL(e.target.files[0]);
-        // photo.onload = function() {
-        //     context.drawImage(photo, 0, 0, 400, 0);
-        // };
-
-        // var photo_64 = new FileReader();
-        // photo_64.readAsDataURL(photo.src);
-
-        // photo.onload = function() {
-        //     URL.revokeObjectURL(this.src);
-        // }
-
-        function getBase64(file) {
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                console.log(reader.result);
-                photo_field.value = reader.result;
-            };
-            reader.onerror = function (error) {
-                console.log('Error: ', error);
-            };
-        }
-
-        getBase64(e.target.files[0]);
-        context.drawImage(base_64, 0, 0, 400, 0);
-        photo.src = canvas.toDataURL('image/png');
-    }
-    /* Masha !!!!!!!!!!! */
-
-
-
-    /* APTEMKA !!!!!!!! */
     // function drawUploadedPhoto(e) {
     //     photo.src = URL.createObjectURL(e.target.files[0]);
-    //     // photo_field.value = photo.src;
+    //     // photo.onload = function() {
+    //     //     context.drawImage(photo, 0, 0, 400, 0);
+    //     // };
     //
-    //     // 1. Get file content
-    //     // 2. Draw it on canvas
-    //     // 3. Make canvas.toDataURL(png) -> photo_field.value
+    //     // var photo_64 = new FileReader();
+    //     // photo_64.readAsDataURL(photo.src);
+    //
+    //     // photo.onload = function() {
+    //     //     URL.revokeObjectURL(this.src);
+    //     // }
+    //
     //     function getBase64(file) {
     //         var reader = new FileReader();
     //         reader.readAsDataURL(file);
@@ -140,15 +122,64 @@
     //     }
     //
     //     getBase64(e.target.files[0]);
-    //     /* Next line makes 'Continue' visible. Now it's disabled - #939393 color button instead */
-    //     // document.getElementById('continue').style.visibility = 'visible';
+    //     context.drawImage(base_64, 0, 0, 400, 0);
+    //     photo.src = canvas.toDataURL('image/png');
     // }
+    /* Masha !!!!!!!!!!! */
+
+
+    /* APTEMKA !!!!!!!! */
+    function drawUploadedPhoto(e) {
+        // 1. Get file content
+        // 2. Draw it on canvas
+        // 3. Make canvas.toDataURL(png) -> photo_field.value
+
+        console.log("Creating IMG from data");
+        const file_img = new Image();
+        file_img.src = URL.createObjectURL(e.target.files[0]);
+
+        file_img.onload = () =>
+        {
+            console.log("Uploaded img: " + file_img.width + 'x' + file_img.height);
+            console.log("We are going to draw this data on canvas");
+
+            if (file_img.height >= file_img.width)
+            {
+                canvas.width = file_img.height > MAX_HEIGHT ? (file_img.width * MAX_HEIGHT) / file_img.height : file_img.width;
+                canvas.height = file_img.height > MAX_HEIGHT ? MAX_HEIGHT : file_img.width;
+            }
+            else
+            {
+                canvas.width = file_img.width > MAX_WIDTH ? MAX_WIDTH : file_img.width;
+                canvas.height = file_img.width > MAX_WIDTH ? (file_img.height * MAX_WIDTH) / file_img.width : file_img.height;
+            }
+
+            context.save();
+            context.drawImage(file_img, 0, 0, canvas.width, canvas.height);
+            context.restore();
+
+            // Manipulate the canvas
+            photo.src = canvas.toDataURL('image/png');
+            photo.width = canvas.width;
+            photo.height = canvas.height;
+            photo_field.value = photo.src;
+            // add_preview();
+            put_sticker_at(form_fields['x'].value, form_fields['y'].value, form_fields['id'].value);
+        }
+    }
     /* APTEMKA !!!!!!!! */
 
 
     function select_from_preview() {
         photo.src = this.src;
+
+        photo.width = video.width;
+        photo.height = video.height;
+        canvas.width = video.width;
+        canvas.height = video.height;
+
         photo_field.value = this.src;
+        put_sticker_at(form_fields['x'].value, form_fields['y'].value, form_fields['id'].value);
     }
 
     function count_pre() {
@@ -164,7 +195,7 @@
         gallery_container.className = 'preview_container';
 
         var a = document.createElement('a');
-        a.href = '#';
+        // a.href = '';
 
         var img = document.createElement('img');
         img.width = 200;
@@ -202,6 +233,9 @@
         form_fields['id'].value = this.id;
         unselect_all_stickers();
         this.className += " selected";
+        put_sticker_at(form_fields['x'].value, form_fields['y'].value, form_fields['id'].value);
+        if (photo_field.value)
+            enable_continue();
     }
 
     function unselect_sticker() {
@@ -209,6 +243,8 @@
         form_fields['id'].value = null;
         unselect_all_stickers();
         this.className += " selected";
+        photo.src = photo_field.value ? photo_field.value : photo.src;
+        disable_continue();
     }
 
     // for CSS selected sticker
@@ -217,6 +253,33 @@
 
     for (let sticker_index = 1; sticker_index < sticker_parent.children.length; sticker_index++) {
         sticker_parent.children[sticker_index].onclick = select_sticker;
+    }
+
+    function put_sticker_at(pos_x, pos_y, sticker_id)
+    {
+        if (sticker_id === '' || sticker_id == null || !photo_field.value)
+            return;
+        const original_photo = new Image();
+        original_photo.src = photo_field.value;
+
+        context.save();
+        context.drawImage(original_photo, 0, 0, original_photo.width, original_photo.height);
+
+        var img = new Image();
+        img.src = '/img/stickers/' + sticker_id + '.png';
+
+
+        context.drawImage(
+            img,
+            pos_x, // x
+            pos_y, // y
+            STICKER_WIDTH, // width
+            STICKER_HEIGHT, // height
+        );
+        context.restore();
+
+        photo.src = canvas.toDataURL('image/png');
+        enable_continue();
     }
 
     function put_sticker(e) {
@@ -231,95 +294,62 @@
 
         if (!form_fields['id'].value) {
             // alert("Select sticker to apply");
-            document.getElementById('continue').style.backgroundColor = '#939393';
+            // document.getElementById('continue').style.backgroundColor = '#939393';
             // document.getElementById('continue').setAttribute('disabled', 'disabled');
-            continue_disability(true);
+            disable_continue();
             console.log("Sticker not selected");
             photo.src = photo_field.value;
             return;
         }
 
-        var original_photo = new Image();
-        original_photo.src = photo_field.value;
-
-        context.save();
-        context.drawImage(original_photo, 0, 0, photo.width, photo.height);
-
-        var img = new Image();
-        img.src = '/img/stickers/' + form_fields['id'].value + '.png';
-
-        const HEIGHT = 100;
-        const WIDTH = 100;
-        context.drawImage(
-            img,
-            e.clientX - e.target.x - WIDTH / 2, // x
-            e.clientY - e.target.y - HEIGHT / 2, // y
-            WIDTH, // width
-            HEIGHT, // height
-        );
-        context.restore();
-
-        photo.src = canvas.toDataURL('image/png');
-        document.getElementById('continue').style.backgroundColor = '#396';
+        var pos_x = e.clientX - e.target.x - STICKER_WIDTH / 2;
+        var pos_y = e.clientY - e.target.y - STICKER_HEIGHT / 2;
+        put_sticker_at(pos_x, pos_y, form_fields['id'].value);
+        // document.getElementById('continue').style.backgroundColor = '#396';
         // document.getElementById('continue').removeAttribute('disabled');
-        continue_disability(false);
+        enable_continue();
 
-        form_fields['x'].value = e.clientX - e.target.x - WIDTH / 2;
-        form_fields['y'].value = e.clientY - e.target.y - HEIGHT / 2;
+        form_fields['x'].value = pos_x;
+        form_fields['y'].value = pos_y;
     }
 
     photo.addEventListener('click', put_sticker);
 
-  /*   // Function for debugging
-    function get_form_values() {
-        console.log(form_fields['id'].value);
-        console.log(form_fields['x'].value);
-        console.log(form_fields['y'].value);
-        console.log(photo_field.value);
-    } */
-
-    /* function add_sticker() {
-
-
-
-        // Here you are
-
-        fetch('/sticker_overlay.control.php?action=save_img', {
-            method: 'POST',
-            body: formData,
-        }).then(response => {
-            response.text().then((text) => console.log(text));
-            console.log(response)
-        });
-    } */
-
 
     /* Text area symbol counter */
     function count_symbols() {
-        var txt_len = document.getElementById('txtArea').value.length;
+        var txt_len = document.getElementById('description').value.length;
         document.getElementById('textarea_count').innerHTML = 200 - txt_len;
     }
-    document.getElementById('txtArea').addEventListener('keyup', count_symbols);
+    document.getElementById('description').addEventListener('keyup', count_symbols);
 
-
-    // if (document.getElementById('continue').disabled === false) {
-    //     console.log("HELLO1");
-    //     document.getElementById('continue').addEventListener('click', send_file);
-    // }
-    continue_disability(true);
 
     function continue_disability(status) {
+
         const continue_button = document.getElementById('continue');
         if (status)
         {
-            continue_button.disabled = true;
+            // continue_button.disabled = true;
+            continue_button.classList.add('disabled');
             continue_button.removeEventListener('click', send_file);
         }
         else
         {
-            continue_button.disabled = false;
+            // continue_button.disabled = false;
+            continue_button.classList.remove('disabled');
             continue_button.addEventListener('click', send_file);
         }
         console.log("CONTINUE STATUS: " + status);
     }
+
+    function enable_continue() {
+        continue_disability(false);
+    }
+
+    function disable_continue() {
+        continue_disability(true);
+    }
+
+    disable_continue();
+
 })();
