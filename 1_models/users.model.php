@@ -244,4 +244,20 @@ function reset_user_passwd($user_id, $passwd)
 	return $result;
 }
 
+function get_login_by_id($user_id)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    $sql = 'SELECT login FROM users WHERE id = :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    if (!($user_login = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($user_login);
+}
+
 ?>

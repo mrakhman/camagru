@@ -7,7 +7,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['id']))
 			<a class="dropbtn" href="index.php"> Home </a>
 		</li>
 		<li class="dropdown">
-			<a class="dropbtn" href="upload.php"> New image </a>
+			<a class="dropbtn" href="camera.php"> New image </a>
 		</li>
 		<li class="dropdown">
 			<a class="dropbtn" href="my_profile.php"> My profile </a>
