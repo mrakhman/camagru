@@ -77,7 +77,6 @@
         formData.append('sticker_id', form_fields['id'].value);
         formData.append('sticker_coord_x', form_fields['x'].value);
         formData.append('sticker_coord_y', form_fields['y'].value);
-        formData.append('sticker_coord_y', form_fields['y'].value);
         formData.append('description', document.getElementById('description').value);
 
         // Uploading a file

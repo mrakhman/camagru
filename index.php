@@ -17,6 +17,7 @@
             <?php echo "Create database SQL code";?><br/>
 
             <?php include_once "3_controller/friends_posts.control.php"; ?>
+            <script src="3_controller/image.js"></script>
 		</div>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>

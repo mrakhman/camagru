@@ -4,6 +4,7 @@ include_once "1_models/camera.model.php";
 include_once "3_controller/save_image_api.control.php";
 include_once "3_controller/build_post.php";
 include_once "3_controller/delete_post.php";
+include_once "3_controller/like.control.php";
 
 session_start();
 
@@ -23,6 +24,15 @@ elseif ($_GET['action']=='build_post')
 elseif ($_GET['action']=='del_post')
 {
     delete_post();
+}
+
+elseif ($_GET['action']=='like_post')
+{
+    like_post();
+}
+elseif ($_GET['action']=='unlike_post')
+{
+    unlike_post();
 }
 
 else

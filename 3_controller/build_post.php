@@ -40,9 +40,9 @@ function generate_filename($user_id)
 
 function render_image($sticker_id, $sticker_coord_x, $sticker_coord_y, $selected_photo, $filename)
 {
-    if (empty($sticker_id) || empty($sticker_coord_x) || empty($sticker_coord_y) || empty($selected_photo)|| empty($filename))
+    if (empty($sticker_id) || /*empty($sticker_coord_x) || empty($sticker_coord_y) ||*/ empty($selected_photo)|| empty($filename))
     {
-        echo "build_post parameters missing";
+        echo "build_post parameters missing ";
         return FALSE;
     }
 
@@ -107,6 +107,12 @@ function build_post()
 
     // Call file name function and render image function
     $filename = generate_filename($user_id);
+//    error_log("!!!!!");
+//    error_log($sticker_id);
+//    error_log(empty($sticker_coord_x));
+//    error_log($sticker_coord_y);
+//    error_log("Tuta:". boolval(empty($selected_photo)));
+//    error_log($filename);
     $result = render_image($sticker_id, $sticker_coord_x, $sticker_coord_y, $selected_photo, $filename);
 
     if (!$result)

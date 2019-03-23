@@ -97,9 +97,15 @@ function show_other_posts($user_id)
     if (empty($user_id))
         return FALSE;
 
-    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
+//    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
+    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at,
+            CASE WHEN liker_id IS NULL THEN 0 ELSE 1 END AS is_liked
+            FROM posts
+            LEFT JOIN likes on likes.post_id = posts.id AND likes.liker_id = :user_id_1
+            WHERE user_id != :user_id_2
+            ORDER BY created_at DESC';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['user_id' => $user_id]);
+    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
 
     $i = 0;
     $all_posts[$i] = array();
@@ -111,17 +117,85 @@ function show_other_posts($user_id)
     return ($all_posts);
 }
 
-function del_post($user_id, $post_id)
+function get_filename_by_id($post_id)
+{
+    global $pdo;
+
+    if (empty($post_id))
+        return FALSE;
+
+    $post_id = intval($post_id);
+
+    $sql = 'SELECT file_name FROM posts WHERE id = :post_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id]);
+    if (!($file_name = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($file_name);
+}
+
+function del_post_from_db($user_id, $post_id)
 {
     global $pdo;
 
     if (empty($user_id) || empty($post_id))
         return FALSE;
 
-    $sql = 'DELETE FROM posts WHERE user_id == :user_id AND post_id == :id';
+    $post_id = intval($post_id);
+
+    $sql = 'DELETE FROM posts WHERE user_id = :user_id AND id = :post_id';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['user_id' => $user_id, '$post_id' => $post_id]);
+    $stmt->execute(['user_id' => $user_id, 'post_id' => $post_id]);
     return TRUE;
 }
 
+function like_exists($user_id, $post_id)
+{
+    global $pdo;
+
+    if (empty($user_id) || empty($post_id))
+        return FALSE;
+
+    $post_id = intval($post_id);
+    $sql = 'SELECT * FROM likes WHERE post_id = :post_id AND liker_id = :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id]);
+    if (!($like = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($like);
+}
+
+function like($user_id, $post_id)
+{
+    global $pdo;
+
+    if (empty($user_id) || empty($post_id))
+        return FALSE;
+
+    $like = like_exists($user_id, $post_id);
+    if ($like)
+        return TRUE;
+
+    $post_id = intval($post_id);
+    $sql = 'INSERT INTO likes(post_id, liker_id) VALUES(:post_id, :user_id)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id]);
+    return TRUE;
+}
+
+function unlike($user_id, $post_id)
+{
+    global $pdo;
+
+    if (empty($user_id) || empty($post_id))
+        return FALSE;
+
+    $post_id = intval($post_id);
+    $sql = 'DELETE FROM likes WHERE post_id = :post_id AND liker_id = :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id]);
+    return TRUE;
+}
 
