@@ -2,6 +2,7 @@
 
 include_once "1_models/images.model.php";
 include_once "1_models/users.model.php";
+include_once "2_view/comment.view.php";
 
 function friends_posts()
 {
@@ -27,7 +28,9 @@ function friends_posts()
 			<p class="nick">' . $user_login['login'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>
+			
 		</div>';
+        show_comment_form();
         $i++;
     }
     echo '</div>';

@@ -1,4 +1,4 @@
-(function() {
+// (function() {
     // Turning the whole file into a function prevents it from being edited by user
     // This function is not accessible from html page. Comment function initialization for debugging
 
@@ -18,7 +18,7 @@
     navigator.getMedia = (
 		navigator.getUserMedia || 
 		navigator.webkitGetUserMedia || 
-		navigator.mozGetUserMedia || 
+		navigator.mozGetUserMedia ||
 		navigator.msGetUserMedia
 		);
 
@@ -351,4 +351,4 @@
 
     disable_continue();
 
-})();
+// })();

@@ -1,4 +1,4 @@
-// (function() {
+(function() {
 
     var del_class = document.getElementsByClassName('delete');
 
@@ -38,24 +38,22 @@
         });
     }
 
-// This function is executed in my_profile.control.php
-function delete_post_n(post_id) {
-    if (confirm("Do you want to delete this post?")) {
-        console.log('Delete: OK');
-        console.log("I deleted post №" + post_id);
+    // This function is executed in my_profile.control.php in html delete element
+    function delete_post_n(post_id) {
+        if (confirm("Do you want to delete this post?")) {
+            console.log('Delete: OK');
+            console.log("I deleted post №" + post_id);
 
-        document.getElementById('post_' + post_id).remove();
-        // delete_from_front("delete" + post_id);
-        send_id('del_post', post_id);
+            document.getElementById('post_' + post_id).remove();
+            // delete_from_front("delete" + post_id);
+            send_id('del_post', post_id);
+        }
+        else {
+            console.log('Delete: Cancel');
+        }
     }
-    else {
-        console.log('Delete: Cancel');
-    }
-}
 
-
-
-function like_post(post_id) {
+    function like_post(post_id) {
         function onclick_handler() {
             var like = document.getElementById('like_' + post_id);
 
@@ -65,9 +63,9 @@ function like_post(post_id) {
             send_id('like_post', post_id);
         }
         return onclick_handler;
-}
+    }
 
-function unlike_post(post_id) {
+    function unlike_post(post_id) {
         function onclick_handler() {
             var like = document.getElementById('like_' + post_id);
 
@@ -77,9 +75,8 @@ function unlike_post(post_id) {
             send_id('unlike_post', post_id);
         }
         return onclick_handler;
-
-}
-
+    }
 
 
-// })();
+
+})();
