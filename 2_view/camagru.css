@@ -367,3 +367,7 @@ textarea {
     color: red;
     align: right;
 }
+
+.like_info {
+    font-size: 14px;
+}

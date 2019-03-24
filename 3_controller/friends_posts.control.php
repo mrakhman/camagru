@@ -23,6 +23,7 @@ function friends_posts()
         echo '<div class="gallery_container">
 			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
 			<img id="like_' . $posts[$i]['id'] . '" src="'. $like_icons[$posts[$i]['is_liked']] .'" width="40" align="right" onclick="'. $like_functions[$posts[$i]['is_liked']] .'('. $posts[$i]['id'] .')()">
+			<p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
 			<p class="nick">' . $user_login['login'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>

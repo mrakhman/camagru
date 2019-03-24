@@ -8,8 +8,6 @@
 			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?><br/>
 
-            <?php echo "Delete posted image out of database";?><br/>
-            <?php echo "Make images likable";?><br/>
             <?php echo "How comments will be displayed?";?><br/>
             <?php echo "Send email when post receives a comment";?><br/>
             <?php echo "Let email on comment be turned off";?><br/>

@@ -34,8 +34,24 @@ function show_my_posts($user_id)
 	if (empty($user_id))
 		return FALSE;
 
-	$sql = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
-	$stmt = $pdo->prepare($sql);
+	// The way of counting likes on ONLY my posts before we added trigger functions to database likes (see Telegram from Mar 24)
+    // Trigger unction is used now but this way is saved just in case something goes wrong with trigger functions
+
+//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, COUNT(likes.post_id) AS likes
+//            FROM posts LEFT JOIN likes
+//            ON posts.id = likes.post_id
+//            GROUP BY posts.id
+//            HAVING user_id = :user_id
+//            ORDER BY created_at DESC';
+
+
+    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes
+            FROM posts
+            WHERE user_id = :user_id
+            ORDER BY created_at DESC';
+
+//    $sql = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
+    $stmt = $pdo->prepare($sql);
 	$stmt->execute(['user_id' => $user_id]);
 	// if (!($stmt->fetch(PDO::FETCH_ASSOC)))
 	// 	return NULL;
@@ -49,27 +65,6 @@ function show_my_posts($user_id)
 	}
 	return ($my_posts);
 }
-
-//function show_previews($user_id)
-//{
-//	global $pdo;
-//
-//	if (empty($user_id))
-//		return array();
-//
-//	$sql = 'SELECT * FROM images WHERE user_id = :user_id';
-//	$stmt = $pdo->prepare($sql);
-//	$stmt->execute(['user_id' => $user_id]);
-//
-//	$i = 0;
-//	$previews[$i] = array();
-//	while ($preview = $stmt->fetch(PDO::FETCH_ASSOC))
-//	{
-//		$previews[$i] = $preview;
-//		$i++;
-//	}
-//	return ($previews);
-//}
 
 
 function show_all_posts()
@@ -98,10 +93,10 @@ function show_other_posts($user_id)
         return FALSE;
 
 //    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
-    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at,
+    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes, 
             CASE WHEN liker_id IS NULL THEN 0 ELSE 1 END AS is_liked
             FROM posts
-            LEFT JOIN likes on likes.post_id = posts.id AND likes.liker_id = :user_id_1
+            LEFT JOIN likes ON likes.post_id = posts.id AND likes.liker_id = :user_id_1
             WHERE user_id != :user_id_2
             ORDER BY created_at DESC';
     $stmt = $pdo->prepare($sql);

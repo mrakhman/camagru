@@ -38,7 +38,7 @@
         });
     }
 
-
+// This function is executed in my_profile.control.php
 function delete_post_n(post_id) {
     if (confirm("Do you want to delete this post?")) {
         console.log('Delete: OK');
@@ -48,7 +48,6 @@ function delete_post_n(post_id) {
         // delete_from_front("delete" + post_id);
         send_id('del_post', post_id);
     }
-
     else {
         console.log('Delete: Cancel');
     }
@@ -66,7 +65,6 @@ function like_post(post_id) {
             send_id('like_post', post_id);
         }
         return onclick_handler;
-
 }
 
 function unlike_post(post_id) {

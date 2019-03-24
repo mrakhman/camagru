@@ -20,6 +20,7 @@ function show_my($user_id)
 //			echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
         echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
 			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
+			<p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>';
 
