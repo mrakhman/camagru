@@ -5,6 +5,7 @@ include_once "3_controller/save_image_api.control.php";
 include_once "3_controller/build_post.php";
 include_once "3_controller/delete_post.php";
 include_once "3_controller/like.control.php";
+include_once "3_controller/comment.control.php";
 
 session_start();
 
@@ -33,6 +34,11 @@ elseif ($_GET['action']=='like_post')
 elseif ($_GET['action']=='unlike_post')
 {
     unlike_post();
+}
+
+elseif ($_GET['action']=='comment_post')
+{
+    comment_post();
 }
 
 else

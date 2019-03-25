@@ -194,3 +194,33 @@ function unlike($user_id, $post_id)
     return TRUE;
 }
 
+function add_comment($user_id, $post_id, $comment)
+{
+    global $pdo;
+
+    if (empty($user_id) || empty($post_id) || empty($comment))
+        return FALSE;
+
+    $post_id = intval($post_id);
+    $sql = 'INSERT INTO comments(post_id, commentator_id, text) VALUES(:post_id, :user_id, :comment)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id, 'comment' => $comment]);
+    return TRUE;
+}
+
+function show_comments($post_id)
+{
+    global $pdo;
+
+    if (empty($post_id))
+        return FALSE;
+
+    $post_id = intval($post_id);
+    $sql = 'SELECT * FROM comments WHERE post_id = :post_id ORDER BY time ASC';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id]);
+    if (!($comments = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($comments);
+}

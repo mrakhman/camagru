@@ -27,10 +27,9 @@ function friends_posts()
 			<p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
 			<p class="nick">' . $user_login['login'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
-			<p class="date">' . $posts[$i]['created_at'] . '</p>
-			
-		</div>';
-        show_comment_form();
+			<p class="date">' . $posts[$i]['created_at'] . '</p>';
+        show_comment_form($posts[$i]['id']);
+        echo '</div>';
         $i++;
     }
     echo '</div>';

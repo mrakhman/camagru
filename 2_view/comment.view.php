@@ -1,15 +1,15 @@
 <?php
 
-function show_comment_form()
+function show_comment_form($post_id)
 {
 ?>
-
-    <form class="" method="post">
-        <div>
-            <textarea id="comment" placeholder="Add a comment" rows="2" cols="30" maxlength="256"></textarea>
+    <form class="comment_form">
+        <div id="flex_container_com">
+            <textarea id="comment" placeholder="Comment" rows="2" cols="40" maxlength="255" required></textarea>
             <div id="comment_count"></div>
+            <input id="post_id" hidden value="<?php echo $post_id; ?>" />
+            <input type="submit" id="btn_comment" class="button" name="send" value="Send"/>
         </div>
-        <input align="right" type="submit" class="button" name="send" value="OK"/>
     </form>
 
 

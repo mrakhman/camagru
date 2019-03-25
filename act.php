@@ -7,5 +7,7 @@
 //phpinfo();
 include_once "2_view/layout/head.php";
 include_once "2_view/comment.view.php";
+include_once "3_controller/comment.control.php";
 
-show_comment_form();
+$com = show_post_comments(26);
+var_dump($com);

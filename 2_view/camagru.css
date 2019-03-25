@@ -148,7 +148,7 @@ footer {
 	color: #fff;
 	background-color: #396;
 	margin: 1%;
-    min-width: 80px;
+    min-width: 65px;
     width: auto;
     height: auto;
     border: 1px;
@@ -358,7 +358,7 @@ video {
 }
 
 textarea {
-    font-size: 16px;
+    font-size: 15px;
     outline: none;
 }
 
@@ -371,3 +371,43 @@ textarea {
 .like_info {
     font-size: 14px;
 }
+
+#comment {
+    font-size: 13px;
+    margin: 0 3px 3px;
+}
+
+.comment_form {
+    float: left;
+}
+
+#comment_count {
+    margin: 0 0 0 1px;
+    font-size: 12px;
+}
+
+#btn_comment {
+    background-color: #939393;
+    font-size: 13px;
+    height: 35px;
+
+    margin: 1px;
+    padding: 4px 0;
+    float: left;
+}
+
+#btn_comment.active {
+    background-color: #396;
+}
+
+/*.flex_container_comment {*/
+    /*display: flex;*/
+    /*flex-direction: row; !* | row-reverse | column | column-reverse;*!*/
+    /*justify-content: flex-end; !* flex-start | flex-end | center | space-between | space-around | space-evenly;*!*/
+/*}*/
+
+/*.flex_container_comment_column {*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: flex-start;*/
+/*}*/
