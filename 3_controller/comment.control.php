@@ -27,7 +27,23 @@ function comment_post()
 function show_post_comments($post_id)
 {
     $comments = show_comments($post_id);
-    if (!$comments)
-        return FALSE;
-    return $comments;
+//    if (!$comments)
+//        return FALSE;
+
+    echo '<div class="comments_array">';
+
+    foreach ($comments as $comm)
+    {
+        $verb = " says";
+        if ($comm['commentator_id'] == $_SESSION['id'])
+        {
+            $commentator['login'] = "You";
+            $verb = " say";
+        }
+        else
+            $commentator = get_login_by_id($comm['commentator_id']);
+        echo '<p class="comment_display" align="left"> <b>' . $commentator['login'] . $verb . ': </b>' . $comm['text'] . '</p>';
+    }
+    echo '</div>';
+    return TRUE;
 }

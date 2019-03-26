@@ -57,7 +57,7 @@ function show_my_posts($user_id)
 	// 	return NULL;
 
 	$i = 0;
-	$my_posts[$i] = array();
+	$my_posts = array();
 	while ($my_post = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
 		$my_posts[$i] = $my_post;
@@ -76,7 +76,7 @@ function show_all_posts()
     $stmt->execute();
 
     $i = 0;
-    $all_posts[$i] = array();
+    $all_posts = array();
     while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
     {
         $all_posts[$i] = $all_post;
@@ -103,7 +103,7 @@ function show_other_posts($user_id)
     $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
 
     $i = 0;
-    $all_posts[$i] = array();
+    $all_posts = array();
     while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
     {
         $all_posts[$i] = $all_post;
@@ -216,11 +216,16 @@ function show_comments($post_id)
         return FALSE;
 
     $post_id = intval($post_id);
-    $sql = 'SELECT * FROM comments WHERE post_id = :post_id ORDER BY time ASC';
+    $sql = 'SELECT * FROM comments WHERE post_id = :post_id ORDER BY time ASC'; // Why doesn't it select all? Just the first comment
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['post_id' => $post_id]);
-    if (!($comments = $stmt->fetch(PDO::FETCH_ASSOC)))
-        return NULL;
 
+    $i = 0;
+    $comments = array();
+    while ($comment = $stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $comments[$i] = $comment;
+        $i++;
+    }
     return ($comments);
 }

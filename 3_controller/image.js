@@ -38,20 +38,6 @@
         });
     }
 
-    function send_comment(post_id, comment) {
-        var formData = new FormData();
-        formData.append('post_id', post_id);
-        formData.append('comment', comment);
-
-        fetch('/api.php?action=comment_post', {
-            method: 'POST',
-            body: formData,
-        }).then(response => {
-            response.text().then((text) => console.log(text));
-            console.log(response)
-        });
-    }
-
     // This function is executed in my_profile.control.php in html delete element
     function delete_post_n(post_id) {
         if (confirm("Do you want to delete this post?")) {
@@ -107,6 +93,26 @@
         }
     }
 
+    function send_comment(post_id, comment) {
+        var formData = new FormData();
+        formData.append('post_id', post_id);
+        formData.append('comment', comment);
+
+        fetch('/api.php?action=comment_post', {
+            method: 'POST',
+            body: formData,
+        }).then(response => {
+            response.text().then((text) => console.log(text));
+            console.log(response)
+        });
+    }
+
+    // function remove_text(event) {
+    //     var txt = event.target.value;
+    //     txt = "";
+    // }
+
+
     /* Prevent default in necessary to mute initial form submit function to allow function add_comment work.
      * Otherwise both initial form submit and add_comment will send data
      */
@@ -120,7 +126,12 @@
             form_values[current_form[i].id] = current_form[i].value;
         }
         // console.log(form_values);
+
         send_comment(form_values['post_id'], form_values['comment']);
+        current_form.comment.value = "";
+        frontend_instant_comment(form_values['post_id'], form_values['comment']);
+        // current_form.response_field.innerHTML = "comment sent, refresh the page to see";
+
     }
 
     /* Get all comment forms from document and add actions on form submit and on keyup */
@@ -128,6 +139,33 @@
     for (var id in comment_forms) {
         comment_forms[id].onsubmit = add_comment;
         comment_forms[id].comment.addEventListener('keyup', count_symbols);
+    }
+
+    /* Function is executed from friends_posts.control.php file */
+    function hide_show_comments(post_id) {
+        // var all_children = document.getElementById('post_' + post_id).children;
+        // var x = all_children.show_comments;
+        //#post_30 > div
+        var x = document.querySelector("#post_" + post_id + " > div.show_comments");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function frontend_instant_comment(post_id, comment) {
+        // var comment = event.target.value;
+        // var all_children = event.target.parentNode.children;
+        // var show_comments = all_children.show_comments;
+        // var show_comments_children = show_comments.childNodes;
+        var comments_array = document.querySelector("#post_" + post_id + " > div.show_comments > div.comments_array");
+        var p = document.createElement('p');
+        p.classList.add("comment_display");
+        p.align = "left";
+        p.innerHTML = "<b>You say:</b> " + comment;
+        comments_array.appendChild(p);
+        // console.log(show_comments_children);
     }
 
 // })();

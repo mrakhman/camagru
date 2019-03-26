@@ -3,6 +3,7 @@
 include_once "1_models/images.model.php";
 include_once "1_models/users.model.php";
 include_once "2_view/comment.view.php";
+include_once "3_controller/comment.control.php";
 
 function friends_posts()
 {
@@ -21,15 +22,20 @@ function friends_posts()
     {
         $user_id = $posts[$i]['user_id'];
         $user_login = get_login_by_id($user_id);
-        echo '<div class="gallery_container">
+        echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
 			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
 			<img id="like_' . $posts[$i]['id'] . '" src="'. $like_icons[$posts[$i]['is_liked']] .'" width="40" align="right" onclick="'. $like_functions[$posts[$i]['is_liked']] .'('. $posts[$i]['id'] .')()">
 			<p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
 			<p class="nick">' . $user_login['login'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
-			<p class="date">' . $posts[$i]['created_at'] . '</p>';
+			<p class="date">' . $posts[$i]['created_at'] . '</p>
+			<button onclick="hide_show_comments('. $posts[$i]['id'] .')">Show comments</button>
+            <div class="show_comments" style="display: none;">
+            <hr class="divider">';
+
+        show_post_comments($posts[$i]['id']);
         show_comment_form($posts[$i]['id']);
-        echo '</div>';
+        echo '</div></div>';
         $i++;
     }
     echo '</div>';

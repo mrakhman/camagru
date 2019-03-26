@@ -8,12 +8,13 @@
 			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?><br/>
 
-            <?php echo "How comments will be displayed?";?><br/>
             <?php echo "Send email when post receives a comment";?><br/>
             <?php echo "Let email on comment be turned off";?><br/>
             <?php echo "Don't forget about passwd min complexity";?><br/>
             <?php echo "Create database SQL code";?><br/>
-
+            <?php echo "Pagination by pages";?><br/>
+            <?php echo "Check responsive on different screens";?><br/>
+            <?php echo "Check Firefox";?><br/>
             <?php include_once "3_controller/friends_posts.control.php"; ?>
 <!--            <script src="3_controller/image.js"></script>-->
 		</div>
