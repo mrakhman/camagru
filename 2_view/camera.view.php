@@ -8,7 +8,7 @@ function show_camera()
 		<a href="#" id="capture" class="button"> Click </a>
 		<canvas id="canvas" width="400" height="300"></canvas>
         <div class="photo_container">
-            <img id="photo" src="HIDE/krevetka.jpg" width="400" alt="photo of you">
+            <img id="photo" src="img/icons/krevetka.jpg" width="400" alt="photo of you">
 
             <img id="sticker_overlay" src="">
         </div>

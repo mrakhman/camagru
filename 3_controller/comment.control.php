@@ -20,6 +20,13 @@ function comment_post()
         echo "failed: comment sql error";
         return FALSE;
     }
+
+    if (!send_comment_email($post_id))
+    {
+        echo "failed: couldn't send email notification even though it is turned on";
+        return FALSE;
+    }
+
     echo "Comment received";
     return TRUE;
 }
@@ -27,8 +34,11 @@ function comment_post()
 function show_post_comments($post_id)
 {
     $comments = show_comments($post_id);
-//    if (!$comments)
-//        return FALSE;
+    if (!$comments)
+    {
+        echo "No comments";
+        return TRUE;
+    }
 
     echo '<div class="comments_array">';
 
@@ -47,3 +57,4 @@ function show_post_comments($post_id)
     echo '</div>';
     return TRUE;
 }
+

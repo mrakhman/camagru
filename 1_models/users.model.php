@@ -196,7 +196,7 @@ function send_passreset_email($email, $reset_array)
 	$to = $email;
 	$subject = "Camagru - forgot password";
 	$message = "Click the link to reset your password: ";
-	$message .= "http://localhost:8080/42_mrakhman_mamp/camagru/create_new_passwd.php?token=" . $token;
+	$message .= "http://localhost:8080/create_new_passwd.php?token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
@@ -260,4 +260,53 @@ function get_login_by_id($user_id)
     return ($user_login);
 }
 
-?>
+function get_notifications_status($user_id)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    $sql = 'SELECT notifications FROM users WHERE id = :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    if (!($notifications = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($notifications);
+}
+
+function notifications_on($user_id)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    $status = get_notifications_status($user_id);
+    if ($status['notifications'] == 1)
+        return TRUE;
+
+    $sql = 'UPDATE users SET notifications = 1 WHERE id = :$user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    return TRUE;
+}
+
+
+function notifications_off($user_id)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    $status = get_notifications_status($user_id);
+    if ($status['notifications'] == 0)
+        return TRUE;
+
+    $sql = 'UPDATE users SET notifications = 0 WHERE id = :$user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    return TRUE;
+}

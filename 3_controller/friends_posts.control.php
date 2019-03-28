@@ -10,7 +10,7 @@ function friends_posts()
 	$posts = show_other_posts($_SESSION['id']);
 	if (!($posts))
 	{
-		echo "Huyushki";
+		echo "Your friends have no posts";
 		return FALSE;
 	}
 
@@ -47,7 +47,7 @@ function all_posts()
     $posts = show_all_posts();
     if (!($posts))
     {
-        echo "Huyushki";
+        echo "Nobody made a post yet";
         return FALSE;
     }
 

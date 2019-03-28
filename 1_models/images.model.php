@@ -229,3 +229,35 @@ function show_comments($post_id)
     }
     return ($comments);
 }
+
+function get_postowner_email($post_id)
+{
+    global $pdo;
+
+    if (empty($post_id))
+        return FALSE;
+
+    $sql = 'SELECT email FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.id = :post_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id]);
+    if (!($email = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($email);
+}
+
+function send_comment_email($post_id)
+{
+    // check if user disabled notifications: if disabled - return TRUE
+
+    $email = get_postowner_email($post_id);
+    $to = $email['email'];
+    $subject = "Camagru - new comment to your post";
+    $message = "Your post received a new comment, check it on your page: ";
+    $message .= "http://localhost:8080/my_profile.php";
+    $headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
+    if (mail($to, $subject, $message, $headers))
+        return TRUE;
+    else
+        return FALSE;
+}
