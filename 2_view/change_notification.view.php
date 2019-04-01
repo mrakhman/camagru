@@ -7,12 +7,12 @@
 
 	function notification_enabled()
 	{
-		echo '<p class="success"> New comments notification are enabled! </p>';
+		echo '<p class="success"> Notification are enabled! </p>';
 	}
 
 	function notification_disabled()
 	{
-		echo '<p class="success"> New comments notification are disabled! </p>';
+		echo '<p class="success"> Notification are disabled! </p>';
 	}
 
 	function show_notification($is_checked)
@@ -22,7 +22,8 @@
 		<form method="post">
 			<h>Notify me about</h><br>
             <h>new comments to my posts:</h><br>
-            <input type="checkbox" name="notification_check" value="notify" <?php echo $is_checked; ?> >
+            <input type="hidden" name="notification_check" value="not_notify"/>
+            <input type="checkbox" name="notification_check" value="notify" <?php echo $is_checked; ?>>
 			<br>
 			<input type="submit" class="button" name="notifications_submit" value="OK"/>
 		</form>

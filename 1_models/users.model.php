@@ -287,7 +287,7 @@ function notifications_on($user_id)
     if ($status['notifications'] == 1)
         return TRUE;
 
-    $sql = 'UPDATE users SET notifications = 1 WHERE id = :$user_id';
+    $sql = 'UPDATE users SET notifications = 1 WHERE id = :user_id';
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['user_id' => $user_id]);
     return TRUE;
@@ -305,7 +305,7 @@ function notifications_off($user_id)
     if ($status['notifications'] == 0)
         return TRUE;
 
-    $sql = 'UPDATE users SET notifications = 0 WHERE id = :$user_id';
+    $sql = 'UPDATE users SET notifications = 0 WHERE id = :user_id';
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['user_id' => $user_id]);
     return TRUE;

@@ -32,11 +32,23 @@ function notify($user_id, $login, $checkbox)
 
     if ($checkbox == 'notify')
     {
-        notifications_on($user_id);
+        if (notifications_on($user_id))
+        {
+            notification_enabled();
+            return TRUE;
+        }
     }
 
+    if ($checkbox == 'not_notify')
+    {
+        if (notifications_off($user_id))
+        {
+            notification_disabled();
+            return TRUE;
+        }
+    }
 
-
+    return FALSE;
 }
 
 //function login($old_login, $new_login, $passwd)
@@ -89,7 +101,7 @@ if (array_key_exists('notifications_submit', $_POST) && $_POST['notifications_su
     $login = $_SESSION['user'];
     $user_id = $_SESSION['id'];
     $checkbox = $_POST['notification_check'];
-
+    notify($user_id, $login, $checkbox);
 }
 
 if (isset($_SESSION['user']))

@@ -1,4 +1,7 @@
 // (function() {
+    /* I can not turn on outer function here because it interrupts with php-js function call
+     * Like in friends_posts.control.php and my_profile.control.php
+     */
 
     var del_class = document.getElementsByClassName('delete');
 

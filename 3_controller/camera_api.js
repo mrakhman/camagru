@@ -1,4 +1,4 @@
-// (function() {
+(function() {
     // Turning the whole file into a function prevents it from being edited by user
     // This function is not accessible from html page. Comment function initialization for debugging
 
@@ -351,4 +351,4 @@
 
     disable_continue();
 
-// })();
+})();

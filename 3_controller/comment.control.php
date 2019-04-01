@@ -1,6 +1,7 @@
 <?php
 
 include_once "1_models/images.model.php";
+include_once "1_models/users.model.php";
 
 function comment_post()
 {
@@ -21,10 +22,19 @@ function comment_post()
         return FALSE;
     }
 
-    if (!send_comment_email($post_id))
+    $owner_id = get_postowner_id($post_id);
+    $owner_id = $owner_id['user_id'];
+    $notification = get_notifications_status($owner_id);
+    $status = $notification['notifications'];
+    if (intval($status) == 1)
     {
-        echo "failed: couldn't send email notification even though it is turned on";
-        return FALSE;
+        if (!send_comment_email($post_id))
+        {
+            echo "failed: couldn't send email notification even though it is turned on";
+            return FALSE;
+        }
+        else
+            echo "Email sent ";
     }
 
     echo "Comment received";

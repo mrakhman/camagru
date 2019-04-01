@@ -261,3 +261,19 @@ function send_comment_email($post_id)
     else
         return FALSE;
 }
+
+function get_postowner_id($post_id)
+{
+    global $pdo;
+
+    if (empty($post_id))
+        return FALSE;
+
+    $sql = 'SELECT user_id FROM posts WHERE id = :post_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['post_id' => $post_id]);
+    if (!($owner_id = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($owner_id);
+}

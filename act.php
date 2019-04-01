@@ -11,22 +11,6 @@ include_once "3_controller/comment.control.php";
 include_once "1_models/images.model.php";
 include_once "1_models/users.model.php";
 
-//$com = show_post_comments(26);
-//var_dump($com);
-//
-//
-//function ec()
-//{
-//    echo 'Hello ';
-//}
-//
-//function ho()
-//{
-//    echo 'Its' . ec() . ' World';
-//}
-//
-//ho();
-
-$notif = get_notifications_status(4);
-echo($notif['notifications']);
-//error_log($email['email']);
+$owner_id = get_postowner_id(40);
+$owner_id = $owner_id['user_id'];
+echo $owner_id;
