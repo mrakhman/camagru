@@ -88,6 +88,8 @@
             response.text().then((text) => console.log(text));
             console.log(response)
         });
+
+        window.location.href = "/my_profile.php";
     }
 
 
