@@ -22,7 +22,15 @@ function show_my($user_id)
 //			echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
         echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
 			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
-			<p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
+			
+			<div id="share_media" class="flex_share_col">
+			    <div class="flex_share_row">
+			    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                </div><div class="flex_share_row">
+                <script type="text/javascript">document.write(VK.Share.button(type="round_nocount", text="Share"));</script>
+            </div></div>
+            
+            <p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>';
 

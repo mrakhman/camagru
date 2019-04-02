@@ -432,3 +432,16 @@ input[type="checkbox"]{
     cursor: pointer;
 
 }
+
+.flex_share_col {
+    display: flex;
+    flex-direction: column; /* | row-reverse | column | column-reverse;*/
+    justify-content: flex-end; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
+}
+
+.flex_share_row {
+    margin: 1px;
+    display: flex;
+    flex-direction: row; /* | row-reverse | column | column-reverse;*/
+    justify-content: flex-end; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
+}

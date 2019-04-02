@@ -12,6 +12,7 @@
             <?php echo "Create database SQL code";?><br/>
             <?php echo "Pagination by pages";?><br/>
             <?php echo "Check Firefox";?><br/>
+            <?php echo "Share on social media";?><br/>
             <?php include_once "3_controller/friends_posts.control.php"; ?>
 <!--            <script src="3_controller/image.js"></script>-->
 		</div>
