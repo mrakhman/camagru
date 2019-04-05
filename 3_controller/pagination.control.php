@@ -4,7 +4,9 @@ include_once "1_models/images.model.php";
 include_once "2_view/pagination.view.php";
 
 
-function pagination_vars()
+
+
+function pagination_vars($n_posts)
 {
     if (isset($_GET['page_n'])) {
         $page_n = $_GET['page_n'];
@@ -20,7 +22,7 @@ function pagination_vars()
     $array['offset'] = $offset;
 
 
-    $n_posts = count_all_posts();
+
     $total_pages = ceil($n_posts / $no_of_records_per_page);
     $array['total_pages'] = $total_pages;
 
@@ -31,11 +33,13 @@ function pagination_vars()
 
 function all_p()
 {
-    $pagination_arr =  pagination_vars();
-
-    echo $pagination_arr['no_of_records_per_page'] * $pagination_arr['total_pages'];
 
     $user_id = $_SESSION['id'];
+    $n_posts = count_other_posts($user_id);
+    $pagination_arr =  pagination_vars($n_posts);
+
+    echo $n_posts;
+
 
     $posts = show_other_posts($user_id, $pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
     if (!($posts))

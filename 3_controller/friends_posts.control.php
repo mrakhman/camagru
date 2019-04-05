@@ -8,11 +8,12 @@ include_once "3_controller/pagination.control.php";
 
 function friends_posts()
 {
-    $pagination_arr =  pagination_vars();
+    $user_id = $_SESSION['id'];
 
-    echo $pagination_arr['no_of_records_per_page'] * $pagination_arr['total_pages'];
+    $n_posts = count_other_posts($user_id);
+    $pagination_arr =  pagination_vars($n_posts);
+	$posts = show_other_posts($user_id, $pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
 
-	$posts = show_other_posts($_SESSION['id'], $pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
 	if (!($posts))
 	{
 		echo "Your friends have no posts";
@@ -50,9 +51,10 @@ function friends_posts()
 
 function all_posts()
 {
-    $pagination_arr =  pagination_vars();
-
+    $n_posts = count_all_posts();
+    $pagination_arr =  pagination_vars($n_posts);
     $posts = show_all_posts($pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
+    
     if (!($posts))
     {
         echo "Nobody made a post yet";
