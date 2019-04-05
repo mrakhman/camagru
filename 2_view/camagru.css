@@ -445,3 +445,46 @@ input[type="checkbox"]{
     flex-direction: row; /* | row-reverse | column | column-reverse;*/
     justify-content: flex-end; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
 }
+
+.pagination ul {
+    text-decoration: none;
+
+}
+
+.pagination {
+    padding: 0;
+    margin: 30px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 250px;
+}
+
+.paging_el {
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    flex: 1 1 auto;
+}
+
+.paging_el:hover {
+    background-color: #f1f1f1;
+}
+
+li.disabled > a {
+    color: #939393;
+}
+
+.paging_el + .paging_el {
+    border-left: solid 1px #ccc;
+}
+
+ul > li > a {
+    padding: 5px;
+    text-decoration: none;
+    color: #396;
+}

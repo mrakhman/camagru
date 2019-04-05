@@ -4,10 +4,15 @@ include_once "1_models/images.model.php";
 include_once "1_models/users.model.php";
 include_once "2_view/comment.view.php";
 include_once "3_controller/comment.control.php";
+include_once "3_controller/pagination.control.php";
 
 function friends_posts()
 {
-	$posts = show_other_posts($_SESSION['id']);
+    $pagination_arr =  pagination_vars();
+
+    echo $pagination_arr['no_of_records_per_page'] * $pagination_arr['total_pages'];
+
+	$posts = show_other_posts($_SESSION['id'], $pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
 	if (!($posts))
 	{
 		echo "Your friends have no posts";
@@ -38,13 +43,16 @@ function friends_posts()
         echo '</div></div>';
         $i++;
     }
+    show_paging($pagination_arr['page_n'], $pagination_arr['total_pages']);
     echo '</div>';
 	return TRUE;
 }
 
 function all_posts()
 {
-    $posts = show_all_posts();
+    $pagination_arr =  pagination_vars();
+
+    $posts = show_all_posts($pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
     if (!($posts))
     {
         echo "Nobody made a post yet";
@@ -65,6 +73,7 @@ function all_posts()
 		</div>';
         $i++;
     }
+    show_paging($pagination_arr['page_n'], $pagination_arr['total_pages']);
     echo '</div>';
     return TRUE;
 }

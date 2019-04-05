@@ -26,6 +26,22 @@ function add_post($user_id, $file_name, $description)
     return TRUE;
 }
 
+function count_my_posts($user_id)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    $sql = 'SELECT COUNT(*) AS n_posts FROM posts WHERE user_id = :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    if (!($n_posts = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($n_posts['n_posts']);
+}
+
 
 function show_my_posts($user_id)
 {
@@ -67,12 +83,47 @@ function show_my_posts($user_id)
 }
 
 
-function show_all_posts()
+function count_all_posts()
 {
     global $pdo;
 
-    $sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+    $sql = 'SELECT COUNT(*) AS n_posts FROM posts';
     $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    if (!($n_posts = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($n_posts['n_posts']);
+}
+
+//function show_all_posts()
+//{
+//    global $pdo;
+//
+//    $sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+//    $stmt = $pdo->prepare($sql);
+//    $stmt->execute();
+//
+//    $i = 0;
+//    $all_posts = array();
+//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+//    {
+//        $all_posts[$i] = $all_post;
+//        $i++;
+//    }
+//    return ($all_posts);
+//}
+
+function show_all_posts($offset, $no_of_records_per_page)
+{
+    global $pdo;
+
+    if (!(isset($offset) || isset($no_of_records_per_page)))
+        return FALSE;
+
+    $sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT :offset, :no_of_records_per_page';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['offset' => $offset, 'no_of_records_per_page' => $no_of_records_per_page]);
     $stmt->execute();
 
     $i = 0;
@@ -85,11 +136,57 @@ function show_all_posts()
     return ($all_posts);
 }
 
-function show_other_posts($user_id)
+function count_other_posts($user_id)
 {
     global $pdo;
 
     if (empty($user_id))
+        return FALSE;
+
+    $sql = 'SELECT COUNT(*) AS n_posts FROM posts WHERE user_id != :user_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['user_id' => $user_id]);
+    if (!($n_posts = $stmt->fetch(PDO::FETCH_ASSOC)))
+        return NULL;
+
+    return ($n_posts['n_posts']);
+}
+
+//function show_other_posts($user_id)
+//{
+//    global $pdo;
+//
+//    if (empty($user_id))
+//        return FALSE;
+//
+////    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
+//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes,
+//            CASE WHEN liker_id IS NULL THEN 0 ELSE 1 END AS is_liked
+//            FROM posts
+//            LEFT JOIN likes ON likes.post_id = posts.id AND likes.liker_id = :user_id_1
+//            WHERE user_id != :user_id_2
+//            ORDER BY created_at DESC';
+//    $stmt = $pdo->prepare($sql);
+//    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
+//
+//    $i = 0;
+//    $all_posts = array();
+//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+//    {
+//        $all_posts[$i] = $all_post;
+//        $i++;
+//    }
+//    return ($all_posts);
+//}
+
+function show_other_posts($user_id, $offset, $no_of_records_per_page)
+{
+    global $pdo;
+
+    if (empty($user_id))
+        return FALSE;
+
+    if (!(isset($offset) || isset($no_of_records_per_page)))
         return FALSE;
 
 //    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
@@ -98,9 +195,9 @@ function show_other_posts($user_id)
             FROM posts
             LEFT JOIN likes ON likes.post_id = posts.id AND likes.liker_id = :user_id_1
             WHERE user_id != :user_id_2
-            ORDER BY created_at DESC';
+            ORDER BY created_at DESC LIMIT :offset, :no_of_records_per_page';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
+    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id, 'offset' => $offset, 'no_of_records_per_page' => $no_of_records_per_page]);
 
     $i = 0;
     $all_posts = array();
