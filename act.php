@@ -22,3 +22,13 @@ include_once "3_controller/pagination.control.php";
 
 
 <?php //include_once "3_controller/pagination.control.php"; ?>
+
+
+<main>
+    <div class="article-list" id="article-list"></div>
+    <ul class="article-list__pagination article-list__pagination--inactive" id="article-list-pagination"></ul>
+<!--    <input type="hidden" id="pageno" value="1">-->
+<!--    <img id="loader" src="img/icons/loading.gif">-->
+</main>
+
+<script src="3_controller/pagination.js"></script>

@@ -10,7 +10,6 @@
 
             <?php echo "Don't forget about passwd min complexity";?><br/>
             <?php echo "Create database SQL code";?><br/>
-            <?php echo "Pagination by pages";?><br/>
             <?php echo "Check Firefox";?><br/>
             <?php include_once "3_controller/friends_posts.control.php"; ?>
 <!--            <script src="3_controller/image.js"></script>-->

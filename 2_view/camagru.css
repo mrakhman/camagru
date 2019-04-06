@@ -488,3 +488,43 @@ ul > li > a {
     text-decoration: none;
     color: #396;
 }
+
+#loader {
+    /*animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;*/
+    animation: 1s;
+}
+
+.article-list__pagination {
+    background-color: #222;
+    display: block;
+    bottom: 0;
+    left: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: .5em;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 1s;
+    z-index: 2;
+}
+
+/*.article-list__pagination--inactive {*/
+/*    transform: translateY(100%);*/
+/*}*/
+
+.article-list__pagination__item {
+    display: inline-block;
+    margin: 0 1em;
+}
+
+.article-list__pagination__item > a {
+    color: #888;
+    text-decoration: none;
+}
+
+.article-list__pagination__item > a:hover {
+    color: #939393;
+    text-decoration: none;
+}
