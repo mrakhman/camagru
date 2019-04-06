@@ -24,21 +24,11 @@ function register($login, $email, $passwd, $conf_passwd)
 		return FALSE;
 	}
 
-	/*
-	// Check if input characters are valid
-	if (preg_match("/[^a-z0-9]/", $login))
+	if (!(secure_password($passwd)))
 	{
-		login_format();
+		unsafe_passwd();
 		return FALSE;
-	}*/
-
-	/*
-	//Check for password min complexity
-	if (!(secure_passwd($passwd)))
-	{
-		header('Location: ../index.php?error=unsafe_passwd');
-		exit();
-	}*/
+	}
 
 	if ((has_space($login)) || has_space($email) || has_space($passwd))
 	{

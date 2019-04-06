@@ -8,7 +8,6 @@
 			<p align="center"> Home </p>
 			<?php include_once "3_controller/register.control.php"; ?><br/>
 
-            <?php echo "Don't forget about passwd min complexity";?><br/>
             <?php echo "Create database SQL code";?><br/>
             <?php echo "Check Firefox";?><br/>
             <?php include_once "3_controller/friends_posts.control.php"; ?>

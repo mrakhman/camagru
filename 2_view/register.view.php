@@ -25,6 +25,11 @@
 	// 	echo '<p class="error"> Username must only include a-z and 0-9 </p>';
 	// }
 
+    function unsafe_passwd()
+    {
+        echo '<p class="error"> Unsafe password </p>';
+    }
+
 	function user_already_exists()
 	{
 		echo '<p class="error"> User already exists </p>';
@@ -40,7 +45,7 @@
 ?>
 
 		<h3>Register</h3>
-		<p class="success"> Don't use spaces </p>
+<!--		<p class="success"> Don't use spaces </p>-->
 		<form method="post">
 			<h> Email </h><br>
 			<input type="email" class="input" placeholder="Enter email" name="email"/>
@@ -48,7 +53,8 @@
 			<h> Username </h><br>
 			<input type="text" class="input" placeholder="Enter username" name="username"/>
 			<br>
-			<p><font size="-1"> Password must have at least 8 symbols and contain: <br> uppercase and lowercase [AaBb] + number [123] + special character [!@#$%^]</font></p>
+			<p><font size="-1"> Password must have at least 8 symbols and contain: <br> uppercase and lowercase [A-Z + a-z] + number [0-9] + special character [@#\-_$%^&+=§!\?]</font></p>
+			<p><font size="-1"> Example: HelloWorld!1</font></p>
 			<h> Password</h><br>
 			<input type="password" class="input" placeholder="Enter password" name="passwd"/>
 			<br>

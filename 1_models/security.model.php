@@ -12,14 +12,6 @@ function is_script_input($str)
 		return FALSE;
 }
 
-// function secure_passwd($passwd)
-// {
-		// if (strlen($passwd) < 8)
-		// 	return FALSE;
-		// if (preg_match(pattern, subject))
-// }
-
-
 function has_space($str)
 {
 	if (empty($str))
@@ -29,4 +21,17 @@ function has_space($str)
 			return TRUE;
 		else
 			return FALSE;
+}
+
+function secure_password($passwd)
+{
+    if (empty($passwd))
+        return FALSE;
+
+    $pattern = "/^(?=.*[0-9])(?=.*[@#\-_$%^&+=§!\?])(?=.*[A-Z])(?=.*[a-z]).{8,}$/";
+
+    if (preg_match($pattern, $passwd))
+        return TRUE;
+
+    return FALSE;
 }
