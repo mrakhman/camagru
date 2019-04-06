@@ -42,46 +42,75 @@ function count_my_posts($user_id)
     return ($n_posts['n_posts']);
 }
 
-
-function show_my_posts($user_id)
+function show_my_posts($user_id, $offset, $no_of_records_per_page)
 {
-	global $pdo;
+    global $pdo;
 
-	if (empty($user_id))
-		return FALSE;
+    if (empty($user_id))
+        return FALSE;
 
-	// The way of counting likes on ONLY my posts before we added trigger functions to database likes (see Telegram from Mar 24)
-    // Trigger unction is used now but this way is saved just in case something goes wrong with trigger functions
-
-//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, COUNT(likes.post_id) AS likes
-//            FROM posts LEFT JOIN likes
-//            ON posts.id = likes.post_id
-//            GROUP BY posts.id
-//            HAVING user_id = :user_id
-//            ORDER BY created_at DESC';
-
+    if (!(isset($offset) || isset($no_of_records_per_page)))
+        return FALSE;
 
     $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes
             FROM posts
             WHERE user_id = :user_id
-            ORDER BY created_at DESC';
+            ORDER BY created_at DESC LIMIT :offset, :no_of_records_per_page';
 
 //    $sql = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
     $stmt = $pdo->prepare($sql);
-	$stmt->execute(['user_id' => $user_id]);
-	// if (!($stmt->fetch(PDO::FETCH_ASSOC)))
-	// 	return NULL;
+    $stmt->execute(['user_id' => $user_id, 'offset' => $offset, 'no_of_records_per_page' => $no_of_records_per_page]);
+    // if (!($stmt->fetch(PDO::FETCH_ASSOC)))
+    // 	return NULL;
 
-	$i = 0;
-	$my_posts = array();
-	while ($my_post = $stmt->fetch(PDO::FETCH_ASSOC))
-	{
-		$my_posts[$i] = $my_post;
-		$i++;
-	}
-	return ($my_posts);
+    $i = 0;
+    $my_posts = array();
+    while ($my_post = $stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $my_posts[$i] = $my_post;
+        $i++;
+    }
+    return ($my_posts);
 }
 
+//function show_my_posts($user_id)
+//{
+//	global $pdo;
+//
+//	if (empty($user_id))
+//		return FALSE;
+//
+//	// The way of counting likes on ONLY my posts before we added trigger functions to database likes (see Telegram from Mar 24)
+//    // Trigger unction is used now but this way is saved just in case something goes wrong with trigger functions
+//
+////    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, COUNT(likes.post_id) AS likes
+////            FROM posts LEFT JOIN likes
+////            ON posts.id = likes.post_id
+////            GROUP BY posts.id
+////            HAVING user_id = :user_id
+////            ORDER BY created_at DESC';
+//
+//
+//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes
+//            FROM posts
+//            WHERE user_id = :user_id
+//            ORDER BY created_at DESC';
+//
+////    $sql = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
+//    $stmt = $pdo->prepare($sql);
+//	$stmt->execute(['user_id' => $user_id]);
+//	// if (!($stmt->fetch(PDO::FETCH_ASSOC)))
+//	// 	return NULL;
+//
+//	$i = 0;
+//	$my_posts = array();
+//	while ($my_post = $stmt->fetch(PDO::FETCH_ASSOC))
+//	{
+//		$my_posts[$i] = $my_post;
+//		$i++;
+//	}
+//	return ($my_posts);
+//}
 
 function count_all_posts()
 {
@@ -95,24 +124,6 @@ function count_all_posts()
 
     return ($n_posts['n_posts']);
 }
-
-//function show_all_posts()
-//{
-//    global $pdo;
-//
-//    $sql = 'SELECT * FROM posts ORDER BY created_at DESC';
-//    $stmt = $pdo->prepare($sql);
-//    $stmt->execute();
-//
-//    $i = 0;
-//    $all_posts = array();
-//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
-//    {
-//        $all_posts[$i] = $all_post;
-//        $i++;
-//    }
-//    return ($all_posts);
-//}
 
 function show_all_posts($offset, $no_of_records_per_page)
 {
@@ -136,6 +147,25 @@ function show_all_posts($offset, $no_of_records_per_page)
     return ($all_posts);
 }
 
+//function show_all_posts()
+//{
+//    global $pdo;
+//
+//    $sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+//    $stmt = $pdo->prepare($sql);
+//    $stmt->execute();
+//
+//    $i = 0;
+//    $all_posts = array();
+//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+//    {
+//        $all_posts[$i] = $all_post;
+//        $i++;
+//    }
+//    return ($all_posts);
+//}
+
+
 function count_other_posts($user_id)
 {
     global $pdo;
@@ -151,33 +181,6 @@ function count_other_posts($user_id)
 
     return ($n_posts['n_posts']);
 }
-
-//function show_other_posts($user_id)
-//{
-//    global $pdo;
-//
-//    if (empty($user_id))
-//        return FALSE;
-//
-////    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
-//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes,
-//            CASE WHEN liker_id IS NULL THEN 0 ELSE 1 END AS is_liked
-//            FROM posts
-//            LEFT JOIN likes ON likes.post_id = posts.id AND likes.liker_id = :user_id_1
-//            WHERE user_id != :user_id_2
-//            ORDER BY created_at DESC';
-//    $stmt = $pdo->prepare($sql);
-//    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
-//
-//    $i = 0;
-//    $all_posts = array();
-//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
-//    {
-//        $all_posts[$i] = $all_post;
-//        $i++;
-//    }
-//    return ($all_posts);
-//}
 
 function show_other_posts($user_id, $offset, $no_of_records_per_page)
 {
@@ -208,6 +211,34 @@ function show_other_posts($user_id, $offset, $no_of_records_per_page)
     }
     return ($all_posts);
 }
+
+//function show_other_posts($user_id)
+//{
+//    global $pdo;
+//
+//    if (empty($user_id))
+//        return FALSE;
+//
+////    $sql = 'SELECT * FROM posts WHERE user_id != :user_id ORDER BY created_at DESC';
+//    $sql = 'SELECT posts.id, posts.user_id, posts.file_name, posts.description, posts.created_at, posts.likes,
+//            CASE WHEN liker_id IS NULL THEN 0 ELSE 1 END AS is_liked
+//            FROM posts
+//            LEFT JOIN likes ON likes.post_id = posts.id AND likes.liker_id = :user_id_1
+//            WHERE user_id != :user_id_2
+//            ORDER BY created_at DESC';
+//    $stmt = $pdo->prepare($sql);
+//    $stmt->execute(['user_id_1' => $user_id, 'user_id_2' => $user_id]);
+//
+//    $i = 0;
+//    $all_posts = array();
+//    while ($all_post = $stmt->fetch(PDO::FETCH_ASSOC))
+//    {
+//        $all_posts[$i] = $all_post;
+//        $i++;
+//    }
+//    return ($all_posts);
+//}
+
 
 function get_filename_by_id($post_id)
 {

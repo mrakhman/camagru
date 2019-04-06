@@ -3,11 +3,15 @@
 include_once "1_models/images.model.php";
 include_once "2_view/comment.view.php";
 include_once "3_controller/comment.control.php";
+include_once "3_controller/pagination.control.php";
 
-function show_my($user_id)
+function my_posts()
 {
     $session_id = $_SESSION['id'];
-	$posts = show_my_posts($user_id);
+
+    $n_posts = count_my_posts($session_id);
+    $pagination_arr =  pagination_vars($n_posts);
+    $posts = show_my_posts($session_id, $pagination_arr['offset'], $pagination_arr['no_of_records_per_page']);
 
 	if (!$posts)
 	{
@@ -49,6 +53,7 @@ function show_my($user_id)
         echo '</div></div>';
         $i++;
     }
+    show_paging($pagination_arr['page_n'], $pagination_arr['total_pages']);
     echo '</div>';
 	return TRUE;
 }
@@ -56,7 +61,7 @@ function show_my($user_id)
 
 if (isset($_SESSION['user']) && isset($_SESSION['id']))
 {
-    show_my($_SESSION['id']);
+    my_posts();
 }
 
 else if (empty($_SESSION['user']) || empty($_SESSION['id']))
