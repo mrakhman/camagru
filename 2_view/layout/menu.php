@@ -16,7 +16,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['id']))
 			<a href="#" class="dropbtn"> Settings </a>
 			<div class="dropdown-content">
 				<a href="change_passwd.php"> Change password </a>
-                <a href="change_login.php"> Change login </a>
+                <a href="change_login.php"> Change username </a>
                 <a href="change_email.php"> Change email </a>
                 <a href="change_notification.php"> Change notifications </a>
 			</div>

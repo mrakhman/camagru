@@ -15,7 +15,7 @@ function pagination_vars($n_posts)
     }
     $array['page_n'] = $page_n;
 
-    $no_of_records_per_page = 3;
+    $no_of_records_per_page = 5;
     $array['no_of_records_per_page'] = $no_of_records_per_page;
 
     $offset = ($page_n-1) * $no_of_records_per_page;

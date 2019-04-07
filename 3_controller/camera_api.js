@@ -90,11 +90,7 @@
             console.log(response);
             window.location.href = "/my_profile.php";
         });
-
-
     }
-
-
 
     document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
 
