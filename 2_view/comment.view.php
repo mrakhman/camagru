@@ -3,6 +3,7 @@
 function show_comment_form($post_id)
 {
 ?>
+    <div class="comments_array"></div>
     <form class="comment_form">
         <div id="flex_container_com">
             <textarea id="comment" placeholder="Type here..." rows="2" cols="38" maxlength="255" required></textarea>

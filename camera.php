@@ -20,7 +20,7 @@
                  Upload photo
                 <br>
                 <img id="attach_photo" src="img/icons/attach.png" width="30">
-                <input type="file" id="choose_file"/>
+                <input type="file" id="choose_file" accept="image/*"/>
 
             </div>
 
