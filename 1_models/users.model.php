@@ -46,7 +46,7 @@ function send_email($email, $token)
 
 	$to = $email;
 	$subject = "Camagru - confirm your email";
-	$message = "Welcome to Camagru! Click the link to verify your email: http://localhost:8080/42_mrakhman_mamp/camagru/activation.php?email=" . $email . "&token=" . $token;
+	$message = "Welcome to Camagru! Click the link to verify your email: http://localhost:8080/activation.php?email=" . $email . "&token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
