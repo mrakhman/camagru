@@ -35,7 +35,7 @@ function friends_posts()
 			<p class="nick">' . $user_login['login'] . '</p>
 			<p class="desc">' . $posts[$i]['description'] . '</p>
 			<p class="date">' . $posts[$i]['created_at'] . '</p>
-			<button onclick="hide_show_comments('. $posts[$i]['id'] .')">Show comments</button>
+			<button class="button show_comments_btn" onclick="hide_show_comments('. $posts[$i]['id'] .')">Show comments</button>
             <div class="show_comments" style="display: none;">
             <hr class="divider">';
 

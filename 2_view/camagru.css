@@ -83,6 +83,7 @@ footer {
 .menu {
     list-style: none;
     margin: 0;
+    padding: 0;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -126,7 +127,7 @@ footer {
     position: absolute;
     background-color: #f1f1f1;
     text-decoration: none;
-    min-width: 100px;
+    min-width: 120px;
     z-index: 1;
     font-size: 14px;
 }
@@ -278,7 +279,6 @@ footer {
     background-color: #ddd;
     border: 10px solid #ddd;
     margin: 0 auto;
-
 }
 
 #canvas {
@@ -291,6 +291,24 @@ video {
     -o-transform: scale(-1, 1);
     transform: scale(-1, 1);
     filter: FlipH;
+}
+
+@media only screen and (max-width: 500px) {
+    .camera {
+        width: 90%;
+    }
+
+    #canvas {
+        width: 90%;
+    }
+
+    video {
+        width: 90%;
+    }
+
+    #photo {
+        width: 90%;
+    }
 }
 
 
@@ -390,6 +408,14 @@ textarea {
 #comment {
     font-size: 13px;
     margin: 0 3px 3px;
+    border: 1px solid #ccc;
+}
+
+#description {
+    font-size: 13px;
+    margin: 0 3px 3px;
+    border: 1px solid black;
+    font-family: Helvetica, sans-serif;
 }
 
 .comment_form {
@@ -419,6 +445,13 @@ textarea {
     font-size: 14px;
 }
 
+.show_comments_btn {
+    /*width: 150px;*/
+    /*background-color: #396;*/
+    font-size: 13px;
+    padding: 5px;
+}
+
 hr.divider {
     border: 0;
     height: 1px;
@@ -445,6 +478,9 @@ input[type="checkbox"]{
     flex-direction: row; /* | row-reverse | column | column-reverse;*/
     justify-content: flex-end; /* flex-start | flex-end | center | space-between | space-around | space-evenly;*/
 }
+
+
+/* Infinite pagination */
 
 .pagination ul {
     text-decoration: none;

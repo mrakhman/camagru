@@ -46,7 +46,7 @@ function show_post_comments($post_id)
     $comments = show_comments($post_id);
     if (!$comments)
     {
-        echo "No comments";
+        echo '<p class="comment_display">No comments</p>';
         return TRUE;
     }
 

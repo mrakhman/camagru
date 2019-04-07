@@ -44,7 +44,7 @@ function my_posts()
 //            echo '<a href="#" class="delete" id="post_' . $posts[$i]['id'] . '">Delete</a>';
         }
 
-        echo '<button onclick="hide_show_comments('. $posts[$i]['id'] .')">Show comments</button>
+        echo '<button class="button show_comments_btn" onclick="hide_show_comments('. $posts[$i]['id'] .')">Show comments</button>
             <div class="show_comments" style="display: none;">
             <hr class="divider">';
 
