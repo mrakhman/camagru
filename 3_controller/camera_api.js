@@ -13,21 +13,21 @@
 
     const STICKER_HEIGHT = 100;
     const STICKER_WIDTH = 100;
-    // var choose_file = document.getElementById('choose_file');
 
-    navigator.getMedia = (
-		navigator.getUserMedia || 
-		navigator.webkitGetUserMedia || 
-		navigator.mozGetUserMedia ||
-            // navigator.mediaDevices.getUserMedia ||
-		navigator.msGetUserMedia
-		);
+    // navigator.getMedia = (
+	// 	// navigator.getUserMedia ||
+	// 	navigator.webkitGetUserMedia ||
+	// 	// navigator.mozGetUserMedia ||
+    //         navigator.mediaDevices.getUserMedia ||
+	// 	navigator.msGetUserMedia
+	// 	);
 
+    let constraints = {
+        video: true,
+        audio: false
+    };
     // Turn on the video stream
-	navigator.getMedia({
-		video: true,
-		audio: false
-	},	function(stream) {
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
 		// try {
 			video.srcObject = stream;
 		// }
@@ -35,7 +35,7 @@
 		// 	// video.src = vendorUrl.createObjectURL(stream);
 		// }
 		video.play();
-	},	function camera_error() {
+	}).catch(function camera_error() {
 	    video.remove();
         document.getElementById('capture').style.visibility = 'hidden';
 		// alert("Couldn't connect to your camera, check device settings. \n If you can't use your camera, use 'Upload my photo' button");
@@ -87,50 +87,17 @@
             body: formData,
         }).then(response => {
             response.text().then((text) => console.log(text));
-            console.log(response)
+            console.log(response);
+            window.location.href = "/my_profile.php";
         });
 
-        window.location.href = "/my_profile.php";
+
     }
 
 
 
     document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
 
-    /* Masha !!!!!!!!!!! */
-    // function drawUploadedPhoto(e) {
-    //     photo.src = URL.createObjectURL(e.target.files[0]);
-    //     // photo.onload = function() {
-    //     //     context.drawImage(photo, 0, 0, 400, 0);
-    //     // };
-    //
-    //     // var photo_64 = new FileReader();
-    //     // photo_64.readAsDataURL(photo.src);
-    //
-    //     // photo.onload = function() {
-    //     //     URL.revokeObjectURL(this.src);
-    //     // }
-    //
-    //     function getBase64(file) {
-    //         var reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onload = function () {
-    //             console.log(reader.result);
-    //             photo_field.value = reader.result;
-    //         };
-    //         reader.onerror = function (error) {
-    //             console.log('Error: ', error);
-    //         };
-    //     }
-    //
-    //     getBase64(e.target.files[0]);
-    //     context.drawImage(base_64, 0, 0, 400, 0);
-    //     photo.src = canvas.toDataURL('image/png');
-    // }
-    /* Masha !!!!!!!!!!! */
-
-
-    /* APTEMKA !!!!!!!! */
     function drawUploadedPhoto(e) {
         // 1. Get file content
         // 2. Draw it on canvas
@@ -169,7 +136,6 @@
             put_sticker_at(form_fields['x'].value, form_fields['y'].value, form_fields['id'].value);
         }
     }
-    /* APTEMKA !!!!!!!! */
 
 
     function select_from_preview() {
@@ -304,8 +270,10 @@
             return;
         }
 
-        var pos_x = e.clientX - e.target.x - STICKER_WIDTH / 2;
-        var pos_y = e.clientY - e.target.y - STICKER_HEIGHT / 2;
+        // var pos_x = e.clientX - e.target.x - STICKER_WIDTH / 2;
+        // var pos_y = e.clientY - e.target.y - STICKER_HEIGHT / 2;
+        var pos_x = e.offsetX - STICKER_WIDTH / 2;
+        var pos_y = e.offsetY - STICKER_HEIGHT / 2;
         put_sticker_at(pos_x, pos_y, form_fields['id'].value);
         // document.getElementById('continue').style.backgroundColor = '#396';
         // document.getElementById('continue').removeAttribute('disabled');
