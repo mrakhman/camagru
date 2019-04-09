@@ -382,7 +382,7 @@ function send_comment_email($post_id)
     $to = $email['email'];
     $subject = "Camagru - new comment to your post";
     $message = "Your post received a new comment, check it on your page: ";
-    $message .= "http://localhost:8080/my_profile.php";
+    $message .= "http://camagru.ml:8080/my_profile.php";
     $headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
     if (mail($to, $subject, $message, $headers))
         return TRUE;
