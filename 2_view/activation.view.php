@@ -14,7 +14,7 @@ function activation_damage()
 
 function activation_success()
 {
-	echo '<p class="success" align="center"> Thank you for confirming your email. Your account is active! </p>';
+	echo '<p class="success" align="center"> Thank you for confirming your email. You can now login above! </p>';
 }
 
 ?>

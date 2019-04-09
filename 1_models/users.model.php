@@ -46,12 +46,42 @@ function send_email($email, $token)
 
 	$to = $email;
 	$subject = "Camagru - confirm your email";
-	$message = "Welcome to Camagru! Click the link to verify your email: http://localhost:8080/activation.php?email=" . $email . "&token=" . $token;
+	$message = "Welcome to Camagru! Click the link to verify your email: http://camagru.ml:8080/activation.php?email=" . $email . "&token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
 	else
 		return FALSE;
+}
+
+function get_user_by_changed_email($new_email)
+{
+    global $pdo;
+
+    if (empty($new_email))
+        return FALSE;
+
+    $sql = 'SELECT * FROM change_email WHERE new_email = :new_email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['new_email' => $new_email]);
+    if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
+    {
+        // echo "No such user\n";
+        return NULL;
+    }
+    return ($current_user);
+}
+
+function change_email_final()
+{
+    global $pdo;
+
+    $sql = 'UPDATE users INNER JOIN change_email
+            ON users.id = change_email.user_id
+            SET users.email = change_email.new_email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return TRUE;
 }
 
 function activate_user($email, $token)
@@ -62,16 +92,29 @@ function activate_user($email, $token)
 		return FALSE;
 
 	$check_user = get_user_by_email($email);
-	if (!($check_user))
+    $check_new_email = get_user_by_changed_email($email);
+	if (!$check_user && !$check_new_email)
 		return FALSE;
 
-	if ($check_user['token'] !== $token)
+	if ($check_user['token'] !== $token && $check_new_email['token'] !== $token)
 		return FALSE;
+    if ($check_user)
+    {
+        $sql = 'UPDATE users SET is_confirmed = 1 WHERE token = :token';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['token' => $token]);
+        return TRUE;
+    }
 
-	$sql = 'UPDATE users SET is_confirmed = 1 WHERE token = :token';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['token' => $token]);
-	return TRUE;
+    if ($check_new_email)
+    {
+        $sql = 'UPDATE change_email SET is_confirmed = 1 WHERE token = :token';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['token' => $token]);
+        change_email_final();
+        return TRUE;
+    }
+
 }
 
 function get_user_by_login($login)
@@ -106,6 +149,23 @@ function get_user_by_email($email)
 		return NULL;
 	}
 	return ($current_user);
+}
+
+function get_user_by_id($id)
+{
+    global $pdo;
+
+    if (empty($id))
+        return FALSE;
+    $sql = 'SELECT * FROM users WHERE id = :id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    if (!($current_user = $stmt->fetch(PDO::FETCH_ASSOC)))
+    {
+        // echo "No such user\n";
+        return NULL;
+    }
+    return ($current_user);
 }
 
 function auth_user($user, $passwd)
@@ -145,19 +205,41 @@ function change_login($old_login, $new_login)
 	return TRUE;
 }
 
-function change_email($old_email, $new_email)
+//function change_email($old_email, $new_email)
+//{
+//	global $pdo;
+//
+//	if (empty($old_email) || empty($new_email))
+//		return FALSE;
+//
+//	$sql = 'UPDATE users SET email = :new_email WHERE email = :old_email';
+//	$stmt = $pdo->prepare($sql);
+//	$stmt->execute(['new_email' => $new_email, 'old_email' => $old_email]);
+//	return TRUE;
+//}
+
+
+function change_email_first($user_id, $new_email)
 {
-	global $pdo;
+    global $pdo;
 
-	if (empty($old_email) || empty($new_email))
-		return FALSE;
+    if (empty($user_id) || empty($new_email))
+        return FALSE;
 
-	$sql = 'UPDATE users SET email = :new_email WHERE email = :old_email';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['new_email' => $new_email, 'old_email' => $old_email]);
-	return TRUE;
+    // Create token
+    $token = str_shuffle("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789");
+    $token = substr($token, 0, 10);
+    $is_confirmed = 0;
+
+    // send email
+    if (!(send_email($new_email, $token)))
+        return FALSE;
+
+    $sql = 'REPLACE INTO change_email(user_id, new_email, token, is_confirmed) VALUES(:user_id, :new_email, :token, :is_confirmed)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['new_email' => $new_email, 'user_id' => $user_id, 'token' => $token, 'is_confirmed' => $is_confirmed]);
+    return TRUE;
 }
-
 
 
 function create_passreset_token($email)
@@ -196,7 +278,7 @@ function send_passreset_email($email, $reset_array)
 	$to = $email;
 	$subject = "Camagru - forgot password";
 	$message = "Click the link to reset your password: ";
-	$message .= "http://localhost:8080/create_new_passwd.php?token=" . $token;
+	$message .= "http://camagru.ml:8080/create_new_passwd.php?token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;

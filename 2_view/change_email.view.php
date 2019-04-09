@@ -32,7 +32,7 @@
 
 	function change_email_ok()
 	{
-		echo '<p class="success"> Email successfully changed! </p>';
+		echo '<p class="success"> Email will be changed after you confirm it, check your email! </p>';
 	}
 
 	function show_email_form()

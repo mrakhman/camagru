@@ -3,7 +3,7 @@
 include_once "1_models/users.model.php";
 include_once "2_view/change_email.view.php";
 
-function email($login, $new_email, $passwd)
+function email($user_id, $new_email, $passwd)
 {
 	if (empty($new_email) || empty($passwd))
 	{
@@ -11,12 +11,18 @@ function email($login, $new_email, $passwd)
 		return FALSE;
 	}
 
-	$user = get_user_by_login($login);
+	$user = get_user_by_id($user_id);
 	$old_email = $user['email'];
 
 	if (!($user))
 	{
 		email_user_not_found();
+		return FALSE;
+	}
+
+	if ($new_email == $old_email)
+	{
+		same_email();
 		return FALSE;
 	}
 
@@ -32,13 +38,7 @@ function email($login, $new_email, $passwd)
 		return FALSE;
 	}
 
-	if ($new_email == $old_email)
-	{
-		same_email();
-		return FALSE;
-	}
-
-	if (!(change_email($old_email, $new_email)))
+	if (!(change_email_first($user_id, $new_email)))
 	{
 		email_sql_error();
 		return FALSE;
@@ -52,11 +52,11 @@ function email($login, $new_email, $passwd)
 
 if (array_key_exists('email_submit', $_POST) && $_POST['email_submit'] === "OK")
 {
-	$login = $_SESSION['user'];
+	$user_id = $_SESSION['id'];
 	$new_email = $_POST['new_email'];
 	$passwd = $_POST['passwd'];
 	
-	email($login, $new_email, $passwd);
+	email($user_id, $new_email, $passwd);
 }
 
 if (isset($_SESSION['user']))
