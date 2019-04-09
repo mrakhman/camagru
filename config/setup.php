@@ -3,6 +3,7 @@
 </form>
 
 <?php
+include_once "database.php";
 
 function setup_db()
 {
