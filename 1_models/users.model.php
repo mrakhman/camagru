@@ -46,7 +46,7 @@ function send_email($email, $token)
 
 	$to = $email;
 	$subject = "Camagru - confirm your email";
-	$message = "Welcome to Camagru! Click the link to verify your email: http://camagru.ml:8080/activation.php?email=" . $email . "&token=" . $token;
+	$message = "Welcome to Camagru! Click the link to verify your email: https://camagru.ml:8443/activation.php?email=" . $email . "&token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;
@@ -278,7 +278,7 @@ function send_passreset_email($email, $reset_array)
 	$to = $email;
 	$subject = "Camagru - forgot password";
 	$message = "Click the link to reset your password: ";
-	$message .= "http://camagru.ml:8080/create_new_passwd.php?token=" . $token;
+	$message .= "https://camagru.ml:8443/create_new_passwd.php?token=" . $token;
 	$headers = 'From: mrakhman@student.42.fr' . "\r\n" . 'Reply-To: mrakhman@student.42.fr' . "\r\n";
 	if (mail($to, $subject, $message, $headers))
 		return TRUE;

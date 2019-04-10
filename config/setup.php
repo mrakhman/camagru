@@ -22,7 +22,7 @@ function setup_db()
     if ($output !== NULL)
     {
         echo "Database successfully created!";
-        echo '<br><a href="http://localhost:8080/index.php">Click here</a>';
+        echo '<br><a href="/index.php">Click here</a>';
         return TRUE;
     }
 
