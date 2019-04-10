@@ -20,6 +20,8 @@ function add_post($user_id, $file_name, $description)
     global $pdo;
     if (empty($user_id) || empty($file_name))// || empty($description))
         return FALSE;
+
+    $description = htmlspecialchars($description);
     $sql = 'INSERT INTO posts(user_id, file_name, description) VALUES(:user_id, :file_name, :description)';
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['user_id' => $user_id, 'file_name' => $file_name, 'description' => $description]);
@@ -328,6 +330,8 @@ function add_comment($user_id, $post_id, $comment)
 
     if (empty($user_id) || empty($post_id) || empty($comment))
         return FALSE;
+
+    $comment = htmlspecialchars($comment);
 
     $post_id = intval($post_id);
     $sql = 'INSERT INTO comments(post_id, commentator_id, text) VALUES(:post_id, :user_id, :comment)';

@@ -11,6 +11,11 @@
 		echo '<p class="error"> Empty input field </p>';
 	}
 
+    function unsafe_passwd()
+    {
+        echo '<p class="error"> Unsafe password </p>';
+    }
+
 	function confirm_password_error()
 	{
 		echo '<p class="error"> Those passwords didn\'t match. Try again </p>';
@@ -28,11 +33,6 @@
 		echo '<p class="error"> Password can\'t be reset </p>';
 	}
 
-	function unsafe_passwd()
-	{
-		echo '<p class="error"> Use more safe password </p>';
-	}
-
 	function passreset_success()
 	{
 		echo '<p class="success"> Password has been successfully reset </p>';
@@ -43,9 +43,8 @@
 ?>
 	<h3 align="center"> Enter new password </h3>
 	<form method="post" >
-		<p> Password <br> [minimum complexity = ?] </p>
-		<!-- <input type="hidden" name="selector" value"<?php// echo $selector; ?>">
-		<input type="hidden" name="validator" value"<?php// echo $validator; ?>"> -->
+        <p><font size="-1"> Password must have at least 8 symbols and contain: <br> uppercase and lowercase [A-Z + a-z] + number [0-9] + special character [@#\-_$%^&+=§!\?]</font></p>
+        <p><font size="-1"> Example: HelloWorld!1</font></p>
 		<input type="password" class="input" placeholder="Enter password" name="passwd"/>
 		<br>
 		<input type="password" class="input" placeholder="Repeat password" name="conf_passwd"/>

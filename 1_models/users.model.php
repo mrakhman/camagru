@@ -9,6 +9,7 @@ function create_user($login, $email, $passwd)
 		return FALSE;
 
 	// Check if user login exists
+    $login = htmlspecialchars($login);
 	$check_user = get_user_by_login($login);
 	if ($check_user)
 		return FALSE;
@@ -198,6 +199,8 @@ function change_login($old_login, $new_login)
 
 	if (empty($old_login) || empty($new_login))
 		return FALSE;
+
+	$new_login = htmlspecialchars($new_login);
 
 	$sql = 'UPDATE users SET login = :new_login WHERE login = :old_login';
 	$stmt = $pdo->prepare($sql);

@@ -2,6 +2,8 @@
 
 include_once "2_view/create_new_passwd.view.php";
 include_once "1_models/users.model.php";
+include_once "1_models/security.model.php";
+
 
 $token = $_GET['token'];
 
@@ -29,6 +31,12 @@ function create_new_passwd($token, $user_id)
 		empty_passwd();
 		return FALSE;
 	}
+
+    if (!(secure_password($passwd)))
+    {
+        unsafe_passwd();
+        return FALSE;
+    }
 
 	if ($passwd !== $conf_passwd)
 	{

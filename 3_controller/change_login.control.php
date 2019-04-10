@@ -44,7 +44,7 @@ function login($old_login, $new_login, $passwd)
 	}
 
 	change_login_ok();
-	$_SESSION['user'] = $new_login;
+	$_SESSION['user'] = htmlspecialchars($new_login);
 	return TRUE;
 }
 
