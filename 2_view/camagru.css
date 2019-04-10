@@ -140,7 +140,7 @@ footer {
     display: block;
 }
 
-.dropdown-content a:hover {background-color: #fafafa; color: #396;}
+.dropdown-content a:hover {width:100%; background-color: #fafafa; color: #396;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
