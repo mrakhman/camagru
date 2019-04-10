@@ -51,7 +51,13 @@ INSERT INTO `users` (`id`, `login`, `email`, `is_confirmed`, `token`, `passwd`, 
 (24, 'aa', 'a@a', 0, 'h3XCvRZWoD', '8aca2602792aec6f11a67206531fb7d7f0dff59413145e6973c45001d0087b42d11bc645413aeff63a42391a39145a591a92200d560195e53b478584fdae231a', 0, 1),
 (25, '123@123  ', '123@123', 1, 'PpaWUe0vd7', '8513c69d070a008df008aef8624ed24afc81b170d242faf5fafe853d4fe9bf8aa7badfb0fd045d7b350b19fbf8ef6b2a51f17a07a1f6819abc9ba5ce43324244', 0, 1),
 (26, '!<SCRIPT>alert(2)</SCRIPT>', '1@111', 1, 'M3QY90vTkt', '8513c69d070a008df008aef8624ed24afc81b170d242faf5fafe853d4fe9bf8aa7badfb0fd045d7b350b19fbf8ef6b2a51f17a07a1f6819abc9ba5ce43324244', 0, 1),
-(27, 'nn', 'nn@nn', 1, 'RiKM91u3nQ', 'b730b2bf06c42c6f16f75ac198848ea1b5632ce536544a826960374bfaecd60f7d3f85f56c8c55ad49e507134fae44acf487b31bc4903d6b33d1f8bd20331027', 0, 1);
+(27, 'nn', 'nn@nn', 1, 'RiKM91u3nQ', 'b730b2bf06c42c6f16f75ac198848ea1b5632ce536544a826960374bfaecd60f7d3f85f56c8c55ad49e507134fae44acf487b31bc4903d6b33d1f8bd20331027', 0, 1),
+(29, 'robinba@gmail.com', 'robinba@gmail.com', 0, 'CN1mz6ZDGj', 'd2955069daeda010c9dbd10b235eece6a15b37fdf39e79b72e60864d8d6428d7d3162272328dd83996721f8d0238d510b587b98536991152c6db387f665458d5', 0, 1),
+(30, 'r@', 'rr@rr', 0, 'kmVwNnPOh1', '0368768163a91979bb6fd48cc6fca4199a08638759759691705fbb5e987cb30d73b5ed03fe2aab67356d83c77a39334cfa3704655ff4bb5e092c397244cd1428', 0, 1),
+(31, 'ivart', 'test@ivart.xyz', 0, 'HEfoue0WPi', 'd4b217c3b8dcdd2722bf84e3a2cad149c426141e97dfe8c41f1b7192d7de6fd6bdf40bffd4fb6f42324bb828c913cbe7c17d8ecdb2be468fd93bf75f44f78196', 0, 1),
+(32, 'ivart2', 'ai@timeclub24.ru', 1, 'aMn81ETLP9', 'd4b217c3b8dcdd2722bf84e3a2cad149c426141e97dfe8c41f1b7192d7de6fd6bdf40bffd4fb6f42324bb828c913cbe7c17d8ecdb2be468fd93bf75f44f78196', 0, 1),
+(35, 'mrakhman@student.42.fr', 'mrakhman@student.42.fr', 1, 'MUypV7C9um', 'bcfc1409a12b97085a0a7c7b9f4d3ba84e83b9c24ca18568d44317ed10f229d31cbfddd2b64a83e979bac82bc72cb6f3124651d869fb07ccd047d5c2d4c8758b', 0, 1);
+
 
 -- --------------------------------------------------------
 
@@ -72,6 +78,20 @@ CREATE TABLE `passreset` (
 
 INSERT INTO `passreset` (`id`, `user_id`, `token`, `expires`) VALUES
 (27, 21, 'e3yi8DHKSqjfnG5R9XAmE627zCt1r4bM', 1544376894);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `change_email`
+--
+
+CREATE TABLE `change_email` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `new_email` varchar(36) NOT NULL,
+  `token` varchar(10) DEFAULT NULL,
+  `is_confirmed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- --------------------------------------------------------
@@ -108,8 +128,16 @@ INSERT INTO `posts` (`id`, `user_id`, `file_name`, `description`, `created_at`, 
 (42, 4, '04_5ca37c70493a82.00480342.png', '', '2019-04-02 17:14:56', 0),
 (43, 4, '04_5ca381e4aafcc5.90901345.png', '', '2019-04-02 17:38:12', 0),
 (44, 4, '04_5ca38215ecd317.81046789.png', '', '2019-04-02 17:39:02', 0),
-(45, 4, '04_5ca383d6966d69.01791987.png', '', '2019-04-02 17:46:30', 0);
-
+(45, 4, '04_5ca383d6966d69.01791987.png', '', '2019-04-02 17:46:30', 0),
+(46, 4, '04_5ca632d45c3148.87737671.png', '', '2019-04-04 18:37:40', 0),
+(47, 4, '04_5ca77ff0607c53.36685715.png', '', '2019-04-05 18:18:56', 0),
+(48, 4, '04_5ca8aba821ff89.92237105.png', '', '2019-04-06 15:37:44', 1),
+(52, 4, '04_5caa0fa529e417.27652854.png', 'ww', '2019-04-07 16:56:37', 1),
+(53, 3, '03_5caa3dafbe1439.06732848.png', 'Ho ho ho', '2019-04-07 20:13:03', 1),
+(54, 3, '03_5caa3e15848eb1.17749548.png', 'Hohohi', '2019-04-07 20:14:45', 1),
+(55, 3, '03_5caa3e92491bb4.00190241.png', 'Mobile upload', '2019-04-07 20:16:50', 1),
+(56, 19, '019_5caa4127ad3e15.74303393.png', '', '2019-04-07 20:27:51', 1),
+(57, 3, '03_5caa423724cca0.87486322.png', 'Looks fine', '2019-04-07 20:32:23', 0);
 
 -- --------------------------------------------------------
 
@@ -143,7 +171,30 @@ INSERT INTO `comments` (`id`, `post_id`, `commentator_id`, `text`, `time`) VALUE
 (11, 40, 27, 'Receive notification on #2', '2019-04-01 20:29:12'),
 (12, 40, 27, '11', '2019-04-01 20:29:57'),
 (13, 38, 4, 'helllooo\n', '2019-04-01 20:31:20'),
-(14, 38, 4, 'unknown email', '2019-04-01 20:32:02');
+(14, 38, 4, 'unknown email', '2019-04-01 20:32:02'),
+(15, 32, 3, 'Hello, world! ', '2019-04-07 19:18:24'),
+(16, 32, 3, 'Bbb', '2019-04-07 19:18:35'),
+(17, 32, 3, 'hello', '2019-04-07 19:19:42'),
+(18, 32, 3, 'rrr', '2019-04-07 19:19:45'),
+(19, 32, 3, 'rr', '2019-04-07 19:19:58'),
+(20, 30, 3, 'hello', '2019-04-07 20:00:02'),
+(21, 30, 3, 'hello you', '2019-04-07 20:00:13'),
+(22, 30, 3, 'Yy', '2019-04-07 20:02:39'),
+(23, 55, 27, 'I love it!!!', '2019-04-07 20:17:52'),
+(24, 55, 27, 'hey', '2019-04-07 20:17:58'),
+(25, 55, 27, 'kk', '2019-04-07 20:18:08'),
+(27, 53, 27, 'hello carrot', '2019-04-07 20:23:26'),
+(28, 54, 27, 'wow wow', '2019-04-07 20:24:05'),
+(29, 54, 27, 'wow wow wow', '2019-04-07 20:24:10'),
+(30, 54, 27, 'wow uu', '2019-04-07 20:24:20'),
+(31, 48, 27, 'mmm', '2019-04-07 20:26:12'),
+(32, 56, 27, 'hello you, check your email', '2019-04-07 20:28:11'),
+(33, 56, 19, 'oooo, I received a new comment notification', '2019-04-07 20:29:02'),
+(34, 55, 27, 'Concooooorde', '2019-04-07 20:30:44'),
+(35, 55, 3, 'Yup Yup', '2019-04-07 20:31:16'),
+(36, 56, 3, 'popopopo', '2019-04-07 20:45:52'),
+(37, 54, 3, 'glow', '2019-04-07 20:48:28'),
+(38, 55, 32, 'qq', '2019-04-07 21:02:46');
 
 -- --------------------------------------------------------
 
@@ -168,7 +219,11 @@ INSERT INTO `likes` (`post_id`, `liker_id`) VALUES
 (29, 27),
 (30, 27),
 (39, 27),
-(40, 27);
+(40, 27),
+(53, 27),
+(54, 27),
+(55, 27),
+(56, 27);
 
 --
 -- Triggers `likes`
@@ -188,6 +243,15 @@ DELIMITER ;
 --
 -- Indexes for dumped tables
 --
+
+
+--
+-- Indexes for table `change_email`
+--
+ALTER TABLE `change_email`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
 
 --
 -- Indexes for table `comments`
@@ -226,6 +290,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `change_email`
+--
+ALTER TABLE `change_email`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`

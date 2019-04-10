@@ -43,7 +43,7 @@
 	function show_form_register()
 	{
 ?>
-        <a href="http://localhost:8080/config/setup.php">Click here</a><?php echo " to setup MySQL database";?><br/>
+        <a href="config/setup.php">Click here</a><?php echo " to setup MySQL database";?><br/>
         <br><br>
 		<h3>Register</h3>
 <!--		<p class="success"> Don't use spaces </p>-->
