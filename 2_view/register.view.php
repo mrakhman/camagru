@@ -20,10 +20,10 @@
 		echo '<p class="error"> Don\'t use spaces </p>';
 	}
 
-	// function login_format() // remove it
-	// {
-	// 	echo '<p class="error"> Username must only include a-z and 0-9 </p>';
-	// }
+	 function login_email_format()
+	 {
+	 	echo '<p class="error"> Username and email must only include [a-z + A-Z] [0-9] and @ </p>';
+	 }
 
     function unsafe_passwd()
     {

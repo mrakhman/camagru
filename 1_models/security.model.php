@@ -18,9 +18,21 @@ function has_space($str)
 		return FALSE;
 
 	if (preg_match("/( )/", $str))
-			return TRUE;
-		else
-			return FALSE;
+        return TRUE;
+    return FALSE;
+}
+
+function has_extra_characters($str)
+{
+    if (empty($str))
+        return FALSE;
+
+    $pattern = "/(?=.*[#$%^&+=§!\*\?\>\<\(\)\{\[\]\}\'\";:~])/";
+
+    if (preg_match($pattern, $str))
+        return TRUE;
+
+    return FALSE;
 }
 
 function secure_password($passwd)

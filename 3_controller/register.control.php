@@ -24,6 +24,12 @@ function register($login, $email, $passwd, $conf_passwd)
 		return FALSE;
 	}
 
+	if (has_extra_characters($login) || has_extra_characters($email))
+	{
+		login_email_format();
+		return FALSE;
+	}
+
 	if (!(secure_password($passwd)))
 	{
 		unsafe_passwd();
