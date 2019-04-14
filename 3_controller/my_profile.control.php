@@ -4,6 +4,7 @@ include_once "1_models/images.model.php";
 include_once "2_view/comment.view.php";
 include_once "3_controller/comment.control.php";
 include_once "3_controller/pagination.control.php";
+include_once "3_controller/share.control.php";
 
 function my_posts()
 {
@@ -25,18 +26,14 @@ function my_posts()
     {
 //			echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
         echo '<div class="gallery_container" id="post_' . $posts[$i]['id'] . '">
-			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">
-			
-			<div id="share_media" class="flex_share_col">
-			    <div class="flex_share_row">
-			    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
-                </div><div class="flex_share_row">
-                <script type="text/javascript">document.write(VK.Share.button(type="round_nocount", text="Share"));</script>
-            </div></div>
-            
-            <p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
-			<p class="desc">' . $posts[$i]['description'] . '</p>
-			<p class="date">' . $posts[$i]['created_at'] . '</p>';
+			<img src="Uploads/' . $posts[$i]['file_name'] . '" width="300">';
+
+        show_share("https://camagru.ml:8443/Uploads/" . $posts[$i]['file_name']);
+
+        echo '
+        <p class="like_info" align="right">Likes: ' . $posts[$i]['likes'] . '</p>
+        <p class="desc">' . $posts[$i]['description'] . '</p>
+        <p class="date">' . $posts[$i]['created_at'] . '</p>';
 
         if ($session_id == $posts[$i]['user_id'])
         {
