@@ -85,11 +85,12 @@
         fetch('/api.php?action=build_post', {
             method: 'POST',
             body: formData,
-        }).then(response => {
-            response.text().then((text) => console.log(text));
-            console.log(response);
-            window.location.href = "/my_profile.php";
-        });
+        }).then(() => {window.location.href = '/my_profile.php';})
+        // }).then(response => {
+        //     response.text().then((text) => console.log(text));
+        //     console.log(response);
+        //     window.location.href = "/my_profile.php";
+        // });
     }
 
     document.getElementById('choose_file').addEventListener('change', drawUploadedPhoto);
@@ -99,14 +100,14 @@
         // 2. Draw it on canvas
         // 3. Make canvas.toDataURL(png) -> photo_field.value
 
-        console.log("Creating IMG from data");
+        // console.log("Creating IMG from data");
         const file_img = new Image();
         file_img.src = URL.createObjectURL(e.target.files[0]);
 
         file_img.onload = () =>
         {
-            console.log("Uploaded img: " + file_img.width + 'x' + file_img.height);
-            console.log("We are going to draw this data on canvas");
+            // console.log("Uploaded img: " + file_img.width + 'x' + file_img.height);
+            // console.log("We are going to draw this data on canvas");
 
             if (file_img.height >= file_img.width)
             {
@@ -252,7 +253,7 @@
 
         if (!photo_field.value) {
             alert("Take photo with camera or upload from your files");
-            console.log("Image not selected");
+            // console.log("Image not selected");
             return;
         }
 
@@ -261,7 +262,7 @@
             // document.getElementById('continue').style.backgroundColor = '#939393';
             // document.getElementById('continue').setAttribute('disabled', 'disabled');
             disable_continue();
-            console.log("Sticker not selected");
+            // console.log("Sticker not selected");
             photo.src = photo_field.value;
             return;
         }
@@ -305,7 +306,7 @@
             continue_button.classList.remove('disabled');
             continue_button.addEventListener('click', send_file);
         }
-        console.log("CONTINUE STATUS: " + status);
+        // console.log("CONTINUE STATUS: " + status);
     }
 
     function enable_continue() {

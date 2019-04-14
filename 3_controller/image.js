@@ -35,25 +35,25 @@
         fetch('/api.php?action=' + action_name, {
             method: 'POST',
             body: formData,
-        }).then(response => {
-            response.text().then((text) => console.log(text));
-            console.log(response)
         });
+        //     .then(response => {
+        //     response.text().then((text) => console.log(text));
+        //     console.log(response)
+        // });
     }
 
     // This function is executed in my_profile.control.php in html delete element
     function delete_post_n(post_id) {
         if (confirm("Do you want to delete this post?")) {
-            console.log('Delete: OK');
-            console.log("I deleted post №" + post_id);
+            // console.log('Delete: OK');
+            // console.log("I deleted post №" + post_id);
 
             document.getElementById('post_' + post_id).remove();
-            // delete_from_front("delete" + post_id);
             send_id('del_post', post_id);
         }
-        else {
-            console.log('Delete: Cancel');
-        }
+        // else {
+        //     console.log('Delete: Cancel');
+        // }
     }
 
     function like_post(post_id) {
@@ -104,10 +104,11 @@
         fetch('/api.php?action=comment_post', {
             method: 'POST',
             body: formData,
-        }).then(response => {
-            response.text().then((text) => console.log(text));
-            console.log(response)
         });
+        // .then(response => {
+        //     response.text().then((text) => console.log(text));
+        //     console.log(response)
+        // });
     }
 
     // function remove_text(event) {
