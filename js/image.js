@@ -28,14 +28,17 @@
     //     }
     // }
 
-    function send_id(action_name, post_id) {
+    async function send_id(action_name, post_id) {
         var formData = new FormData();
         formData.append('post_id', post_id);
 
-        fetch('/api.php?action=' + action_name, {
+        return await fetch('/api.php?action=' + action_name, {
             method: 'POST',
             body: formData,
-        });
+        })
+            .then(response => { return response.text()})
+            // .then(resp_text => { console.log(resp_text)})
+        // }).then(response => { response.text().then( () => { void(0) }) } );
         //     .then(response => {
         //     response.text().then((text) => console.log(text));
         //     console.log(response)
@@ -49,11 +52,14 @@
             // console.log("I deleted post №" + post_id);
 
             document.getElementById('post_' + post_id).remove();
-            send_id('del_post', post_id);
+            send_id('del_post', post_id).then(() => void(0));
+                // .then(response => {return response.text().})
+                // .then(() => { document.getElementById('post_' + post_id).remove(); });
         }
         // else {
         //     console.log('Delete: Cancel');
         // }
+        return false;
     }
 
     function like_post(post_id) {

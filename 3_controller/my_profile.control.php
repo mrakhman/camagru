@@ -37,7 +37,7 @@ function my_posts()
 
         if ($session_id == $posts[$i]['user_id'])
         {
-            echo '<div align="right"><a href="" class="delete" onclick="delete_post_n('. $posts[$i]['id'] .')">Delete</a></div>';
+            echo '<div align="right"><a href="" class="delete" onclick="return delete_post_n('. $posts[$i]['id'] .')">Delete</a></div>';
 //            echo '<a href="#" class="delete" id="post_' . $posts[$i]['id'] . '">Delete</a>';
         }
 

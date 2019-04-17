@@ -13,18 +13,18 @@ function pagination_vars($n_posts)
     } else {
         $page_n = 1;
     }
-    $array['page_n'] = $page_n;
-
     $no_of_records_per_page = 5;
-    $array['no_of_records_per_page'] = $no_of_records_per_page;
-
-    $offset = ($page_n-1) * $no_of_records_per_page;
-    $array['offset'] = $offset;
-
-
-
     $total_pages = ceil($n_posts / $no_of_records_per_page);
-    $array['total_pages'] = $total_pages;
+    $page_n = min($page_n, $total_pages);
+    $page_n = max($page_n, 1);
+    $offset = ($page_n - 1) * $no_of_records_per_page;
+
+    $array = array(
+        "page_n" => $page_n,
+        "no_of_records_per_page" => $no_of_records_per_page,
+        "offset" => $offset,
+        "total_pages" => $total_pages
+    );
 
     return $array;
 }
