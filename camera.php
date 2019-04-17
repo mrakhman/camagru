@@ -52,6 +52,6 @@
 
 
         <?php include_once "2_view/layout/footer.php"; ?>
-        <script src="3_controller/camera_api.js"></script>
+        <script src="js/camera_api.js"></script>
 	</body>
 </html>

@@ -12,7 +12,7 @@
             <?php include_once "3_controller/register.control.php"; ?>
 			<?php include_once "3_controller/my_profile.control.php"; ?>
 		</div>
-        <script src="3_controller/image.js"></script>
+        <script src="js/image.js"></script>
 		<?php include_once "2_view/layout/footer.php"; ?>
 	</body>
 </html>
